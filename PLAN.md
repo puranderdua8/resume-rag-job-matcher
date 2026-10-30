@@ -10,7 +10,7 @@
 - [x] **Step 3:** Part A, `resume_rag.py` (load → section → chunk → metadata → embed → ChromaDB)
 - [x] **Step 4:** Part B, `job_matcher.py` (JD parse → hybrid retrieve → filter → score → reason → JSON)
 - [x] **Step 5:** Metrics, `evaluate.py` (retrieval accuracy, extraction accuracy, latency)
-- [ ] **Step 6:** Notebook, `notebooks/experiments.ipynb` (experiments A–E and analysis)
+- [x] **Step 6:** Notebooks, `notebooks/01_...ipynb`-`07_...ipynb` (experiments A–E and analysis)
 - [ ] **Step 7:** Tests, README and demo script; final push with green CI
 - [ ] **Deliverable:** Demo video, 3–4 min (recorded by the author)
 
@@ -130,7 +130,14 @@ eval_latency.py       percentiles over warm runs, macro average across JDs
 scripts/generate_dataset.py   seeded generator for resumes + ground truth
 data/resumes/ (36 files)  data/job_descriptions/ (6 .txt)  data/ground_truth.json  data/resume_specs.json
 outputs/matches/*.json    outputs/metrics.json
-notebooks/experiments.ipynb
+notebooks/_setup.py   shared setup (path fix, default ingest, scoring helpers) for the notebooks below
+notebooks/01_dataset_and_chunking.ipynb          dataset overview, chunking inspection
+notebooks/02_experiment_a_chunking_strategy.ipynb
+notebooks/03_experiment_b_search_mode.ipynb
+notebooks/04_experiment_c_embedding_model.ipynb
+notebooks/05_experiment_d_weights_and_rrf.ipynb
+notebooks/06_experiment_e_rerank.ipynb
+notebooks/07_calibration_and_analysis.ipynb      calibration, PCA, latency, failure analysis, conclusions
 tests/                pytest with a fake hash embedder (no network or model download)
 .github/workflows/ci.yml  README.md  LICENSE  pyproject.toml  requirements.txt  requirements-dev.txt  .env.example
 ```
@@ -334,7 +341,7 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
 
 **Verified:** `python evaluate.py` (bge-small/section/hybrid) gives macro nDCG@10 0.885, vs. 0.860 for `--mode semantic` — hybrid ≥ semantic-only, as the Verification section expects. Extraction accuracy (name 100%, years-within-±1 94.4%, degree 100%) matches Step 3's own numbers. README copy of these numbers is Step 7's job.
 
-## Step 6: Notebook (`notebooks/experiments.ipynb`)
+## Step 6: Notebooks (`notebooks/01_...ipynb`-`07_...ipynb`)
 
 1. Dataset overview (counts by role, format and seniority), plus the extraction accuracy table.
 2. Chunking inspection: section counts, a histogram of chunk lengths, and sample chunks.
@@ -346,6 +353,12 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
 8. Score calibration: the distribution of scores for relevant vs. irrelevant candidates, and a PCA of resume embeddings coloured by role.
 9. Latency breakdown as stacked bars.
 10. Failure analysis of the misses and their causes, then conclusions and the **threats to validity** of synthetic labels.
+
+**Deviation:** Experiment D's plan item ("a sweep of hybrid weights and RRF k values") turned out to need two separate sweeps, not one grid, once the code was read closely: `config.RRF_K` only affects `rank_candidates`/`match_jd`'s `rrf_fuse` call, whose output (`fused_scores`) is used *only* to pick which top-20 candidates get cross-encoder reranked — with `--rerank` off, the final ranking is sorted by `score_candidate`'s score alone and never looks at the RRF rank, so sweeping `RRF_K` with rerank off would measure nothing. `notebooks/05_experiment_d_weights_and_rrf.ipynb` sweeps the score weights (`semantic`/`required_coverage`) as a heatmap with rerank off, and separately sweeps `RRF_K` with `--rerank` on (the only setting where it has an effect) as a line chart.
+
+**Deviation:** split the single planned `notebooks/experiments.ipynb` into seven standalone notebooks (`01_dataset_and_chunking.ipynb` through `07_calibration_and_analysis.ipynb`, one per plan item above, plus a shared `notebooks/_setup.py` for their common setup), the same way Steps 3-5 split `resume_rag.py`/`job_matcher.py`/`evaluate.py` into single-concern modules. Agreed with the user before building. Each notebook ingests its own collection(s) independently (via `_setup.py`'s shared helpers) and is runnable and readable on its own, instead of one ~40-cell notebook mixing ten different analyses; `07_calibration_and_analysis.ipynb`'s conclusions reference the other six by filename for their exact numbers rather than recomputing or duplicating them.
+
+**Verified:** `jupyter nbconvert --to notebook --execute --inplace notebooks/0*.ipynb` runs all seven with no errors. Reproduces Step 5's own hybrid-vs-semantic macro nDCG@10 (0.885 vs. 0.860) exactly. Findings: keyword-only slightly edges out hybrid on this small, keyword-heavy dataset; `qwen3-0.6b` beats `bge-small` on nDCG@10 at several times the query latency; cross-encoder rerank raises nDCG@10 a little at ~2.5x the latency. Full numbers and charts are in the notebooks themselves (see each one's "Finding" note).
 
 ## Step 7: Tests, README, demo
 
@@ -387,5 +400,5 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
   - Extraction accuracy is at least 90% on names and years. ✓ (names 100%, years 94% within ±1yr)
 - [x] `python job_matcher.py --all` writes 6 JSON files in the required format. For the senior ML JD, the top results are ML engineers with at least 5 years of Python (Ella Garcia 84, Scarlett Young 83), and the junior candidates (Harper Evans, James Edwards, Dmitri Wilson, Daniel Campbell) appear in `filtered_out`.
 - [ ] `python evaluate.py` shows hybrid nDCG@10 ≥ semantic-only, and the numbers are copied into the README.
-- [ ] `jupyter nbconvert --to notebook --execute notebooks/experiments.ipynb` runs with no errors.
+- [x] `jupyter nbconvert --to notebook --execute --inplace notebooks/0*.ipynb` runs all seven with no errors.
 - [ ] A fresh `git clone --recursive` of the public repo into a temp dir installs and passes `pytest`.

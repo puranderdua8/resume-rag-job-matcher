@@ -71,10 +71,10 @@ Write the metrics to `outputs/metrics.json`:
 python evaluate.py
 ```
 
-Run the notebook end to end:
+Run the Step 6 notebooks end to end (seven standalone notebooks, `01_...` through `07_...`; each re-ingests its own collection(s), so order doesn't matter):
 
 ```bash
-jupyter nbconvert --to notebook --execute notebooks/experiments.ipynb
+jupyter nbconvert --to notebook --execute --inplace notebooks/0*.ipynb
 ```
 
 ## Code conventions

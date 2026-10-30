@@ -15,7 +15,7 @@ Resumes are loaded with the file-system tools from Milestone 1, [file-system-ass
 | `resume_rag.py` | Load, section, chunk, extract metadata, embed and store in ChromaDB |
 | `job_matcher.py` | Parse the JD, run hybrid retrieval, filter on must-haves, score, explain, and output JSON |
 | `evaluate.py` | Retrieval accuracy (P@K, Recall@K, MRR, nDCG) and latency |
-| `notebooks/experiments.ipynb` | Experiments on chunking, search mode, embedding models, weights and reranking |
+| `notebooks/01_...ipynb`-`07_...ipynb` | Experiments on chunking, search mode, embedding models, weights and reranking (one notebook per topic; `notebooks/_setup.py` holds their shared setup) |
 | `data/` | 36 synthetic resumes, 6 job descriptions and ground-truth labels |
 
 ## For AI agents
