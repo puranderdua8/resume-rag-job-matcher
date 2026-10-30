@@ -1,0 +1,3 @@
+[submodule "vendor/file-system-assistant"]
+	path = vendor/file-system-assistant
+	url = https://github.com/puranderdua8/file-system-assistant.git
