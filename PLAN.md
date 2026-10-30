@@ -12,7 +12,20 @@
 - [x] **Step 5:** Metrics, `evaluate.py` (retrieval accuracy, extraction accuracy, latency)
 - [x] **Step 6:** Notebooks, `notebooks/01_...ipynb`-`07_...ipynb` (experiments A–E and analysis)
 - [x] **Step 7:** Tests, README and demo script; final push with green CI
-- [ ] **Deliverable:** Demo video, 3–4 min (recorded by the author)
+- [ ] **Deliverable:** Demo video, 3–4 min (recorded by the author). *Author-only task: coding agents skip this line when looking for the current step.*
+
+**Production readiness** (from the [code review of 2026-10-30](#production-readiness-review-2026-10-30); one step per session, branch and PR):
+
+- [ ] **Step 8:** Fix JD parsing bugs (R2, R3, R4, R11, R13)
+- [ ] **Step 9:** Fix resume extraction bugs (R5, R6, R7, R14–R17)
+- [ ] **Step 10:** Fix pipeline, storage and CLI bugs, then re-measure every metric (R1, R8–R10, R12, R23, R24, E2)
+- [ ] **Step 11:** One ranking pipeline shared by the CLI, `evaluate.py` and the notebooks (A1–A3, A6, A7, R19–R21)
+- [ ] **Step 11 verification:** confirm every caller, notebook, test and doc reflects the Step 11 pipeline
+- [ ] **Step 12:** Packaging, type checking and CI hardening, keeping the M1 submodule (H1–H4, H6)
+- [ ] **Step 13:** Index integrity on the current stack: Chroma `PersistentClient` + `candidates.json` (A4, A5, E3)
+- [ ] **Step 14:** Extraction robustness: data-driven taxonomy, date parsing, optional LLM extraction (R18)
+- [ ] **Step 15:** Service and operations: API, LLM client, logging, metrics, container (R22, H5)
+- [ ] **Step 16:** Evaluation and responsible AI: held-out labels, regression gate, PII and bias controls (E1, E3, E4)
 
 ---
 
@@ -337,6 +350,8 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
 
 **Deviation:** retrieval accuracy and filter accuracy are evaluated as two separate rankings/checks, not one. `run_eval`'s ranking pass always filters *soft* (nobody is dropped), so Precision/Recall/MRR/nDCG/Hit@1 measure the fused-and-scored ranking itself against `ground_truth.json`'s graded labels, uncontaminated by must-have drops. Filter accuracy is instead a confusion matrix comparing `check_must_haves` run on the extracted profile vs. the same check run on a `CandidateProfile` built straight from `resume_specs.json`'s true values — i.e. whether extraction noise changes a must-have verdict. Running them together (filtering the ranking) would conflate "is the ranking good" with "did the filter drop the right people," which the plan already lists as two separate metrics.
 
+**Correction (review, 2026-10-30):** the "uncontaminated by must-have drops" claim above is wrong. The soft ranking still calls `semantic_search`, which always applies the Chroma prefilter (`retrieval.build_prefilter`). Every candidate who fails a must-have therefore gets a semantic score of 0 *on top of* the soft penalty: for the senior ML JD, 29 candidates get semantic hits without the prefilter and only 2 with it. Every retrieval number from this step, Step 6's notebooks and the README inherits this. See finding R1; Step 10 fixes it and re-measures.
+
 **Deviation:** `match_scoring.score_candidate` gained an optional `weights` parameter (`None` falls back to `config.SCORE_WEIGHTS`, so Step 4's `job_matcher.py` is unaffected) so `run_eval`'s `weights` argument and Step 6's weight-sweep experiment don't require hard-coding a second copy of the formula. `rerank_semantic`'s `CrossEncoder` is now cached at module level instead of reloaded on every call — the latency sweep calls it up to 120 times (6 JDs × 20 warm runs) for `--rerank` runs, and reloading the model each time would measure model-load time, not inference time.
 
 **Verified:** `python evaluate.py` (bge-small/section/hybrid) gives macro nDCG@10 0.885, vs. 0.860 for `--mode semantic` — hybrid ≥ semantic-only, as the Verification section expects. Extraction accuracy (name 100%, years-within-±1 94.4%, degree 100%) matches Step 3's own numbers. README copy of these numbers is Step 7's job.
@@ -394,7 +409,382 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
 
 ---
 
+## Production-readiness review (2026-10-30)
+
+A full review of `main` at `26c91fa` (after Step 7). Lint was clean and all 36 tests passed, at 67% line coverage. Every finding marked ✅ was reproduced by calling the real functions, against the real dataset where relevant, with a temp Chroma index and the fake embedder. Findings without ✅ come from reading the code: the real embedding models, `--rerank` and `--llm` were not run. Steps 8–16 below fix every finding; the **Step** column says which one. Findings marked *deferred* are tracked under [Deferred until needed](#deferred-until-needed).
+
+### Decisions (agreed with the user, 2026-10-30)
+
+| Topic | Decision | Where |
+|---|---|---|
+| `skill_years` policy (R7) | Make it monotonic using the measured policy in Step 9: the max of dated-entry evidence, a skill-specific claim, and total experience for skills listed in Skills/Summary. | Step 9 |
+| Hard must-have filter (R24) | **Stays strict.** No relaxing and no change of default; `--soft` remains opt-in. | Step 10 |
+| Candidate selection and rerank design | **Approved** as written in Step 11. All existing code, notebooks, tests and docs must reflect it, confirmed by a separate verification step. | Steps 11, 11 verification |
+| M1 reuse | **Keep the git submodule.** No upstream packaging of M1. | Step 12 |
+| Vector and profile store | **No change.** Keep Chroma `PersistentClient` and `candidates.json`. Store and scale changes are deferred until they become a problem. The AGENTS.md hard rule stays as is. | Step 13, Deferred |
+
+### Bugs, high severity
+
+| ID | Where | Finding | Evidence | Step |
+|---|---|---|---|---|
+| R1 | `retrieval.py:87`, `eval_ranking.py:37-58` | `--soft` still applies the hard Chroma prefilter, so soft-failed candidates get semantic 0 plus the penalty. `evaluate.py` always ranks soft, so all reported retrieval metrics are affected. | ✅ senior ML JD: 29 candidates with semantic hits without the prefilter, 2 with it; all 34 soft-failed have `semantic_cal == 0` | 10 |
+| R2 | `jd_parsing.py:23` | Per-skill-years regex has no word boundary on the alias: "data products" → TypeScript, "excellent" → Excel, "PostgreSQL" → also SQL. These become hard filters. | ✅ `{'TypeScript': 3.0}`, `{'Excel': 3.0}`, `{'SQL': 5.0, 'PostgreSQL': 5.0}` | 8 |
+| R3 | `jd_parsing.py:86-96` | Leftmost match takes the figure: "5+ years of Python and 2+ years of AWS" gives AWS 5. | ✅ `{'Python': 5.0, 'AWS': 5.0}` | 8 |
+| R4 | `jd_parsing.py:64-71` | "Bachelor's or Master's" takes the max, so Bachelor's holders are filtered out. | ✅ `degree_minimum == 3` | 8 |
+| R5 | `resume_sections.py:8-22` | "Work Experience" (the most common header) is missing; its content lands in `summary`, so date-derived years are 0. | ✅ sections `contact, summary, education, skills`; years 0.0 | 9 |
+| R6 | `resume_metadata.py:18-22, 82-93` | `EDU_RE` misses "Bachelor of Science in …", MBA, B.Tech, M.Sc; and it returns the first degree, not the highest (Step 3 says highest). | ✅ level 0 for "Bachelor of Science in"; BS then MS → 2 | 9 |
+| R7 | `resume_metadata.py:129-145` | `skill_years` is non-monotonic: Python only on the Skills line gets the whole career (11 yrs); also naming it in a 1-year internship bullet drops it to 1 yr. | ✅ `(11.0, 1.0)` | 9 |
+| R8 | `match_evidence.py:40` | `search_in_file` gets the repo-relative `resume_path`, which M1 resolves against the CWD; from any other directory half the excerpts silently vanish. The e2e test doesn't assert on excerpts. | ✅ top-5 excerpts: 8 from the repo, 4 from `/tmp` | 10 |
+| R9 | `resume_loading.py:43` | `candidate_id` is the file stem, so `jane_doe.pdf` + `jane_doe.docx` crash the whole ingest. | ✅ `DuplicateIDError` | 10 |
+| R10 | `resume_loading.py:47` | `relative_to(config.ROOT_DIR)` crashes for any `resumes_dir` outside the repo. | ✅ `ValueError` | 10 |
+| R11 | `jd_parsing.py:19-48` | Only exact headers are recognised ("Qualifications" yields nothing), and unknown headers ("About us", "Benefits") don't close the required block, so their text leaks into must-haves. | ✅ `([], {})`; "10+ years in the market" became a total-years minimum | 8 |
+| R12 | `retrieval.py:138-143` | No recognised required skills → coverage 1.0 for everyone: 25 free points and no skill signal. Normal for free-form `--text` JDs. The same holds for preferred skills (5 points). | ✅ | 10 |
+| R13 | `jd_parsing.py:113`, `job_matcher.py:34` | An unparseable `--must-have` ("5+ years Rust", "5 yrs Python") is silently ignored. | ✅ `({}, [], None, 0)` | 8 |
+
+### Bugs and quality issues, medium severity
+
+| ID | Where | Finding | Step |
+|---|---|---|---|
+| R14 | `resume_metadata.py:17, 58-64` | The first "N years" in the summary wins: "a team of 4 for 2 years; 12 years total" gives 2.0 ✅. | 9 |
+| R15 | `resume_chunking.py:21-22` | When title and dates share a line ("Eng, A \| Jan 2020 - Present"), the previous job's last bullet is pulled into the next entry ✅, misattributing skill years. | 9 |
+| R16 | `resume_dates.py` | "Sept 2019", "2019 to 2021", "Current" and seasons drop the range silently ✅. "Present" is `date.today()`, so outputs change daily; the generator's `TODAY` is 2026-01-01. | 9 |
+| R17 | `resume_chunking.py:45` | Only `-` bullets are split: `•` sections become 1,842-char chunks ✅. Models truncate at 512 tokens without warning, and `whole` chunking is always truncated, which biases Experiment A. | 9 |
+| R18 | `skills.py`, `resume_metadata.py:41` | Ambiguous aliases match prose ("excel at", "react quickly", "node") ✅; common skills (Java, Go, Kafka, Airflow, Snowflake…) are missing, so they are invisible to filters and coverage. | 14 |
+| R19 | `match_scoring.py:51-56, 85-113` | Rerank replaces calibrated cosine with sigmoid(ms-marco logit) for the top 20 only, so two incompatible scales share one sort; the whole JD is the cross-encoder "query"; the model id is hard-coded and unpinned. | 11 |
+| R20 | `match_scoring.py:57` | `bm25_norm` divides by the pool max, so the best keyword match always gets the full 20 points and scores aren't comparable across JDs. | 11 |
+| R21 | `retrieval.py`, `config.SEMANTIC_POOL_SIZE` | A 50-chunk pool covers about 29 of 36 candidates today and far fewer at scale; everyone outside it gets semantic 0 instead of their real similarity. | 11 |
+| R22 | `match_evidence.py:93-118` | `--llm` builds a client per candidate, has no timeout or retries, runs sequentially, swallows every exception without logging, and sends `candidate_name` to a third party. | 15 |
+| R23 | `job_matcher.py` | Missing index → raw traceback; `slugify("!!!")` writes `outputs/matches/.json`; `--k` isn't validated. | 10 |
+| R24 | Step 4 filter design | For the senior ML JD the hard filter keeps 2 of 36 (k=10 asked) while ground truth labels 12 relevant. A product decision, not a code bug: **decided to stay strict** (see Decisions). | 10 |
+
+### Architecture
+
+| ID | Finding | Step |
+|---|---|---|
+| A1 | The ranking pipeline exists three times (`job_matcher.match_jd`, `eval_ranking.rank_candidates`, `notebooks/_setup.score_all`) and the copies have drifted (rerank pool: eligible vs. all candidates; `_setup` ignores mode and rerank). The evaluation measures a different pipeline than users run. | 11 |
+| A2 | "Hybrid RRF retrieval" doesn't retrieve: every candidate is scored, and RRF only picks the rerank pool. No candidate-generation stage, so cost is O(N) per query. | 11 |
+| A3 | Everything is rebuilt per query: `candidates.json` reload, BM25 re-tokenisation of every resume, and M1 re-parsing PDFs for excerpts. | 11; persistent BM25 *deferred* |
+| A4 | Two unsynchronised sources of truth (Chroma + `candidates.json`); ingest deletes then recreates (not atomic); one unbatched `add` (Chroma has a max batch size); no incremental path. | 13 (safe rebuild, consistency); single store, batching and incremental ingest *deferred* |
+| A5 | The collection records no model id, revision, dimensions or chunking config, and nothing is checked at query time. HF models load unpinned revisions. | 13 |
+| A6 | `evaluate.py` re-ingests into the production index (`evaluate.py:57`), overwriting what the matcher serves. | 11 |
+| A7 | Tunables hard-coded outside `config.py`, against AGENTS.md: the 0.7/0.3 semantic blend, rerank pool 20, bands 80/60, excerpt length 300, batch size 32, the cross-encoder id, the 182-day pad. | 11 |
+
+### Engineering hygiene
+
+| ID | Finding | Step |
+|---|---|---|
+| H1 | About 30 flat top-level modules with generic names (`config`, `retrieval`, `skills`); no `[project]` table or entry points. `file_tools.py` puts M1's `errors`/`utils`/`parsers` at `sys.path[0]`, shadowing same-named modules process-wide. | 12 |
+| H2 | Type hints are never checked: `mypy` reports 7 errors, including unchecked `Optional` indexing of Chroma results (`retrieval.py:99-101`). | 12 |
+| H3 | 0% coverage on `evaluate.py`, `eval_*` and the `resume_rag` CLI; no tests for chunk splitting, evidence/LLM fallback, BM25 alias folding or `skill_years`. `test_scaffold.py` fails when pytest runs from another CWD ✅; tests depend on `date.today()`. | 12 (and each step's own tests) |
+| H4 | No lockfile with hashes; Actions pinned by tag, not SHA; no Dependabot or `pip-audit`; `google-genai` is a hard dependency although `--llm` is optional. | 12 |
+| H5 | No structured logging or metrics; reported latency excludes the evidence stage (PDF re-parse, LLM), likely the slowest part. | 15 |
+| H6 | Generated outputs (`outputs/matches/*.json`, `outputs/metrics.json`) are committed and go stale. | 12 |
+
+### Responsible AI and privacy
+
+| ID | Finding | Step |
+|---|---|---|
+| E1 | The candidate's name is embedded in every chunk (`resume_chunking.py:130`), so names, a demographic proxy, influence similarity. | 16 |
+| E2 | Chroma's `anonymized_telemetry` defaults to `True` ✅, in a system that stores PII. | 10 |
+| E3 | `candidates.json` stores full PII (email, phone, full text) in plaintext, with no retention or deletion path. | 13 (delete command), 16 (policy, encrypted volume) |
+| E4 | Employment screening is high-risk under the EU AI Act, and NYC Local Law 144 requires bias audits for automated employment decision tools. There is no bias audit, human review of rejections, or candidate notice. | 16 |
+
+---
+
+## Step 8: Fix JD parsing bugs
+
+Branch `step-8-jd-parsing-fixes`. Fixes R2, R3, R4, R11, R13, all in `jd_parsing.py` (plus the `--must-have` handling in `job_matcher.py`).
+
+- **R2:** word-bound the alias inside the per-skill-years regex, the same `(?<!\w)…(?!\w)` guard `_skill_in_text` already uses.
+- **R3:** pair each skill with its *nearest preceding* year figure. Split a line into clauses at each "N+ years" and match skills only within their own clause, instead of letting the leftmost figure win.
+- **R4:** degrees joined by "or" set the *lowest* level as the minimum. Treat "or equivalent experience" as no hard degree minimum, and log that decision.
+- **R11:** widen the header synonyms ("qualifications", "minimum/basic/required qualifications", "what you'll need", "requirements and qualifications"; "preferred qualifications", "bonus points", "nice to haves"). Any other short header-like line ends the current block. Move the synonym sets into `config.py` or a small data module alongside the resume ones.
+- **R13:** `parse_must_have_clause` reports when it understood nothing. `job_matcher.py` exits with a clear error naming the clause and the supported forms. Also accept "yrs" and "yr".
+- **Tests:** one regression test per finding, built from this review's repro inputs.
+
+**Checks:**
+- AGENTS.md lint and test commands.
+- For each of the 6 JDs, print `parse_jd` output before and after; only the intended differences appear (record them in the PR).
+- `python job_matcher.py --all` still writes 6 files in the required format.
+
+## Step 9: Fix resume extraction bugs
+
+Branch `step-9-resume-extraction-fixes`. Fixes R5, R6, R7, R14–R17 in `resume_sections.py`, `resume_metadata.py`, `resume_dates.py` and `resume_chunking.py`.
+
+- **R5:** add "work experience", "employment history", "career history", "relevant experience", "professional summary", "education & training", "skills & tools", "publications", "awards", "volunteer", "languages", "interests" to `SECTION_SYNONYMS`. Sections with no canonical meaning get their own name instead of merging into the previous section.
+- **R6:** accept "Bachelor/Master of Science/Arts in …", MBA, B.Tech/B.E., M.Sc/BSc, Doctorate; don't require the strict "`<degree>` in `<field>`, `<institution>`" shape just to get the level. Return the **highest** level across all education lines.
+- **R7 (decided 2026-10-30, replaces Step 4's fallback deviation):** `skill_years` must be **monotonic**: naming a skill in one more place never lowers its years. For each skill on the profile:
+
+  ```
+  skill_years[s] = max(
+      evidence_years(s),   # merged duration of dated experience entries that name s
+      claimed_years(s),    # skill-specific claim in Summary, e.g. "6 years of Python"
+      listed_years(s),     # experience_years if s appears in the Skills or Summary section, else 0
+  )
+  ```
+
+  - **Why this shape:** a monotonic policy must give "listed, but in no dated entry" a value no larger than any evidence-backed value. Today that case gets total years while one bullet in a short job lowers it (R7).
+    - Crediting total years only to skills the candidate *lists* keeps Step 4's intent: frameworks named in bullets with the base language only on the Skills line.
+    - A skill that appears only in bullets still gets its evidence-based years, so per-skill specificity survives.
+    - Taking the max means more evidence can only raise the value.
+    - The filter stays strict (see Decisions), so false negatives are the costly error: a qualified candidate silently dropped. This policy is the one that removes them.
+  - **Measured on the current dataset** (prototype against today's `jd_parsing.py`, before Step 8; must-have verdicts for 36 resumes × 6 JDs, extracted vs. true values):
+
+    | Policy | Monotonicity violations* | Filter accuracy | FP | FN | Per-skill years ±1 yr |
+    |---|---|---|---|---|---|
+    | Current (dated evidence, else total) | 48 | 93.5% | 10 | 4 | 63.4% |
+    | Total years for every found skill | 0 | 93.5% | 14 | 0 | 61.6% |
+    | Evidence + claims only, no fallback | 0 | 93.1% | 4 | 11 | 49.5% |
+    | **Chosen: evidence, claims, total if listed** | **0** | **95.8%** | **9** | **0** | 62.5% |
+
+    \*Violations count resumes × skills where appending the skill's name to one dated bullet lowered its years.
+  - **Per-skill-years accuracy looks low for every policy** because the generator's true per-skill years come from each job's `skills_used` list (the role's core skills), not from the bullet text. It is not a target to tune toward. Record this as a threat to validity.
+  - **No implies map in this step:** an *implies* map (FastAPI → Python, …) gave identical filter results on this dataset, because listed skills already cover it. It belongs in Step 14's data-driven taxonomy, where it is added only if it improves the real-world fixtures.
+  - **New metric:** add per-skill years accuracy (within ±1 yr, over skills in both the extraction and `resume_specs.json`) to `eval_extraction.py`, so `evaluate.py` reports it.
+  - Update Step 4's `skill_years` deviation note to point here.
+- **R14:** prefer a "N+ years (of) (professional) experience" phrase. Ignore figures attached to other nouns ("team", "projects"). When several figures remain, take the largest one that is consistent with the dated entries.
+- **R15:** only pull the previous line in as a title when the date line contains nothing but the date range.
+- **R16:** support full and abbreviated months including "Sept", "to"/"until" separators, and "Current"/"Now"/"Today". Make the reference date injectable (`as_of`, default `date.today()`) through `extract_metadata` and `parse_date_range`. Tests and evaluation pin it.
+- **R17:** split on any bullet glyph (`-`, `•`, `*`, `–`, `▪`) and hard-split a single bullet that is still over `MAX_CHUNK_CHARS`. Log a warning when a chunk's embed text exceeds the model's max sequence length.
+- **Tests:** one regression test per finding; date tests use a fixed `as_of`.
+
+**Checks:**
+- AGENTS.md lint and test commands.
+- `python resume_rag.py ingest && python resume_rag.py stats`: 36/36 resumes have Experience, Education and Skills sections.
+- Extraction accuracy doesn't regress (names 100%; years within ±1 yr ≥ 94%, measured with `as_of` = the generator's `TODAY`).
+- A property test proves `skill_years` is monotonic: for every resume and skill, adding the skill's name to any dated bullet or to the Skills line never lowers its years.
+- Re-run the R7 comparison with Step 8 merged, and record the new numbers here. The must-have filter must have **0 false negatives** on the dataset, and filter accuracy at least the current 93.5%.
+
+## Step 10: Fix pipeline, storage and CLI bugs, then re-measure
+
+Branch `step-10-pipeline-fixes-remeasure`. Fixes R1, R8–R10, R12, R23, R24 and E2, then makes every published number honest again.
+
+- **R1:** only apply the Chroma prefilter when filtering is hard. Soft mode, and therefore `eval_ranking.py`, searches without it.
+- **R8:** store and pass absolute paths to M1 (keep the repo-relative `resume_path` in the output contract). Add an e2e assertion that M1 excerpts are present.
+- **R9:** derive `candidate_id` from the file name *with* its extension, or from a content hash. Fail loudly, naming both files, if two resumes still collide.
+- **R10:** make `resume_path` relative to `config.ROOT_DIR` when the file is inside it, and absolute otherwise.
+- **R12:** when a JD has no required (or preferred) skills, drop that component and renormalise the remaining weights instead of awarding it in full. Note in the output that coverage was not scored.
+- **R23:** a missing index prints "run `python resume_rag.py ingest --model … --chunking …` first" and exits non-zero. An empty slug falls back to `jd_<hash>`. `--k` must be ≥ 1.
+- **E2:** create the `PersistentClient` with `Settings(anonymized_telemetry=False)`.
+- **Re-measure:**
+  - Re-run `python evaluate.py` in hybrid and `--mode semantic`, and execute all seven notebooks.
+  - Update the README metrics, the Verification section and each notebook's "Finding" note with the new numbers.
+  - Replace Step 5's correction note with a short pointer to the new numbers.
+- **R24 (decided 2026-10-30): the hard filter stays strict.** Don't relax the must-have rules and don't make `--soft` the default. Only make the strictness visible:
+  - Add a README table showing, per JD, how many candidates pass the hard filter against the ground-truth relevant count, from the re-measured numbers.
+  - A run that returns fewer than `k` matches says so in its output (e.g. `"returned": 2, "requested": 10`, as extra fields alongside the contract).
+
+**Checks:**
+- AGENTS.md lint and test commands.
+- `job_matcher.py` gives the same excerpts when run from the repo and from `/tmp`.
+- Ingest accepts a resumes directory outside the repo and same-stem files.
+- All seven notebooks execute.
+- README and PLAN numbers match `outputs/metrics.json`.
+
+## Step 11: One ranking pipeline
+
+Branch `step-11-single-ranking-pipeline`. Fixes A1–A3 (the per-query parts), A6, A7, R19–R21. **Design approved by the user on 2026-10-30.** It changes ranking semantics, so every caller, notebook, test and doc must be brought in line in this step (see the conformance sweep). [Step 11 verification](#step-11-verification) then confirms it in a separate session.
+
+**The approved pipeline**, the only ranking path in the repo:
+
+```
+parse JD → candidate generation → must-have filter → score → (optional) rerank → sort → top-K
+            union(top N_SEMANTIC by semantic, top N_BM25 by BM25), ordered by RRF
+```
+
+- **A1:**
+  - A single `rank(jd, index, options) -> Ranking` (new module `ranking.py`). It returns the ordered candidates with score breakdowns, filter results, semantic hits, RRF scores and per-stage timings.
+  - It is the **only** caller of `semantic_search`, `bm25_search`, `rrf_fuse`, `filter_candidates`, `score_candidate` and `rerank_semantic`.
+  - `job_matcher.match_jd` adds evidence and output on top; `eval_ranking.py` (or `evaluate.py` directly) and `notebooks/_setup.py` call `rank()`. Delete `eval_ranking.rank_candidates`' and `_setup.score_all`'s copies of the pipeline.
+- **A2, candidate generation:**
+  - The pool is the union of the top-`N_SEMANTIC` candidates by semantic score and the top-`N_BM25` by BM25 (both sizes in `config.py`).
+  - **RRF orders the pool** and is the **tie-breaker** after score (then name), so `config.RRF_K` has an effect with or without rerank.
+  - Only pool candidates are filtered and scored; anyone outside the pool isn't ranked.
+  - The must-have filter still runs on the whole pool **before** the top-K cut (AGENTS.md hard rule).
+  - Hard mode applies the Chroma prefilter; soft mode doesn't (Step 10's R1 fix carries over).
+- **R21:** compute semantic similarity for **every** pool candidate, including BM25-only ones, with a second Chroma query restricted by `candidate_id $in [...]`. Missing candidates no longer default to 0.
+- **R19, rerank on one scale:**
+  - With `--rerank`, the cross-encoder scores **every candidate in the filtered pool**, not just the top 20.
+  - Its raw score is mapped to [0, 1] with fixed per-model bounds in `config.py` (the same `calibrate()` as cosine) and replaces the semantic component for all of them. One scale per sort, always.
+  - Query it with a condensed JD (title + requirement lines) rather than the whole text.
+  - Cross-encoder model id, revision and calibration bounds go in `config.py`.
+  - Remove the hard-coded rerank pool of 20.
+- **R20:** normalise BM25 against a fixed, per-JD reference, e.g. the BM25 score of the JD's own requirement text, so scores are comparable across JDs. Document the choice in `config.py`.
+- **A3 (per-query parts):** load candidates once per process, not per call. Build excerpts from stored chunk text plus an in-memory alias-aware keyword search, so PDFs aren't re-parsed per query. This replaces Step 4's per-query `search_in_file` call (M1 stays the only loader); record that as a deviation.
+- **A6:** `evaluate.py` and the notebooks ingest into a separate index directory (`config.EVAL_INDEX_DIR`), never the one `job_matcher.py` serves.
+- **A7:** move every remaining tunable into `config.py`.
+- **Conformance sweep:** in the same PR, update everything that describes or depends on the old pipeline:
+  - **Code:** `job_matcher.py`, `evaluate.py`, `eval_ranking.py`, `notebooks/_setup.py`, and the module docstrings of `retrieval.py` and `match_scoring.py` (both describe the old prefilter and top-N rerank).
+  - **Notebooks:**
+    - `03_experiment_b_search_mode`: what keyword-only and semantic-only mean for pool generation.
+    - `05_experiment_d_weights_and_rrf`: RRF now matters without rerank, so sweep `RRF_K` with rerank off too, and replace the old "RRF only affects rerank" finding.
+    - `06_experiment_e_rerank`: rerank over the whole filtered pool.
+    - `07_calibration_and_analysis`: conclusions.
+  - **Tests:** e2e, retrieval and scoring tests updated; new tests for pool generation, RRF tie-breaking and the single rerank scale.
+  - **Docs:** README (mermaid diagram, design-decisions table, the `--rerank` description "top 20", metrics); PLAN Step 4 items 2, 4, 5, 6 and 7 and Step 6's Experiment D deviation, each marked *superseded by Step 11* with a one-line pointer; AGENTS.md's Project description if any of it is no longer accurate.
+  - **Outputs:** regenerated `outputs/matches/*.json` and `outputs/metrics.json`.
+
+**Checks:**
+- AGENTS.md lint and test commands.
+- A test asserts that `job_matcher` and `evaluate` produce the same ordering for the same JD and options.
+- `python evaluate.py` and the notebooks re-run; numbers updated in README and PLAN.
+- Running `evaluate.py` leaves `index/chroma` untouched (compare modification times).
+
+## Step 11 verification
+
+Branch `step-11-verification`. A separate session, after Step 11 merges, that confirms the approved pipeline is the one the whole repo uses and describes. Fix any gap found in the same PR, and record the outcome under this heading as a **Verified:** note listing each check and its result.
+
+- **Single path, by search:** outside `ranking.py` and `tests/`, nothing imports or calls `semantic_search`, `bm25_search`, `rrf_fuse`, `filter_candidates`, `score_candidate` or `rerank_semantic`. That includes the notebooks and `notebooks/_setup.py`; check with `grep -rn` over `*.py` and `*.ipynb`.
+- **No leftovers:** no hard-coded rerank pool (`[:20]`), semantic blend (`0.7 *`, `0.3 *`) or other tunable outside `config.py`; no "top 20" wording in README, docstrings or CLI help.
+- **Parity matrix:** a test runs `rank()` via `job_matcher.match_jd` and via `evaluate.py` across `mode` ∈ {hybrid, semantic, keyword} × `soft` ∈ {on, off} × `rerank` ∈ {on, off}. Use the fake embedder and a stub cross-encoder. It asserts identical orderings and scores.
+- **Behaviour checks, each as a test:**
+  - Candidates outside the pool are never scored.
+  - Every pool candidate has a real semantic score (no default 0).
+  - With rerank on, every scored candidate's semantic component comes from the cross-encoder.
+  - Ties break by RRF, then name.
+  - Changing `RRF_K` can change the order with rerank off.
+  - The filter runs before the top-K cut in both modes.
+  - Soft mode never applies the Chroma prefilter.
+- **Docs match code:** the README mermaid diagram, design-decisions table and flag descriptions, PLAN Steps 4 and 6 (superseded notes) and each notebook's "Finding" note describe the pipeline above. README metrics equal `outputs/metrics.json`.
+- **End to end:** `python resume_rag.py ingest`, `python job_matcher.py --all`, `python evaluate.py` and all seven notebooks run without errors. Output JSON keeps the AGENTS.md contract keys.
+
+## Step 12: Packaging, type checking and CI hardening
+
+Branch `step-12-packaging-and-ci`. Fixes H1–H4 and H6. Updates AGENTS.md's Commands section in the same PR, since the commands change.
+
+- **H1:**
+  - Move the code into a package under `src/`, e.g. `src/resume_matcher/`, with sub-packages for ingest, matching and eval.
+  - Add a `[project]` table with `requires-python = ">=3.12"` and console entry points (`resume-rag`, `job-matcher`, `resume-eval`).
+  - **M1 stays a git submodule (decided 2026-10-30);** no upstream packaging. Within that:
+    - The shim (`file_tools.py`, moved into the package) remains the **only** place that touches `sys.path` or imports M1. It resolves `vendor/file-system-assistant` from the repo root and imports only `fs_tools`.
+    - A test asserts that no module in this repo or package is named `fs_tools`, `parsers`, `sandbox`, `errors` or `utils`.
+    - Because the submodule isn't part of a built wheel, the project is installed **editable from a recursive checkout** (`uv sync` / `uv pip install -e .`), not published to PyPI. Say so in the README setup section.
+    - Dependabot's `gitsubmodule` ecosystem proposes M1 bumps as PRs, so the pinned commit only moves deliberately.
+  - The "never shadow M1's module names" rule stays.
+- **H2:** add mypy (or pyright) to CI and fix its errors, including `None` checks on Chroma query results.
+- **H3:**
+  - Tests for `evaluate.py`/`eval_*` (metric math against hand-computed values), the CLIs (argument parsing, exit codes), chunk splitting, BM25 alias folding, `skill_years` and evidence/LLM fallback (mocked).
+  - Make `test_scaffold.py` independent of the CWD.
+  - Add `pytest-cov` with a coverage floor, at least 85%.
+- **H4:**
+  - Commit `uv.lock`, or `requirements*.txt` generated with hashes.
+  - Optional extras: `llm` (google-genai), `notebooks`, `dev`.
+  - Pin GitHub Actions by commit SHA; add Dependabot (pip, github-actions, submodule) and a `pip-audit` CI step.
+  - Add a `pre-commit` config running ruff and mypy.
+- **H6:** stop committing `outputs/`; gitignore it, and keep one small example match JSON in `docs/` for the README.
+
+**Checks:**
+- The new lint, type and test commands pass locally and in CI.
+- A fresh `git clone --recursive` installs with `uv sync` and passes them.
+- Entry points run `ingest`, `stats`, the match CLI and the eval CLI end to end.
+
+## Step 13: Index integrity on the current stack
+
+Branch `step-13-index-integrity`. Fixes A4 (rebuild safety and consistency), A5 and E3 (deletion).
+
+**Decided 2026-10-30:** keep the current stack, a local Chroma `PersistentClient` plus `candidates.json`. No new vector or profile store, and no AGENTS.md hard-rule change. Scale-driven work is listed under [Deferred until needed](#deferred-until-needed) with the signal that should trigger it. This step fixes only correctness and integrity problems that exist at today's size.
+
+- **A4, safe full rebuild:** ingest builds into a new, build-id-suffixed Chroma collection and a new `candidates.json`, written via temp file and rename.
+  - Only after both succeed does it atomically replace a small pointer file in the collection's index directory naming the active collection and build id. Then it deletes the previous build.
+  - Readers resolve the active build through the pointer, so a failed or in-progress ingest never leaves an empty or half-written index.
+- **A4, consistency:** `candidates.json` and the Chroma collection metadata carry the same build id. Loading refuses a mismatch with a clear "re-run ingest" error.
+- **A5, provenance:**
+  - Store model key, HF id, HF revision, dimensions, chunking strategy and a taxonomy hash in the collection metadata, and mirror them in `candidates.json`.
+  - At query time `job_matcher` and `evaluate` compare them with the embedder and taxonomy in use, and refuse a mismatch.
+  - Pin `revision=` (in `config.py`) for every `SentenceTransformer` and `CrossEncoder` load.
+- **E3, deletion:** add a `delete <candidate_id>` command to the ingest CLI. It removes the candidate's chunks from Chroma (`where={"candidate_id": …}`) and their profile from `candidates.json` (atomic rewrite), and records the deletion in `ingest_stats.json`. Encryption at rest is a deployment concern, covered by Step 16's privacy doc (encrypted volume).
+
+**Checks:**
+- Kill an ingest mid-run (a test raising inside `embed_documents` or `add`): the previous build still serves queries.
+- Hand-editing the build id in either file makes loading fail with the re-run message.
+- Ingesting with one model and querying with another is rejected.
+- `delete` leaves no trace of the candidate in Chroma or `candidates.json`, and other candidates' results don't change.
+
+## Step 14: Extraction robustness
+
+Branch `step-14-extraction-robustness`. Fixes R18 and generalises Steps 3 and 9 beyond the synthetic formats.
+
+- **Data-driven taxonomy:**
+  - Move `SKILL_ALIASES` into a versioned data file (YAML) with fields per skill: aliases, an optional `implies` list (FastAPI → Python, …; adopt it only if it improves the real-world fixtures below, per Step 9's R7 note), and `case_sensitive`/`context_required` flags for ambiguous aliases (Excel, React, Node, Spark, Git, ML).
+  - Seed missing skills from a public taxonomy (ESCO or O*NET).
+  - Report skills found in JDs that the taxonomy doesn't know.
+- **Dates:** replace the hand-written token regex with a tested parser (e.g. `dateparser`), keeping the injectable `as_of`.
+- **Optional LLM structured extraction:**
+  - A flag sends resume text to an LLM that returns a schema-validated `CandidateProfile`.
+  - The rule-based extractor stays the default and the fallback on any error. This keeps AGENTS.md's "the LLM is optional" rule.
+  - Measure it with the same extraction metrics before adopting it.
+- **Truncation:** surface M1's `truncated` flag in `IngestStats` and log a warning.
+- **Real-world fixtures:** a small set of hand-written, fictional resumes in formats the generator doesn't produce (two-column PDFs, tables, "Bachelor of Science", international phone numbers), used as regression tests.
+
+**Checks:**
+- Extraction accuracy on the new fixture set is reported alongside the synthetic numbers.
+- No regression on the synthetic set.
+
+## Step 15: Service and operations
+
+Branch `step-15-service-and-ops`. Fixes R22 and H5, and makes the matcher deployable.
+
+- **API:**
+  - A FastAPI app with:
+    - `POST /match` (JD text plus options → the AGENTS.md output contract).
+    - `POST /reindex` (admin: Step 13's safe full rebuild of the resumes directory, run in the background).
+    - `DELETE /resumes/{id}` (Step 13's delete).
+    - `GET /healthz`.
+  - Uploading a single resume needs incremental ingest, which is deferred.
+  - Models load once at startup.
+  - **Single process:** the local `PersistentClient` is single-process (see Decisions), so the service runs one worker process and serialises reindex and delete behind a lock. Scaling out is deferred.
+  - Auth, a request size limit, timeouts and pydantic request/response models carrying a `schema_version`.
+- **R22, LLM:**
+  - Create one client per process, with a timeout, bounded retries and concurrent calls across the top K.
+  - Log every fallback with its reason (without PII).
+  - Send no candidate name or contact details; use a stable anonymous label.
+- **H5, observability:**
+  - Structured JSON logging with a request id.
+  - Per-stage latency metrics including evidence and LLM, exported in Prometheus format.
+  - The evaluation's latency table includes the evidence stage.
+- **Container:** a Dockerfile with CPU torch and the pinned embedding model baked in at build time, so there are no downloads at runtime; it runs as non-root and has a health check.
+
+**Checks:**
+- API tests with FastAPI's test client and the fake embedder (no network).
+- The container builds and answers `/healthz` and `/match` against a small index.
+- A forced LLM failure is logged and falls back to template reasoning.
+
+## Step 16: Evaluation and responsible AI
+
+Branch `step-16-eval-and-responsible-ai`. Fixes E1, E3 (policy) and E4, and makes evaluation trustworthy enough to gate releases.
+
+- **E1:** drop the candidate's name and contact details from embedded chunk text; keep the section label. Re-measure, and record the effect on accuracy here.
+- **PII redaction:** redact email, phone and name before any text leaves the process (LLM calls, logs).
+- **Held-out evaluation:** add a labelled set produced independently of the generator, with labels written by someone who didn't write the generator. Report metrics on it separately from the synthetic set.
+- **Regression gate:** a CI job runs `evaluate.py` with the fake embedder on the synthetic set, and fails if nDCG@10 or filter accuracy drops by more than a set tolerance from a committed baseline. A nightly or manual job does the same with the real model.
+- **E4, bias audit:**
+  - Generate name-swapped variants of each resume (identical content, names from different demographic groups) and check that score and rank don't change. With E1 done, they shouldn't.
+  - Report selection-rate ratios per group, the impact ratio that NYC Local Law 144 audits use.
+- **E4, human in the loop:** the filter stays strict (see Decisions), so rejected candidates stay out of `top_matches`. Each `filtered_out` entry gets a `"review": "needs_human_review"` field, as an extra field. The output and README state that scores and rejections support, and don't replace, a recruiter's decision.
+- **E3, retention:** document what candidate data is stored (`index/`, `candidates.json`, outputs, logs), where, for how long, and how deletion requests are handled (Step 13's `delete`), in a `docs/privacy.md` linked from the README. Include the requirement to keep `index/` on an encrypted volume in deployment.
+
+**Checks:**
+- Name-swap test passes: identical scores across variants.
+- Regression gate fails on a deliberately worsened weight setting and passes on the baseline.
+- Held-out metrics are published in the README.
+
+## Deferred until needed
+
+**Decided 2026-10-30:** stay on the current stack until it becomes a problem. Each item names the signal that should bring it back as a new plan step. Agree that step with the user first, because the vector-store items need an AGENTS.md hard-rule change.
+
+| Item | From | Revisit when |
+|---|---|---|
+| One profile store (SQLite, then Postgres) replacing `candidates.json` | A4 | `candidates.json` load time shows up in query latency, or the file exceeds roughly 50 MB |
+| Batched Chroma writes up to `client.get_max_batch_size()` | A4 | Any ingest exceeds about 5,000 chunks, or Chroma raises a batch-size error |
+| Incremental ingest (content hash, upsert/delete only what changed) and single-resume upload | A4 | A full re-embed takes longer than is acceptable, or `POST /resumes` is needed |
+| Persistent BM25 index built at ingest (e.g. `bm25s`) | A3 | `bm25_search` p95 exceeds about 100 ms (measured by `evaluate.py`) |
+| Chroma server or pgvector for concurrent readers and writers | A4 | More than one worker process or host must serve queries |
+
+---
+
 ## Verification (definition of done)
+
+This checklist covers Steps 0–7. Steps 8–16 and Step 11 verification each define their own **Checks** above.
 
 - [x] `gh repo view puranderdua8/resume-rag-job-matcher` shows a public repo.
 - [ ] `ruff check . && ruff format --check . && pytest -q` all pass, both locally and in CI. (Passes locally; CI is still running on #8.)
