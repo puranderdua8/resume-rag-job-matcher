@@ -39,7 +39,7 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 import config  # noqa: E402
-import m1  # noqa: E402
+import file_tools  # noqa: E402
 
 TODAY = date(2026, 1, 1)
 
@@ -992,7 +992,7 @@ def round_trip_check(candidates: list[CandidateSpec], jd_defs: list[dict]) -> No
     for candidate in candidates:
         filename = f"{candidate.candidate_id}.{candidate.file_format}"
         path = config.RESUMES_DIR / filename
-        result = m1.read_file(str(path))
+        result = file_tools.read_file(str(path))
         if not result.get("success"):
             problems.append(f"{filename}: read_file failed: {result.get('error')}")
             continue
@@ -1004,7 +1004,7 @@ def round_trip_check(candidates: list[CandidateSpec], jd_defs: list[dict]) -> No
                 problems.append(f"{filename}: {section} header {label!r} not found")
     for jd in jd_defs:
         path = config.JOB_DESCRIPTIONS_DIR / jd["filename"]
-        result = m1.read_file(str(path))
+        result = file_tools.read_file(str(path))
         if not result.get("success"):
             problems.append(f"{jd['filename']}: read_file failed: {result.get('error')}")
             continue

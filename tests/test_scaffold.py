@@ -3,12 +3,12 @@
 from __future__ import annotations
 
 import config
-import m1
+import file_tools
 import skills
 
 
 def test_m1_shim_lists_sample_resumes():
-    result = m1.list_files("vendor/file-system-assistant/sample_resumes")
+    result = file_tools.list_files("vendor/file-system-assistant/sample_resumes")
     assert isinstance(result, list)
     assert len(result) > 0
     assert all(item.get("success", True) for item in result)
