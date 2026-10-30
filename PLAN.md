@@ -104,7 +104,15 @@ vendor/file-system-assistant/   git submodule (M1, https URL, pinned)
 file_tools.py         sys.path shim + re-export of M1 tools
 config.py             paths, model registry (name -> HF id, query prompt, calibration), K=10, score weights
 skills.py             skills taxonomy: canonical -> aliases ("ML"->"Machine Learning", "k8s"->"Kubernetes", "Postgres"->"PostgreSQL")
-resume_rag.py         Part A (CLI: ingest / stats)
+resume_rag.py         Part A CLI (ingest / stats); wires the modules below together
+resume_loading.py     reads resumes via the M1 tools, skipping and logging failures
+resume_sections.py    splits resume text into canonical sections (summary/experience/...)
+resume_chunking.py    builds chunks per the section/fixed/whole strategies
+resume_dates.py       date-range parsing and interval merging, shared by chunking and metadata
+resume_metadata.py    extracts a CandidateProfile: name, contact, skills, years, education
+resume_embedding.py   Embedder wrapper (SentenceTransformer) + the model registry lookup
+resume_storage.py     ingest orchestration + ChromaDB storage/retrieval
+resume_models.py      Chunk, CandidateProfile and IngestStats dataclasses
 job_matcher.py        Part B (CLI)
 evaluate.py           accuracy + latency, parameterised for experiments
 scripts/generate_dataset.py   seeded generator for resumes + ground truth
@@ -228,6 +236,8 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
    ```
 
    `stats` prints chunk counts per section, a table of extracted profiles, and ingest timings.
+
+**Deviation:** Part A was split from a single `resume_rag.py` into the eight small, single-concern modules listed in [Target repo layout](#target-repo-layout) (`resume_loading.py`, `resume_sections.py`, `resume_chunking.py`, `resume_dates.py`, `resume_metadata.py`, `resume_embedding.py`, `resume_storage.py`, `resume_models.py`), for readability. `resume_rag.py` now only wires up the `ingest`/`stats` CLI. Behaviour is unchanged: re-verified the same 36/36 load, 236-chunk ingest, and 100%/94% name/years accuracy after the split.
 
 **Deviation:** a date range with only a bare year (the `short_dash` style, e.g. `"2022-2023"`) loses sub-year precision. Parsing it as January 1st biased `experience_years` low; combined with "Present" resolving to the real `date.today()` (months ahead of the dataset generator's fixed `TODAY`), two candidates' computed years drifted far enough to miss the ground truth by more than a year. Bare years now parse to July 2nd (the unbiased midpoint), and a same-day/overlapping range is padded by 182 days instead of snapping to December 31st. This raised years-within-±1-year accuracy from 86% to 94% (36/36 names match exactly). The residual two mismatches are themselves a dataset property: `date.today()` keeps moving further from the generator's fixed reference date, so this gap will widen over time — a candidate for Step 5's "threats to validity" writeup, not something Step 3 should special-case away.
 
