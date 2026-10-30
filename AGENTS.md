@@ -14,11 +14,11 @@ This repo is a RAG system that indexes resumes and matches them against job desc
 [PLAN.md](PLAN.md) holds the full design, every implementation step, and the definition of done.
 
 1. **Before you start**, read PLAN.md. Find the first unchecked item in its **Progress** list. That is the current step.
-2. **Work one step at a time, in order.** Don't start the next step until the current one meets its own checks.
+2. **Work one step at a time, in order, on its own branch.** See [Git workflow](#git-workflow). Don't start the next step until the current one meets its own checks and its PR is merged.
 3. **When a step is done**, do all of the following in the same commit:
    - Tick the step in the Progress list.
    - Update anything in PLAN.md the implementation changed.
-   - Commit, then push.
+   - Commit, push the branch, and open a PR.
 4. **When you deviate from the plan**, record the change and the reason in PLAN.md. Never leave the plan describing code that doesn't exist.
 
 ## Hard rules
@@ -88,7 +88,9 @@ jupyter nbconvert --to notebook --execute notebooks/experiments.ipynb
 
 ## Git workflow
 
+- **One branch per plan step.** Branch from an up-to-date `main` before starting a step, e.g. `step-1-scaffold`. Never commit a step's work directly to `main`.
 - Use one commit per plan step, at minimum. Messages are imperative and state what changed, e.g. "Add section-aware chunking and metadata extraction".
-- Push to `origin main` after each step, and keep CI green.
+- **Push the branch and open a PR against `main`.** Wait for review and keep CI green on the PR; don't merge your own PR without review.
+- Merge once review is complete, then delete the branch. Don't start the next step's branch until the merge lands.
 - Don't rewrite published history.
 - No AI attribution: leave `Co-Authored-By` trailers and "Generated with" lines out of commits and PR descriptions.
