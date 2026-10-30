@@ -1,0 +1,12 @@
+Junior Data Analyst
+
+We are looking for a Junior Data Analyst to help turn raw data into clear, actionable reporting for the business team.
+
+Must-have:
+- 1+ years of experience with SQL and Excel
+- Familiarity with Python for data analysis
+- Bachelor's degree in Statistics, Economics, Business Analytics, or a related field
+
+Nice-to-have:
+- Experience building Tableau or Power BI dashboards
+- Exposure to dbt or ETL pipelines

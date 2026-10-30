@@ -1,0 +1,1281 @@
+[
+  {
+    "candidate_id": "harper_evans",
+    "name": "Harper Evans",
+    "email": "harper.evans@example.com",
+    "phone": "(617) 555-0103",
+    "resume_path": "data/resumes/harper_evans.pdf",
+    "file_format": "pdf",
+    "role": "ml_engineer",
+    "seniority": "junior",
+    "total_years": 1.1,
+    "skills": [
+      "Deep Learning",
+      "MLflow",
+      "Machine Learning",
+      "PyTorch",
+      "Python",
+      "Scikit-learn",
+      "TensorFlow"
+    ],
+    "skill_years": {
+      "Python": 1.1,
+      "Machine Learning": 1.1,
+      "Deep Learning": 1.1,
+      "TensorFlow": 1.1,
+      "PyTorch": 1.1,
+      "Scikit-learn": 1.1,
+      "MLflow": 1.1
+    },
+    "education": {
+      "degree": "M.S.",
+      "field": "Machine Learning",
+      "institution": "Westlake University",
+      "level": 3
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "ella_garcia",
+    "name": "Ella Garcia",
+    "email": "ella.garcia@example.com",
+    "phone": "(312) 555-0143",
+    "resume_path": "data/resumes/ella_garcia.pdf",
+    "file_format": "pdf",
+    "role": "ml_engineer",
+    "seniority": "senior",
+    "total_years": 10.2,
+    "skills": [
+      "Computer Vision",
+      "Deep Learning",
+      "Machine Learning",
+      "PyTorch",
+      "Python",
+      "Scikit-learn",
+      "TensorFlow"
+    ],
+    "skill_years": {
+      "Python": 10.2,
+      "Machine Learning": 10.2,
+      "Deep Learning": 10.2,
+      "TensorFlow": 7.4,
+      "PyTorch": 7.4,
+      "Scikit-learn": 7.4,
+      "Computer Vision": 10.2
+    },
+    "education": {
+      "degree": "M.S.",
+      "field": "Computer Science",
+      "institution": "Cedar Tech Institute",
+      "level": 3
+    },
+    "certifications": [
+      "TensorFlow Developer Certificate",
+      "AWS Certified Machine Learning - Specialty"
+    ]
+  },
+  {
+    "candidate_id": "dmitri_wilson",
+    "name": "Dmitri Wilson",
+    "email": "dmitri.wilson@example.com",
+    "phone": "(206) 555-0181",
+    "resume_path": "data/resumes/dmitri_wilson.txt",
+    "file_format": "txt",
+    "role": "ml_engineer",
+    "seniority": "mid",
+    "total_years": 3.6,
+    "skills": [
+      "Deep Learning",
+      "Machine Learning",
+      "PyTorch",
+      "Python",
+      "Scikit-learn",
+      "TensorFlow"
+    ],
+    "skill_years": {
+      "Python": 3.6,
+      "Machine Learning": 3.6,
+      "Deep Learning": 3.6,
+      "TensorFlow": 2.5,
+      "PyTorch": 2.5,
+      "Scikit-learn": 2.5
+    },
+    "education": {
+      "degree": "M.S.",
+      "field": "Machine Learning",
+      "institution": "Lakeview College",
+      "level": 3
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "scarlett_young",
+    "name": "Scarlett Young",
+    "email": "scarlett.young@example.com",
+    "phone": "(312) 555-0101",
+    "resume_path": "data/resumes/scarlett_young.pdf",
+    "file_format": "pdf",
+    "role": "ml_engineer",
+    "seniority": "senior",
+    "total_years": 8.7,
+    "skills": [
+      "Deep Learning",
+      "Machine Learning",
+      "PyTorch",
+      "Python",
+      "Scikit-learn",
+      "TensorFlow"
+    ],
+    "skill_years": {
+      "Python": 8.7,
+      "Machine Learning": 8.7,
+      "Deep Learning": 8.7,
+      "TensorFlow": 2.3,
+      "PyTorch": 2.3,
+      "Scikit-learn": 2.3
+    },
+    "education": {
+      "degree": "M.S.",
+      "field": "Machine Learning",
+      "institution": "Lakeview College",
+      "level": 3
+    },
+    "certifications": [
+      "TensorFlow Developer Certificate",
+      "AWS Certified Machine Learning - Specialty"
+    ]
+  },
+  {
+    "candidate_id": "james_edwards",
+    "name": "James Edwards",
+    "email": "james.edwards@example.com",
+    "phone": "(512) 555-0112",
+    "resume_path": "data/resumes/james_edwards.docx",
+    "file_format": "docx",
+    "role": "ml_engineer",
+    "seniority": "junior",
+    "total_years": 0.7,
+    "skills": [
+      "Deep Learning",
+      "Machine Learning",
+      "PyTorch",
+      "Python",
+      "Scikit-learn",
+      "TensorFlow"
+    ],
+    "skill_years": {
+      "Python": 0.7,
+      "Machine Learning": 0.7,
+      "Deep Learning": 0.7,
+      "TensorFlow": 0.7,
+      "PyTorch": 0.7,
+      "Scikit-learn": 0.7
+    },
+    "education": {
+      "degree": "M.S.",
+      "field": "Computer Science",
+      "institution": "Grand Valley University",
+      "level": 3
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "daniel_campbell",
+    "name": "Daniel Campbell",
+    "email": "daniel.campbell@example.com",
+    "phone": "(312) 555-0122",
+    "resume_path": "data/resumes/daniel_campbell.md",
+    "file_format": "md",
+    "role": "ml_engineer",
+    "seniority": "mid",
+    "total_years": 3.5,
+    "skills": [
+      "Deep Learning",
+      "Machine Learning",
+      "PyTorch",
+      "Python",
+      "Scikit-learn",
+      "TensorFlow"
+    ],
+    "skill_years": {
+      "Python": 3.5,
+      "Machine Learning": 3.5,
+      "Deep Learning": 3.5,
+      "TensorFlow": 2.3,
+      "PyTorch": 2.3,
+      "Scikit-learn": 2.3
+    },
+    "education": {
+      "degree": "Ph.D.",
+      "field": "Artificial Intelligence",
+      "institution": "Lakeview College",
+      "level": 4
+    },
+    "certifications": [
+      "TensorFlow Developer Certificate"
+    ]
+  },
+  {
+    "candidate_id": "nathan_davis",
+    "name": "Nathan Davis",
+    "email": "nathan.davis@example.com",
+    "phone": "(312) 555-0147",
+    "resume_path": "data/resumes/nathan_davis.txt",
+    "file_format": "txt",
+    "role": "data_scientist",
+    "seniority": "mid",
+    "total_years": 4.4,
+    "skills": [
+      "NumPy",
+      "Pandas",
+      "Python",
+      "SQL",
+      "Scikit-learn",
+      "Spark",
+      "Statistics",
+      "Tableau"
+    ],
+    "skill_years": {
+      "Python": 4.4,
+      "SQL": 4.4,
+      "Pandas": 4.4,
+      "NumPy": 1.8,
+      "Scikit-learn": 1.8,
+      "Statistics": 1.8,
+      "Spark": 4.4
+    },
+    "education": {
+      "degree": "Ph.D.",
+      "field": "Statistics",
+      "institution": "Pinecrest College",
+      "level": 4
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "oliver_taylor",
+    "name": "Oliver Taylor",
+    "email": "oliver.taylor@example.com",
+    "phone": "(512) 555-0196",
+    "resume_path": "data/resumes/oliver_taylor.pdf",
+    "file_format": "pdf",
+    "role": "data_scientist",
+    "seniority": "senior",
+    "total_years": 9.8,
+    "skills": [
+      "A/B Testing",
+      "Machine Learning",
+      "NumPy",
+      "Pandas",
+      "Python",
+      "SQL",
+      "Scikit-learn",
+      "Statistics"
+    ],
+    "skill_years": {
+      "Python": 9.8,
+      "SQL": 9.8,
+      "Pandas": 9.8,
+      "NumPy": 7.6,
+      "Scikit-learn": 7.6,
+      "Statistics": 7.6,
+      "A/B Testing": 9.8
+    },
+    "education": {
+      "degree": "M.S.",
+      "field": "Data Science",
+      "institution": "Hamilton Institute of Technology",
+      "level": 3
+    },
+    "certifications": [
+      "Microsoft Certified: Azure Data Scientist Associate",
+      "Google Data Analytics Certificate"
+    ]
+  },
+  {
+    "candidate_id": "amelia_chen",
+    "name": "Amelia Chen",
+    "email": "amelia.chen@example.com",
+    "phone": "(415) 555-0134",
+    "resume_path": "data/resumes/amelia_chen.pdf",
+    "file_format": "pdf",
+    "role": "data_scientist",
+    "seniority": "mid",
+    "total_years": 3.8,
+    "skills": [
+      "NumPy",
+      "Pandas",
+      "Python",
+      "SQL",
+      "Scikit-learn",
+      "Statistics"
+    ],
+    "skill_years": {
+      "Python": 3.8,
+      "SQL": 3.8,
+      "Pandas": 3.8,
+      "NumPy": 1.4,
+      "Scikit-learn": 1.4,
+      "Statistics": 1.4
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Statistics",
+      "institution": "Riverstone College",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "lucas_williams",
+    "name": "Lucas Williams",
+    "email": "lucas.williams@example.com",
+    "phone": "(312) 555-0141",
+    "resume_path": "data/resumes/lucas_williams.pdf",
+    "file_format": "pdf",
+    "role": "data_scientist",
+    "seniority": "senior",
+    "total_years": 9.5,
+    "skills": [
+      "NumPy",
+      "Pandas",
+      "Python",
+      "SQL",
+      "Scikit-learn",
+      "Statistics",
+      "Tableau"
+    ],
+    "skill_years": {
+      "Python": 9.5,
+      "SQL": 9.5,
+      "Pandas": 9.5,
+      "NumPy": 7.3,
+      "Scikit-learn": 7.3,
+      "Statistics": 7.3
+    },
+    "education": {
+      "degree": "M.S.",
+      "field": "Data Science",
+      "institution": "Hamilton Institute of Technology",
+      "level": 3
+    },
+    "certifications": [
+      "Microsoft Certified: Azure Data Scientist Associate",
+      "Google Data Analytics Certificate"
+    ]
+  },
+  {
+    "candidate_id": "matthew_phillips",
+    "name": "Matthew Phillips",
+    "email": "matthew.phillips@example.com",
+    "phone": "(312) 555-0165",
+    "resume_path": "data/resumes/matthew_phillips.txt",
+    "file_format": "txt",
+    "role": "data_scientist",
+    "seniority": "junior",
+    "total_years": 2.3,
+    "skills": [
+      "NumPy",
+      "Pandas",
+      "Python",
+      "SQL",
+      "Scikit-learn",
+      "Statistics",
+      "Tableau"
+    ],
+    "skill_years": {
+      "Python": 2.3,
+      "SQL": 2.3,
+      "Pandas": 2.3,
+      "NumPy": 2.3,
+      "Scikit-learn": 2.3,
+      "Statistics": 2.3
+    },
+    "education": {
+      "degree": "Ph.D.",
+      "field": "Statistics",
+      "institution": "Lakeview College",
+      "level": 4
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "charlotte_hill",
+    "name": "Charlotte Hill",
+    "email": "charlotte.hill@example.com",
+    "phone": "(617) 555-0116",
+    "resume_path": "data/resumes/charlotte_hill.txt",
+    "file_format": "txt",
+    "role": "data_scientist",
+    "seniority": "junior",
+    "total_years": 1.2,
+    "skills": [
+      "Machine Learning",
+      "NumPy",
+      "Pandas",
+      "Python",
+      "SQL",
+      "Scikit-learn",
+      "Statistics"
+    ],
+    "skill_years": {
+      "Python": 1.2,
+      "SQL": 1.2,
+      "Pandas": 1.2,
+      "NumPy": 1.2,
+      "Scikit-learn": 1.2,
+      "Statistics": 1.2
+    },
+    "education": {
+      "degree": "M.S.",
+      "field": "Applied Mathematics",
+      "institution": "Lakeview College",
+      "level": 3
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "priya_flores",
+    "name": "Priya Flores",
+    "email": "priya.flores@example.com",
+    "phone": "(804) 555-0165",
+    "resume_path": "data/resumes/priya_flores.pdf",
+    "file_format": "pdf",
+    "role": "python_backend",
+    "seniority": "senior",
+    "total_years": 8.9,
+    "skills": [
+      "Django",
+      "Docker",
+      "FastAPI",
+      "Git",
+      "PostgreSQL",
+      "Python",
+      "Redis"
+    ],
+    "skill_years": {
+      "Python": 8.9,
+      "FastAPI": 8.9,
+      "Django": 8.9,
+      "PostgreSQL": 4.4,
+      "Docker": 4.4,
+      "Git": 4.4,
+      "Redis": 8.9
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Software Engineering",
+      "institution": "Lakeview College",
+      "level": 2
+    },
+    "certifications": [
+      "AWS Certified Developer - Associate"
+    ]
+  },
+  {
+    "candidate_id": "sofia_lee",
+    "name": "Sofia Lee",
+    "email": "sofia.lee@example.com",
+    "phone": "(617) 555-0124",
+    "resume_path": "data/resumes/sofia_lee.docx",
+    "file_format": "docx",
+    "role": "python_backend",
+    "seniority": "senior",
+    "total_years": 10.8,
+    "skills": [
+      "Django",
+      "Docker",
+      "FastAPI",
+      "Git",
+      "Microservices",
+      "PostgreSQL",
+      "Python"
+    ],
+    "skill_years": {
+      "Python": 10.8,
+      "FastAPI": 10.8,
+      "Django": 10.8,
+      "PostgreSQL": 6.6,
+      "Docker": 6.6,
+      "Git": 6.6,
+      "Microservices": 10.8
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Software Engineering",
+      "institution": "Hamilton Institute of Technology",
+      "level": 2
+    },
+    "certifications": [
+      "AWS Certified Developer - Associate"
+    ]
+  },
+  {
+    "candidate_id": "avery_nelson",
+    "name": "Avery Nelson",
+    "email": "avery.nelson@example.com",
+    "phone": "(206) 555-0179",
+    "resume_path": "data/resumes/avery_nelson.docx",
+    "file_format": "docx",
+    "role": "python_backend",
+    "seniority": "junior",
+    "total_years": 0.7,
+    "skills": [
+      "Django",
+      "Docker",
+      "FastAPI",
+      "Flask",
+      "Git",
+      "PostgreSQL",
+      "Python"
+    ],
+    "skill_years": {
+      "Python": 0.7,
+      "FastAPI": 0.7,
+      "Django": 0.7,
+      "PostgreSQL": 0.7,
+      "Docker": 0.7,
+      "Git": 0.7
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Software Engineering",
+      "institution": "Cedar Tech Institute",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "olivia_thomas",
+    "name": "Olivia Thomas",
+    "email": "olivia.thomas@example.com",
+    "phone": "(415) 555-0119",
+    "resume_path": "data/resumes/olivia_thomas.pdf",
+    "file_format": "pdf",
+    "role": "python_backend",
+    "seniority": "mid",
+    "total_years": 3.2,
+    "skills": [
+      "Django",
+      "Docker",
+      "FastAPI",
+      "Git",
+      "PostgreSQL",
+      "Python"
+    ],
+    "skill_years": {
+      "Python": 3.2,
+      "FastAPI": 3.2,
+      "Django": 3.2,
+      "PostgreSQL": 1.2,
+      "Docker": 1.2,
+      "Git": 1.2
+    },
+    "education": {
+      "degree": "M.S.",
+      "field": "Computer Science",
+      "institution": "Pinecrest College",
+      "level": 3
+    },
+    "certifications": [
+      "AWS Certified Developer - Associate"
+    ]
+  },
+  {
+    "candidate_id": "yuki_adams",
+    "name": "Yuki Adams",
+    "email": "yuki.adams@example.com",
+    "phone": "(206) 555-0112",
+    "resume_path": "data/resumes/yuki_adams.pdf",
+    "file_format": "pdf",
+    "role": "python_backend",
+    "seniority": "junior",
+    "total_years": 1.2,
+    "skills": [
+      "Django",
+      "Docker",
+      "FastAPI",
+      "Git",
+      "PostgreSQL",
+      "Python"
+    ],
+    "skill_years": {
+      "Python": 1.2,
+      "FastAPI": 1.2,
+      "Django": 1.2,
+      "PostgreSQL": 1.2,
+      "Docker": 1.2,
+      "Git": 1.2
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Software Engineering",
+      "institution": "State University",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "owen_miller",
+    "name": "Owen Miller",
+    "email": "owen.miller@example.com",
+    "phone": "(206) 555-0197",
+    "resume_path": "data/resumes/owen_miller.docx",
+    "file_format": "docx",
+    "role": "python_backend",
+    "seniority": "mid",
+    "total_years": 5.3,
+    "skills": [
+      "Django",
+      "Docker",
+      "FastAPI",
+      "Git",
+      "MongoDB",
+      "PostgreSQL",
+      "Python"
+    ],
+    "skill_years": {
+      "Python": 5.3,
+      "FastAPI": 5.3,
+      "Django": 5.3,
+      "PostgreSQL": 3.4,
+      "Docker": 3.4,
+      "Git": 3.4
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Software Engineering",
+      "institution": "Riverstone College",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "evelyn_roberts",
+    "name": "Evelyn Roberts",
+    "email": "evelyn.roberts@example.com",
+    "phone": "(312) 555-0175",
+    "resume_path": "data/resumes/evelyn_roberts.txt",
+    "file_format": "txt",
+    "role": "react_frontend",
+    "seniority": "senior",
+    "total_years": 10.1,
+    "skills": [
+      "CSS",
+      "Git",
+      "HTML",
+      "JavaScript",
+      "React",
+      "Redux",
+      "TypeScript"
+    ],
+    "skill_years": {
+      "JavaScript": 10.1,
+      "TypeScript": 10.1,
+      "React": 10.1,
+      "HTML": 6.1,
+      "CSS": 6.1,
+      "Git": 6.1,
+      "Redux": 10.1
+    },
+    "education": {
+      "degree": "B.A.",
+      "field": "Web Design",
+      "institution": "Grand Valley University",
+      "level": 2
+    },
+    "certifications": [
+      "Meta Front-End Developer Certificate"
+    ]
+  },
+  {
+    "candidate_id": "liam_murphy",
+    "name": "Liam Murphy",
+    "email": "liam.murphy@example.com",
+    "phone": "(312) 555-0177",
+    "resume_path": "data/resumes/liam_murphy.txt",
+    "file_format": "txt",
+    "role": "react_frontend",
+    "seniority": "junior",
+    "total_years": 1.6,
+    "skills": [
+      "CSS",
+      "Git",
+      "HTML",
+      "JavaScript",
+      "Next.js",
+      "React",
+      "TypeScript"
+    ],
+    "skill_years": {
+      "JavaScript": 1.6,
+      "TypeScript": 1.6,
+      "React": 1.6,
+      "HTML": 1.6,
+      "CSS": 1.6,
+      "Git": 1.6,
+      "Next.js": 1.6
+    },
+    "education": {
+      "degree": "B.A.",
+      "field": "Web Design",
+      "institution": "Hamilton Institute of Technology",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "ethan_johnson",
+    "name": "Ethan Johnson",
+    "email": "ethan.johnson@example.com",
+    "phone": "(512) 555-0158",
+    "resume_path": "data/resumes/ethan_johnson.md",
+    "file_format": "md",
+    "role": "react_frontend",
+    "seniority": "junior",
+    "total_years": 1.5,
+    "skills": [
+      "CSS",
+      "Git",
+      "HTML",
+      "JavaScript",
+      "React",
+      "TypeScript"
+    ],
+    "skill_years": {
+      "JavaScript": 1.5,
+      "TypeScript": 1.5,
+      "React": 1.5,
+      "HTML": 1.5,
+      "CSS": 1.5,
+      "Git": 1.5
+    },
+    "education": {
+      "degree": "B.A.",
+      "field": "Web Design",
+      "institution": "Westlake University",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "zara_allen",
+    "name": "Zara Allen",
+    "email": "zara.allen@example.com",
+    "phone": "(415) 555-0185",
+    "resume_path": "data/resumes/zara_allen.docx",
+    "file_format": "docx",
+    "role": "react_frontend",
+    "seniority": "mid",
+    "total_years": 4.9,
+    "skills": [
+      "CSS",
+      "Git",
+      "HTML",
+      "JavaScript",
+      "React",
+      "TypeScript"
+    ],
+    "skill_years": {
+      "JavaScript": 4.9,
+      "TypeScript": 4.9,
+      "React": 4.9,
+      "HTML": 2.1,
+      "CSS": 2.1,
+      "Git": 2.1
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Computer Science",
+      "institution": "Northfield University",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "victoria_patel",
+    "name": "Victoria Patel",
+    "email": "victoria.patel@example.com",
+    "phone": "(312) 555-0185",
+    "resume_path": "data/resumes/victoria_patel.md",
+    "file_format": "md",
+    "role": "react_frontend",
+    "seniority": "senior",
+    "total_years": 10.1,
+    "skills": [
+      "CSS",
+      "Git",
+      "HTML",
+      "JavaScript",
+      "React",
+      "TypeScript"
+    ],
+    "skill_years": {
+      "JavaScript": 10.1,
+      "TypeScript": 10.1,
+      "React": 10.1,
+      "HTML": 6.5,
+      "CSS": 6.5,
+      "Git": 6.5
+    },
+    "education": {
+      "degree": "B.A.",
+      "field": "Web Design",
+      "institution": "Brightmoor University",
+      "level": 2
+    },
+    "certifications": [
+      "Meta Front-End Developer Certificate"
+    ]
+  },
+  {
+    "candidate_id": "jack_ali",
+    "name": "Jack Ali",
+    "email": "jack.ali@example.com",
+    "phone": "(617) 555-0195",
+    "resume_path": "data/resumes/jack_ali.docx",
+    "file_format": "docx",
+    "role": "react_frontend",
+    "seniority": "mid",
+    "total_years": 5.1,
+    "skills": [
+      "CSS",
+      "Git",
+      "HTML",
+      "JavaScript",
+      "Jest",
+      "React",
+      "TypeScript"
+    ],
+    "skill_years": {
+      "JavaScript": 5.1,
+      "TypeScript": 5.1,
+      "React": 5.1,
+      "HTML": 1.7,
+      "CSS": 1.7,
+      "Git": 1.7
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Information Technology",
+      "institution": "Lakeview College",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "noah_nguyen",
+    "name": "Noah Nguyen",
+    "email": "noah.nguyen@example.com",
+    "phone": "(312) 555-0198",
+    "resume_path": "data/resumes/noah_nguyen.pdf",
+    "file_format": "pdf",
+    "role": "devops_cloud",
+    "seniority": "mid",
+    "total_years": 3.3,
+    "skills": [
+      "AWS",
+      "Ansible",
+      "CI/CD",
+      "Docker",
+      "Grafana",
+      "Kubernetes",
+      "Linux",
+      "Terraform"
+    ],
+    "skill_years": {
+      "AWS": 3.3,
+      "Docker": 3.3,
+      "Kubernetes": 3.3,
+      "Terraform": 1.5,
+      "CI/CD": 1.5,
+      "Linux": 1.5,
+      "Ansible": 3.3
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Information Systems",
+      "institution": "Riverstone College",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "hiroshi_rivera",
+    "name": "Hiroshi Rivera",
+    "email": "hiroshi.rivera@example.com",
+    "phone": "(312) 555-0135",
+    "resume_path": "data/resumes/hiroshi_rivera.docx",
+    "file_format": "docx",
+    "role": "devops_cloud",
+    "seniority": "junior",
+    "total_years": 2.4,
+    "skills": [
+      "AWS",
+      "CI/CD",
+      "Docker",
+      "Kubernetes",
+      "Linux",
+      "Prometheus",
+      "Terraform"
+    ],
+    "skill_years": {
+      "AWS": 2.4,
+      "Docker": 2.4,
+      "Kubernetes": 2.4,
+      "Terraform": 2.4,
+      "CI/CD": 2.4,
+      "Linux": 2.4,
+      "Prometheus": 2.4
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Computer Engineering",
+      "institution": "Brightmoor University",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "omar_khan",
+    "name": "Omar Khan",
+    "email": "omar.khan@example.com",
+    "phone": "(919) 555-0185",
+    "resume_path": "data/resumes/omar_khan.txt",
+    "file_format": "txt",
+    "role": "devops_cloud",
+    "seniority": "senior",
+    "total_years": 8.6,
+    "skills": [
+      "AWS",
+      "CI/CD",
+      "Docker",
+      "Kubernetes",
+      "Linux",
+      "Terraform"
+    ],
+    "skill_years": {
+      "AWS": 8.6,
+      "Docker": 8.6,
+      "Kubernetes": 8.6,
+      "Terraform": 6.7,
+      "CI/CD": 6.7,
+      "Linux": 6.7
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Computer Engineering",
+      "institution": "Pinecrest College",
+      "level": 2
+    },
+    "certifications": [
+      "Certified Kubernetes Administrator (CKA)",
+      "AWS Certified Solutions Architect - Associate"
+    ]
+  },
+  {
+    "candidate_id": "benjamin_cook",
+    "name": "Benjamin Cook",
+    "email": "benjamin.cook@example.com",
+    "phone": "(512) 555-0192",
+    "resume_path": "data/resumes/benjamin_cook.txt",
+    "file_format": "txt",
+    "role": "devops_cloud",
+    "seniority": "mid",
+    "total_years": 4.6,
+    "skills": [
+      "AWS",
+      "CI/CD",
+      "Docker",
+      "Kubernetes",
+      "Linux",
+      "Terraform"
+    ],
+    "skill_years": {
+      "AWS": 4.6,
+      "Docker": 4.6,
+      "Kubernetes": 4.6,
+      "Terraform": 2.7,
+      "CI/CD": 2.7,
+      "Linux": 2.7
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Information Systems",
+      "institution": "Pinecrest College",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "nadia_baker",
+    "name": "Nadia Baker",
+    "email": "nadia.baker@example.com",
+    "phone": "(415) 555-0108",
+    "resume_path": "data/resumes/nadia_baker.txt",
+    "file_format": "txt",
+    "role": "devops_cloud",
+    "seniority": "junior",
+    "total_years": 0.6,
+    "skills": [
+      "AWS",
+      "CI/CD",
+      "Docker",
+      "Grafana",
+      "Kubernetes",
+      "Linux",
+      "Terraform"
+    ],
+    "skill_years": {
+      "AWS": 0.6,
+      "Docker": 0.6,
+      "Kubernetes": 0.6,
+      "Terraform": 0.6,
+      "CI/CD": 0.6,
+      "Linux": 0.6
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Computer Engineering",
+      "institution": "Cedar Tech Institute",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "luca_collins",
+    "name": "Luca Collins",
+    "email": "luca.collins@example.com",
+    "phone": "(512) 555-0140",
+    "resume_path": "data/resumes/luca_collins.txt",
+    "file_format": "txt",
+    "role": "devops_cloud",
+    "seniority": "senior",
+    "total_years": 6.3,
+    "skills": [
+      "AWS",
+      "CI/CD",
+      "Docker",
+      "Kubernetes",
+      "Linux",
+      "Terraform"
+    ],
+    "skill_years": {
+      "AWS": 6.3,
+      "Docker": 6.3,
+      "Kubernetes": 6.3,
+      "Terraform": 2.7,
+      "CI/CD": 2.7,
+      "Linux": 2.7
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Information Systems",
+      "institution": "Hamilton Institute of Technology",
+      "level": 2
+    },
+    "certifications": [
+      "AWS Certified Solutions Architect - Associate",
+      "Certified Kubernetes Administrator (CKA)"
+    ]
+  },
+  {
+    "candidate_id": "fatima_robinson",
+    "name": "Fatima Robinson",
+    "email": "fatima.robinson@example.com",
+    "phone": "(702) 555-0145",
+    "resume_path": "data/resumes/fatima_robinson.docx",
+    "file_format": "docx",
+    "role": "data_analyst",
+    "seniority": "mid",
+    "total_years": 4.1,
+    "skills": [
+      "Excel",
+      "Power BI",
+      "Python",
+      "SQL",
+      "Statistics",
+      "Tableau"
+    ],
+    "skill_years": {
+      "SQL": 4.1,
+      "Excel": 4.1,
+      "Tableau": 1.8,
+      "Python": 1.8,
+      "Statistics": 1.8,
+      "Power BI": 4.1
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Statistics",
+      "institution": "Northfield University",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "elizabeth_parker",
+    "name": "Elizabeth Parker",
+    "email": "elizabeth.parker@example.com",
+    "phone": "(617) 555-0106",
+    "resume_path": "data/resumes/elizabeth_parker.pdf",
+    "file_format": "pdf",
+    "role": "data_analyst",
+    "seniority": "senior",
+    "total_years": 6.9,
+    "skills": [
+      "Excel",
+      "Python",
+      "SQL",
+      "Statistics",
+      "Tableau",
+      "dbt"
+    ],
+    "skill_years": {
+      "SQL": 6.9,
+      "Excel": 6.9,
+      "Tableau": 4.6,
+      "Python": 4.6,
+      "Statistics": 4.6,
+      "dbt": 6.9
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Business Analytics",
+      "institution": "Riverstone College",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "isabella_lewis",
+    "name": "Isabella Lewis",
+    "email": "isabella.lewis@example.com",
+    "phone": "(804) 555-0108",
+    "resume_path": "data/resumes/isabella_lewis.docx",
+    "file_format": "docx",
+    "role": "data_analyst",
+    "seniority": "senior",
+    "total_years": 7.0,
+    "skills": [
+      "ETL",
+      "Excel",
+      "Python",
+      "SQL",
+      "Statistics",
+      "Tableau"
+    ],
+    "skill_years": {
+      "SQL": 7.0,
+      "Excel": 7.0,
+      "Tableau": 3.7,
+      "Python": 3.7,
+      "Statistics": 3.7
+    },
+    "education": {
+      "degree": "B.A.",
+      "field": "Economics",
+      "institution": "Brightmoor University",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "chloe_okafor",
+    "name": "Chloe Okafor",
+    "email": "chloe.okafor@example.com",
+    "phone": "(804) 555-0108",
+    "resume_path": "data/resumes/chloe_okafor.docx",
+    "file_format": "docx",
+    "role": "data_analyst",
+    "seniority": "junior",
+    "total_years": 1.1,
+    "skills": [
+      "Excel",
+      "Python",
+      "SQL",
+      "Statistics",
+      "Tableau"
+    ],
+    "skill_years": {
+      "SQL": 1.1,
+      "Excel": 1.1,
+      "Tableau": 1.1,
+      "Python": 1.1,
+      "Statistics": 1.1
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Business Analytics",
+      "institution": "Cedar Tech Institute",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "elijah_jackson",
+    "name": "Elijah Jackson",
+    "email": "elijah.jackson@example.com",
+    "phone": "(804) 555-0126",
+    "resume_path": "data/resumes/elijah_jackson.pdf",
+    "file_format": "pdf",
+    "role": "data_analyst",
+    "seniority": "junior",
+    "total_years": 1.7,
+    "skills": [
+      "ETL",
+      "Excel",
+      "Python",
+      "SQL",
+      "Statistics",
+      "Tableau"
+    ],
+    "skill_years": {
+      "SQL": 1.7,
+      "Excel": 1.7,
+      "Tableau": 1.7,
+      "Python": 1.7,
+      "Statistics": 1.7
+    },
+    "education": {
+      "degree": "B.S.",
+      "field": "Statistics",
+      "institution": "Pinecrest College",
+      "level": 2
+    },
+    "certifications": []
+  },
+  {
+    "candidate_id": "emma_walker",
+    "name": "Emma Walker",
+    "email": "emma.walker@example.com",
+    "phone": "(206) 555-0173",
+    "resume_path": "data/resumes/emma_walker.md",
+    "file_format": "md",
+    "role": "data_analyst",
+    "seniority": "mid",
+    "total_years": 4.0,
+    "skills": [
+      "Excel",
+      "Power BI",
+      "Python",
+      "SQL",
+      "Statistics",
+      "Tableau"
+    ],
+    "skill_years": {
+      "SQL": 4.0,
+      "Excel": 4.0,
+      "Tableau": 2.1,
+      "Python": 2.1,
+      "Statistics": 2.1
+    },
+    "education": {
+      "degree": "B.A.",
+      "field": "Economics",
+      "institution": "State University",
+      "level": 2
+    },
+    "certifications": []
+  }
+]

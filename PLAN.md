@@ -6,7 +6,7 @@
 
 - [x] **Step 0:** Create the public GitHub repo with agent docs (`AGENTS.md`, `CLAUDE.md`, `PLAN.md`)
 - [x] **Step 1:** Scaffold: M1 submodule, `m1.py`, `config.py`, `skills.py` stub, venv, CI
-- [ ] **Step 2:** Dataset: 36 resumes, 6 JDs, specs and ground truth
+- [x] **Step 2:** Dataset: 36 resumes, 6 JDs, specs and ground truth
 - [ ] **Step 3:** Part A, `resume_rag.py` (load → section → chunk → metadata → embed → ChromaDB)
 - [ ] **Step 4:** Part B, `job_matcher.py` (JD parse → hybrid retrieve → filter → score → reason → JSON)
 - [ ] **Step 5:** Metrics, `evaluate.py` (retrieval accuracy, extraction accuracy, latency)
@@ -343,7 +343,7 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
 
 - [ ] `gh repo view puranderdua8/resume-rag-job-matcher` shows a public repo.
 - [ ] `ruff check . && ruff format --check . && pytest -q` all pass, both locally and in CI.
-- [ ] `python scripts/generate_dataset.py` produces 36 resumes and 6 JDs, and every resume passes the M1 `read_file` round-trip.
+- [x] `python scripts/generate_dataset.py` produces 36 resumes and 6 JDs, and every resume passes the M1 `read_file` round-trip.
 - [ ] `python resume_rag.py ingest && python resume_rag.py stats`:
   - Every resume has Experience, Education and Skills sections.
   - Extraction accuracy is at least 90% on names and years.

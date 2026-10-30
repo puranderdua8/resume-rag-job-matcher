@@ -1,0 +1,13 @@
+DevOps Engineer (Kubernetes & AWS)
+
+We are hiring a DevOps Engineer to run our containerized workloads on Kubernetes and AWS, and to codify our infrastructure as code.
+
+Must-have:
+- 3+ years of professional experience with AWS
+- Hands-on experience with Kubernetes and Docker in production
+- Experience with Terraform for infrastructure as code
+
+Nice-to-have:
+- Experience building CI/CD pipelines
+- Familiarity with Prometheus and Grafana for monitoring
+- Exposure to Azure or GCP

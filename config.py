@@ -86,3 +86,6 @@ SOFT_FILTER_PENALTY = 20
 MAX_CHUNK_CHARS = 1000
 FIXED_CHUNK_SIZE = 500
 FIXED_CHUNK_OVERLAP = 100
+
+# Dataset generation (Step 2): fixed seed so the synthetic dataset is reproducible.
+DATASET_SEED = 20260214

@@ -1,0 +1,18 @@
+Nadia Baker
+
+nadia.baker@example.com | (415) 555-0108
+
+Profile
+DevOps/Cloud Engineer running containerized workloads on Kubernetes and AWS, with infrastructure defined in Terraform.
+
+EXPERIENCE
+Junior DevOps Engineer, Cobalt Logic
+May 2025 – Present
+- Wrote Terraform modules that stood up a full environment in one command.
+- Set up dashboards and alerts that caught production issues before customers noticed, cutting the average time to detect an outage in half.
+- Ran production workloads on Kubernetes across multiple AWS regions.
+
+Education
+B.S. in Computer Engineering, Cedar Tech Institute
+
+Core Competencies: AWS, Docker, Kubernetes, Terraform, CI/CD, Linux, Grafana

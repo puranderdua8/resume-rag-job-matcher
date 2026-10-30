@@ -1,0 +1,12 @@
+Frontend Engineer (React)
+
+We are hiring a Frontend Engineer to build the React application our customers use every day.
+
+Must-have:
+- 2+ years of experience with JavaScript and React
+- Experience with TypeScript
+
+Nice-to-have:
+- Experience with Next.js or server-side rendering
+- Familiarity with GraphQL
+- Experience writing tests with Jest

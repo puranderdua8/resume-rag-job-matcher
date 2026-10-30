@@ -1,0 +1,13 @@
+MLOps Engineer
+
+We are hiring an MLOps Engineer to own the path from a trained model to a reliable production deployment on Kubernetes.
+
+Must-have:
+- 3+ years of professional experience with Python
+- Experience deploying machine learning models to production with Docker and Kubernetes
+- Experience with AWS or GCP cloud infrastructure
+
+Nice-to-have:
+- Experience with MLflow for experiment tracking
+- Familiarity with TensorFlow or PyTorch
+- Background in CI/CD for machine learning pipelines

@@ -1,0 +1,13 @@
+Backend Software Engineer (Python / FastAPI)
+
+We are hiring a Backend Software Engineer to build and operate the Python services behind our core product.
+
+Must-have:
+- 3+ years of professional experience with Python
+- Hands-on experience with FastAPI or Django
+- Experience with PostgreSQL and Docker
+
+Nice-to-have:
+- Experience with Redis caching
+- Familiarity with Celery for background jobs
+- Exposure to a microservices architecture
