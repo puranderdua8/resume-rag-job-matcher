@@ -12,6 +12,16 @@
 - [x] **Step 5:** Metrics, `evaluate.py` (retrieval accuracy, extraction accuracy, latency)
 - [x] **Step 6:** Notebooks, `notebooks/01_...ipynb`-`07_...ipynb` (experiments A–E and analysis)
 - [x] **Step 7:** Tests, README and demo script; final push with green CI
+- [x] **Step 8:** Fix JD parsing bugs (R2, R3, R4, R11, R13)
+- [ ] **Step 9:** Fix resume extraction bugs
+- [ ] **Step 10:** Fix pipeline, storage and CLI bugs, then re-measure
+- [ ] **Step 11:** One ranking pipeline
+- [ ] **Step 11 verification**
+- [ ] **Step 12:** Packaging, type checking and CI hardening
+- [ ] **Step 13:** Index integrity on the current stack
+- [ ] **Step 14:** Extraction robustness
+- [ ] **Step 15:** Service and operations
+- [ ] **Step 16:** Evaluation and responsible AI
 - [ ] **Deliverable:** Demo video, 3–4 min (recorded by the author). *Author-only task: coding agents skip this line when looking for the current step.*
 
 **Production readiness** (from the [code review of 2026-10-30](#production-readiness-review-2026-10-30); one step per session, branch and PR):
@@ -127,6 +137,7 @@ resume_embedding.py   Embedder wrapper (SentenceTransformer) + the model registr
 resume_storage.py     ingest orchestration + ChromaDB storage/retrieval
 resume_models.py      Chunk, CandidateProfile and IngestStats dataclasses
 job_matcher.py        Part B CLI; thin orchestrator wiring the modules below together
+jd_sections.py        finds the Must-have/Nice-to-have blocks (header synonyms, like resume_sections.py)
 jd_parsing.py         JD -> JDRequirements: required/preferred skills, must-have regexes
 retrieval.py          semantic search (Chroma + prefilter), BM25 keyword search, RRF fusion
 match_filtering.py    post-filter: per-skill/total years and degree must-haves, --soft penalty
@@ -506,6 +517,12 @@ Branch `step-8-jd-parsing-fixes`. Fixes R2, R3, R4, R11, R13, all in `jd_parsing
 - AGENTS.md lint and test commands.
 - For each of the 6 JDs, print `parse_jd` output before and after; only the intended differences appear (record them in the PR).
 - `python job_matcher.py --all` still writes 6 files in the required format.
+
+**Deviation:** R2 and R3 turned out to be one fix, not two: R3's clause-splitting (match skills only within the text between one "N+ years" figure and the next) already gives R2 its word boundary for free, once skill matching inside a clause reuses `_skill_in_text`. The old distance-based regex (`PER_SKILL_YEARS_RE_TEMPLATE`, a 40-char window after the figure) is removed rather than patched.
+
+**Deviation:** moved the Must-have/Nice-to-have header synonyms and block-splitting out of `jd_parsing.py` into a new `jd_sections.py`, the data-module option R11 offered, mirroring `resume_sections.py`'s role for resume headers. `jd_parsing.py` now only imports `block_lines` from it, the same way `resume_metadata.py` builds on `resume_sections.py`.
+
+**Verified:** `ruff check . && ruff format --check . && pytest -q` pass (51 tests, 15 new regressions covering R2/R3/R4/R11/R13, including a CLI-level test that `job_matcher.py` exits 2 with a clear message on an unparsable `--must-have`). `parse_jd` on all 6 dataset JDs is byte-for-byte unchanged (none of them trigger the buggy patterns), confirmed by diffing its output against the pre-Step-8 `main`. `python job_matcher.py --all` still writes 6 files in the required format; the written JSON differs from the committed copies only in `latency_ms` timing jitter.
 
 ## Step 9: Fix resume extraction bugs
 
