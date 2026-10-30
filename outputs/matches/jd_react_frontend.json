@@ -1,0 +1,445 @@
+{
+  "job_description": "Frontend Engineer (React)",
+  "top_matches": [
+    {
+      "candidate_name": "Zara Allen",
+      "resume_path": "data/resumes/zara_allen.docx",
+      "match_score": 87,
+      "matched_skills": [
+        "JavaScript",
+        "TypeScript",
+        "React"
+      ],
+      "relevant_excerpts": [
+        "React Frontend Engineer with 4+ years building React applications in TypeScript, from component libraries to full product surfaces.",
+        "Junior Frontend Engineer, Granite Peak Systems\nFeb 2021 \u2013 Dec 2023\n- Wrote semantic HTML and CSS that kept the app usable with a screen reader.\n- Built reusable React components in TypeScript shared across three product teams.\n- Set up CI checks in Git so a broken build never reached the main branch",
+        "...ch. EDUCATION B.S. in Computer Science, Northfield University Technical Skills: JavaScript, TypeScript, React, HTML, CSS, Git Projects - Built a design-system component l...",
+        "...Objective React Frontend Engineer with 4+ years building React applications in TypeScript, from component libraries to full product surfaces. EXPERIENCE Frontend Enginee..."
+      ],
+      "reasoning": "Strong match (87/100). Closest sections: summary (0.78), experience (0.75). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.842,
+        "bm25_norm": 0.949,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.25
+      },
+      "section_scores": {
+        "summary": 0.7762419581413269,
+        "experience": 0.7542531490325928,
+        "projects": 0.7388098239898682,
+        "skills": 0.6843870878219604,
+        "contact": 0.47892463207244873,
+        "education": 0.4449872374534607
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Evelyn Roberts",
+      "resume_path": "data/resumes/evelyn_roberts.txt",
+      "match_score": 86,
+      "matched_skills": [
+        "JavaScript",
+        "TypeScript",
+        "React"
+      ],
+      "relevant_excerpts": [
+        "Frontend Engineer, Clearcut Media\n11/2019 - 08/2021\n- Set up CI checks in Git so a broken build never reached the main branch.\n- Rewrote a jQuery page in React, cutting first-paint time by 40%.\n- Built server-rendered pages that loaded fast and ranked well in search, without a separate backend team.",
+        "React Frontend Engineer with 10+ years building React applications in TypeScript, from component libraries to full product surfaces.",
+        "...team. Education B.A. in Web Design, Grand Valley University Core Competencies JavaScript, TypeScript, React, HTML, CSS, Git Certifications - Meta Front-End Developer C...",
+        "...Summary React Frontend Engineer with 10+ years building React applications in TypeScript, from component libraries to full product surfaces. Professional Experience: S..."
+      ],
+      "reasoning": "Strong match (86/100). Closest sections: experience (0.76), summary (0.76). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.821,
+        "bm25_norm": 0.93,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.25
+      },
+      "section_scores": {
+        "experience": 0.7645358443260193,
+        "summary": 0.7566299438476562,
+        "skills": 0.6636828184127808,
+        "certifications": 0.6042881608009338,
+        "education": 0.5106741189956665,
+        "contact": 0.4515864849090576
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Jack Ali",
+      "resume_path": "data/resumes/jack_ali.docx",
+      "match_score": 86,
+      "matched_skills": [
+        "JavaScript",
+        "TypeScript",
+        "React",
+        "Jest"
+      ],
+      "relevant_excerpts": [
+        "React Frontend Engineer with 5+ years building React applications in TypeScript, from component libraries to full product surfaces.",
+        "Junior Frontend Engineer, Lumen Data Labs\n2020-2024\n- Built server-rendered pages that loaded fast and ranked well in search, without a separate backend team.\n- Rewrote a jQuery page in React, cutting first-paint time by 40%.\n- Wrote semantic HTML and CSS that kept the app usable with a screen reade",
+        "...r. EDUCATION B.S. in Information Technology, Lakeview College Core Competencies JavaScript, TypeScript, React, HTML, CSS, Git, Jest",
+        "...95 Profile React Frontend Engineer with 5+ years building React applications in TypeScript, from component libraries to full product surfaces. Work History Frontend Engin..."
+      ],
+      "reasoning": "Strong match (86/100). Closest sections: summary (0.74), experience (0.72). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.775,
+        "bm25_norm": 1.0,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.5
+      },
+      "section_scores": {
+        "summary": 0.744576632976532,
+        "experience": 0.7155910134315491,
+        "skills": 0.6610183119773865,
+        "contact": 0.43281954526901245,
+        "education": 0.37061256170272827
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Victoria Patel",
+      "resume_path": "data/resumes/victoria_patel.md",
+      "match_score": 86,
+      "matched_skills": [
+        "JavaScript",
+        "TypeScript",
+        "React"
+      ],
+      "relevant_excerpts": [
+        "React Frontend Engineer building accessible, responsive React applications in TypeScript.",
+        "Frontend Engineer, Meridian Health Tech\n2019-2023\n- Rewrote a jQuery page in React, cutting first-paint time by 40%.\n- Managed complex UI state with Redux across a multi-step checkout flow.\n- Set up CI checks in Git so a broken build never reached the main branch.",
+        "...ut flow. EDUCATION B.A. in Web Design, Brightmoor University Technical Skills JavaScript, TypeScript, React, HTML, CSS, Git Certifications - Meta Front-End Developer C...",
+        "...y React Frontend Engineer building accessible, responsive React applications in TypeScript. Professional Experience: Senior Frontend Engineer, Granite Peak Systems 2023-..."
+      ],
+      "reasoning": "Strong match (86/100). Closest sections: summary (0.77), experience (0.75). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.831,
+        "bm25_norm": 0.927,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.25
+      },
+      "section_scores": {
+        "summary": 0.7709348797798157,
+        "experience": 0.7474703192710876,
+        "skills": 0.6686621904373169,
+        "certifications": 0.602624773979187,
+        "education": 0.5209888219833374,
+        "contact": 0.4630802273750305
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Liam Murphy",
+      "resume_path": "data/resumes/liam_murphy.txt",
+      "match_score": 84,
+      "matched_skills": [
+        "JavaScript",
+        "TypeScript",
+        "React"
+      ],
+      "relevant_excerpts": [
+        "Junior Frontend Engineer, Solace Health\n2024-Present\n- Rewrote a jQuery page in React, cutting first-paint time by 40%.\n- Managed complex UI state with Redux across a multi-step checkout flow.\n- Wrote semantic HTML and CSS that kept the app usable with a screen reader.\n- Built server-rendered pages ",
+        "React Frontend Engineer building accessible, responsive React applications in TypeScript.",
+        "...d team. Education B.A. in Web Design, Hamilton Institute of Technology Skills JavaScript, TypeScript, React, HTML, CSS, Git",
+        "...e React Frontend Engineer building accessible, responsive React applications in TypeScript. Work History Junior Frontend Engineer, Solace Health 2024-Present - Rewrote a..."
+      ],
+      "reasoning": "Strong match (84/100). Closest sections: experience (0.77), summary (0.76). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.812,
+        "bm25_norm": 0.842,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.25
+      },
+      "section_scores": {
+        "experience": 0.7661420702934265,
+        "summary": 0.7566955089569092,
+        "skills": 0.6753082871437073,
+        "education": 0.5382528305053711,
+        "contact": 0.5084165930747986
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    }
+  ],
+  "filtered_out": [
+    {
+      "candidate_name": "Amelia Chen",
+      "resume_path": "data/resumes/amelia_chen.pdf",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Avery Nelson",
+      "resume_path": "data/resumes/avery_nelson.docx",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required",
+        "Total experience: 1.3 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Benjamin Cook",
+      "resume_path": "data/resumes/benjamin_cook.txt",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Charlotte Hill",
+      "resume_path": "data/resumes/charlotte_hill.txt",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required",
+        "Total experience: 1.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Chloe Okafor",
+      "resume_path": "data/resumes/chloe_okafor.docx",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Daniel Campbell",
+      "resume_path": "data/resumes/daniel_campbell.md",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Dmitri Wilson",
+      "resume_path": "data/resumes/dmitri_wilson.txt",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Elijah Jackson",
+      "resume_path": "data/resumes/elijah_jackson.pdf",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required",
+        "Total experience: 1.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Elizabeth Parker",
+      "resume_path": "data/resumes/elizabeth_parker.pdf",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Ella Garcia",
+      "resume_path": "data/resumes/ella_garcia.pdf",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Emma Walker",
+      "resume_path": "data/resumes/emma_walker.md",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Ethan Johnson",
+      "resume_path": "data/resumes/ethan_johnson.md",
+      "reasons": [
+        "JavaScript: 1.0 yrs < 2 required",
+        "Total experience: 1.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Fatima Robinson",
+      "resume_path": "data/resumes/fatima_robinson.docx",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Harper Evans",
+      "resume_path": "data/resumes/harper_evans.pdf",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required",
+        "Total experience: 1.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Hiroshi Rivera",
+      "resume_path": "data/resumes/hiroshi_rivera.docx",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Isabella Lewis",
+      "resume_path": "data/resumes/isabella_lewis.docx",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "James Edwards",
+      "resume_path": "data/resumes/james_edwards.docx",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required",
+        "Total experience: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Luca Collins",
+      "resume_path": "data/resumes/luca_collins.txt",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Lucas Williams",
+      "resume_path": "data/resumes/lucas_williams.pdf",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Matthew Phillips",
+      "resume_path": "data/resumes/matthew_phillips.txt",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Nadia Baker",
+      "resume_path": "data/resumes/nadia_baker.txt",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required",
+        "Total experience: 1.5 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Nathan Davis",
+      "resume_path": "data/resumes/nathan_davis.txt",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Noah Nguyen",
+      "resume_path": "data/resumes/noah_nguyen.pdf",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Oliver Taylor",
+      "resume_path": "data/resumes/oliver_taylor.pdf",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Olivia Thomas",
+      "resume_path": "data/resumes/olivia_thomas.pdf",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Omar Khan",
+      "resume_path": "data/resumes/omar_khan.txt",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Owen Miller",
+      "resume_path": "data/resumes/owen_miller.docx",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Priya Flores",
+      "resume_path": "data/resumes/priya_flores.pdf",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Scarlett Young",
+      "resume_path": "data/resumes/scarlett_young.pdf",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Sofia Lee",
+      "resume_path": "data/resumes/sofia_lee.docx",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    },
+    {
+      "candidate_name": "Yuki Adams",
+      "resume_path": "data/resumes/yuki_adams.pdf",
+      "reasons": [
+        "JavaScript: 0.0 yrs < 2 required",
+        "React: 0.0 yrs < 2 required"
+      ]
+    }
+  ],
+  "latency_ms": {
+    "embed": 27.6,
+    "semantic_search": 2.7,
+    "bm25_search": 24.1,
+    "fusion": 0.0,
+    "filter": 0.1,
+    "rerank": 0.0,
+    "score": 0.1,
+    "total": 75.6
+  }
+}

@@ -1,0 +1,374 @@
+{
+  "job_description": "Senior Machine Learning Engineer",
+  "top_matches": [
+    {
+      "candidate_name": "Ella Garcia",
+      "resume_path": "data/resumes/ella_garcia.pdf",
+      "match_score": 84,
+      "matched_skills": [
+        "Python",
+        "Machine Learning",
+        "TensorFlow",
+        "PyTorch"
+      ],
+      "relevant_excerpts": [
+        "Junior ML Engineer, Fern Analytics\n10/2015 - 08/2018\n- Used Scikit-learn to prototype and compare classical ML baselines before committing to a deep learning\napproach.\n- Built data pipelines in Python to preprocess and validate training data at scale.\n- Built systems that let machines interpret and ",
+        "ML Engineer focused on building and deploying machine learning models in Python, with hands-on\nexperience across the full model lifecycle.",
+        "...ummary ML Engineer focused on building and deploying machine learning models in Python, with hands-on experience across the full model lifecycle. Work History Senior...",
+        "...mple.com | (312) 555-0143 Summary ML Engineer focused on building and deploying machine learning models in Python, with hands-on experience across the full model lifecycle. Wor..."
+      ],
+      "reasoning": "Strong match (84/100). Closest sections: experience (0.74), summary (0.72). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.771,
+        "bm25_norm": 1.0,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.0
+      },
+      "section_scores": {
+        "experience": 0.7391221523284912,
+        "summary": 0.7232593894004822,
+        "skills": 0.6732375621795654,
+        "certifications": 0.6477857232093811,
+        "projects": 0.6097519993782043,
+        "education": 0.5005651712417603,
+        "contact": 0.45417702198028564
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Scarlett Young",
+      "resume_path": "data/resumes/scarlett_young.pdf",
+      "match_score": 83,
+      "matched_skills": [
+        "Python",
+        "Machine Learning",
+        "TensorFlow",
+        "PyTorch",
+        "MLflow"
+      ],
+      "relevant_excerpts": [
+        "Senior ML Engineer, Skyline Mobility\n09/2023 - Present\n- Tracked experiments and model versions with MLflow across a team of four engineers.\n- Deployed TensorFlow models to production behind a REST API with automated retraining on a schedule.\n- Built systems that let machines interpret and classify ",
+        "ML Engineer focused on building and deploying machine learning models in Python, with hands-on\nexperience across the full model lifecycle.",
+        "...rofile ML Engineer focused on building and deploying machine learning models in Python, with hands-on experience across the full model lifecycle. Professional Experie...",
+        "...mple.com | (312) 555-0101 Profile ML Engineer focused on building and deploying machine learning models in Python, with hands-on experience across the full model lifecycle. Pro..."
+      ],
+      "reasoning": "Strong match (83/100). Closest sections: experience (0.74), summary (0.72). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.766,
+        "bm25_norm": 0.942,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.2
+      },
+      "section_scores": {
+        "experience": 0.7373318672180176,
+        "summary": 0.7182296514511108,
+        "skills": 0.6745025515556335,
+        "certifications": 0.6540209650993347,
+        "education": 0.6246830224990845,
+        "contact": 0.4533312916755676
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    }
+  ],
+  "filtered_out": [
+    {
+      "candidate_name": "Amelia Chen",
+      "resume_path": "data/resumes/amelia_chen.pdf",
+      "reasons": [
+        "Python: 3.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 3.0 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Avery Nelson",
+      "resume_path": "data/resumes/avery_nelson.docx",
+      "reasons": [
+        "Python: 1.3 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 1.3 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Benjamin Cook",
+      "resume_path": "data/resumes/benjamin_cook.txt",
+      "reasons": [
+        "Python: 0.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 4.0 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Charlotte Hill",
+      "resume_path": "data/resumes/charlotte_hill.txt",
+      "reasons": [
+        "Python: 1.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 1.0 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Chloe Okafor",
+      "resume_path": "data/resumes/chloe_okafor.docx",
+      "reasons": [
+        "Python: 2.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 2.0 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Daniel Campbell",
+      "resume_path": "data/resumes/daniel_campbell.md",
+      "reasons": [
+        "Python: 3.0 yrs < 5 required",
+        "Total experience: 3.0 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Dmitri Wilson",
+      "resume_path": "data/resumes/dmitri_wilson.txt",
+      "reasons": [
+        "Python: 1.0 yrs < 5 required",
+        "Total experience: 3.0 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Elijah Jackson",
+      "resume_path": "data/resumes/elijah_jackson.pdf",
+      "reasons": [
+        "Python: 2.6 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 1.0 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Elizabeth Parker",
+      "resume_path": "data/resumes/elizabeth_parker.pdf",
+      "reasons": [
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "Emma Walker",
+      "resume_path": "data/resumes/emma_walker.md",
+      "reasons": [
+        "Python: 2.2 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 4.0 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Ethan Johnson",
+      "resume_path": "data/resumes/ethan_johnson.md",
+      "reasons": [
+        "Python: 0.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 1.0 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Evelyn Roberts",
+      "resume_path": "data/resumes/evelyn_roberts.txt",
+      "reasons": [
+        "Python: 0.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "Fatima Robinson",
+      "resume_path": "data/resumes/fatima_robinson.docx",
+      "reasons": [
+        "Python: 2.3 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "Harper Evans",
+      "resume_path": "data/resumes/harper_evans.pdf",
+      "reasons": [
+        "Python: 1.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 2.3 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 1.0 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Hiroshi Rivera",
+      "resume_path": "data/resumes/hiroshi_rivera.docx",
+      "reasons": [
+        "Python: 0.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 3.2 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Isabella Lewis",
+      "resume_path": "data/resumes/isabella_lewis.docx",
+      "reasons": [
+        "Python: 4.3 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "Jack Ali",
+      "resume_path": "data/resumes/jack_ali.docx",
+      "reasons": [
+        "Python: 0.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "James Edwards",
+      "resume_path": "data/resumes/james_edwards.docx",
+      "reasons": [
+        "Python: 1.6 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 0.0 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Liam Murphy",
+      "resume_path": "data/resumes/liam_murphy.txt",
+      "reasons": [
+        "Python: 0.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 2.3 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Luca Collins",
+      "resume_path": "data/resumes/luca_collins.txt",
+      "reasons": [
+        "Python: 0.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "Lucas Williams",
+      "resume_path": "data/resumes/lucas_williams.pdf",
+      "reasons": [
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "Matthew Phillips",
+      "resume_path": "data/resumes/matthew_phillips.txt",
+      "reasons": [
+        "Python: 3.2 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 3.2 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Nadia Baker",
+      "resume_path": "data/resumes/nadia_baker.txt",
+      "reasons": [
+        "Python: 0.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 1.5 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Nathan Davis",
+      "resume_path": "data/resumes/nathan_davis.txt",
+      "reasons": [
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "Noah Nguyen",
+      "resume_path": "data/resumes/noah_nguyen.pdf",
+      "reasons": [
+        "Python: 0.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 3.0 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Oliver Taylor",
+      "resume_path": "data/resumes/oliver_taylor.pdf",
+      "reasons": [
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "Olivia Thomas",
+      "resume_path": "data/resumes/olivia_thomas.pdf",
+      "reasons": [
+        "Python: 4.1 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 4.1 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Omar Khan",
+      "resume_path": "data/resumes/omar_khan.txt",
+      "reasons": [
+        "Python: 0.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "Owen Miller",
+      "resume_path": "data/resumes/owen_miller.docx",
+      "reasons": [
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "Priya Flores",
+      "resume_path": "data/resumes/priya_flores.pdf",
+      "reasons": [
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "Sofia Lee",
+      "resume_path": "data/resumes/sofia_lee.docx",
+      "reasons": [
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "Victoria Patel",
+      "resume_path": "data/resumes/victoria_patel.md",
+      "reasons": [
+        "Python: 0.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
+      ]
+    },
+    {
+      "candidate_name": "Yuki Adams",
+      "resume_path": "data/resumes/yuki_adams.pdf",
+      "reasons": [
+        "Python: 2.3 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 2.3 yrs < 5 required"
+      ]
+    },
+    {
+      "candidate_name": "Zara Allen",
+      "resume_path": "data/resumes/zara_allen.docx",
+      "reasons": [
+        "Python: 0.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 4.0 yrs < 5 required"
+      ]
+    }
+  ],
+  "latency_ms": {
+    "embed": 30.5,
+    "semantic_search": 5.1,
+    "bm25_search": 24.3,
+    "fusion": 0.0,
+    "filter": 0.1,
+    "rerank": 0.0,
+    "score": 0.0,
+    "total": 75.4
+  }
+}

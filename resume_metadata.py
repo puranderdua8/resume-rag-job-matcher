@@ -137,8 +137,12 @@ def extract_metadata(
         ]
         if intervals:
             skill_years[canonical_skill] = years_between(intervals)
-        elif explicit_years is not None and not dated_entries:
-            skill_years[canonical_skill] = explicit_years
+        else:
+            # A skill can be confirmed present (matched_skills) without being named inside
+            # any dated entry, e.g. a resume names a framework in a bullet but keeps the
+            # base language to its one Skills line. With no date evidence to pin it down
+            # more precisely, the candidate's total experience is the best estimate.
+            skill_years[canonical_skill] = experience_years
 
     degree, edu_field, institution, level = _extract_education(sections)
 

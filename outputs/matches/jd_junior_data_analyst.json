@@ -1,0 +1,478 @@
+{
+  "job_description": "Junior Data Analyst",
+  "top_matches": [
+    {
+      "candidate_name": "Emma Walker",
+      "resume_path": "data/resumes/emma_walker.md",
+      "match_score": 82,
+      "matched_skills": [
+        "Python",
+        "SQL",
+        "Statistics",
+        "Excel",
+        "Tableau",
+        "Power BI"
+      ],
+      "relevant_excerpts": [
+        "Junior Data Analyst, Meridian Health Tech\n01/2022 - 03/2024\n- Wrote SQL queries joining five source tables into a single weekly sales report.\n- Built Tableau dashboards used by the executive team in weekly reviews.\n- Used Python and Statistics to test whether a marketing change actually moved the me",
+        "Data Analyst with 4+ years turning SQL queries and Excel models into clear Tableau dashboards for business stakeholders.",
+        "...- Built Tableau dashboards used by the executive team in weekly reviews. - Used Python and Statistics to test whether a marketing change actually moved the metrics it...",
+        "...walker@example.com | (206) 555-0173 Summary Data Analyst with 4+ years turning SQL queries and Excel models into clear Tableau dashboards for business stakeholder..."
+      ],
+      "reasoning": "Strong match (82/100). Closest sections: experience (0.72), summary (0.64). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.705,
+        "bm25_norm": 0.972,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.5
+      },
+      "section_scores": {
+        "experience": 0.7186928987503052,
+        "summary": 0.6410232186317444,
+        "skills": 0.6363493204116821,
+        "education": 0.49227041006088257,
+        "contact": 0.423404335975647
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Isabella Lewis",
+      "resume_path": "data/resumes/isabella_lewis.docx",
+      "match_score": 82,
+      "matched_skills": [
+        "Python",
+        "SQL",
+        "Statistics",
+        "Excel",
+        "Tableau",
+        "Power BI",
+        "ETL"
+      ],
+      "relevant_excerpts": [
+        "Junior Data Analyst, Pinecrest Software\n2019-2022\n- Built repeatable transformation pipelines that turned raw tables into trusted, reporting-ready datasets without a single manual export.\n- Published a Power BI dashboard tracking support-ticket volume by region.\n- Built Excel models that forecasted ",
+        "Data Analyst turning SQL queries and Excel models into clear, actionable reporting.",
+        "...- Built Tableau dashboards used by the executive team in weekly reviews. - Used Python and Statistics to test whether a marketing change actually moved the metrics it...",
+        "...ewis isabella.lewis@example.com | (804) 555-0108 Objective Data Analyst turning SQL queries and Excel models into clear, actionable reporting. Employment Senior Da..."
+      ],
+      "reasoning": "Strong match (82/100). Closest sections: experience (0.68), summary (0.67). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.655,
+        "bm25_norm": 1.0,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.75
+      },
+      "section_scores": {
+        "experience": 0.6812925934791565,
+        "summary": 0.6684415340423584,
+        "skills": 0.6306723952293396,
+        "education": 0.495660662651062,
+        "contact": 0.4261212944984436
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Fatima Robinson",
+      "resume_path": "data/resumes/fatima_robinson.docx",
+      "match_score": 79,
+      "matched_skills": [
+        "Python",
+        "SQL",
+        "Statistics",
+        "Excel",
+        "Tableau",
+        "Power BI"
+      ],
+      "relevant_excerpts": [
+        "Junior Data Analyst, Cedarline Retail\n11/2021 - 03/2024\n- Used Python and Statistics to test whether a marketing change actually moved the metrics it targeted.\n- Built Excel models that forecasted quarterly revenue within 5% of actuals.\n- Built repeatable transformation pipelines that turned raw tab",
+        "Data Analyst turning SQL queries and Excel models into clear, actionable reporting.",
+        "...ly sales report. Junior Data Analyst, Cedarline Retail 11/2021 - 03/2024 - Used Python and Statistics to test whether a marketing change actually moved the metrics it...",
+        "...son fatima.robinson@example.com | (702) 555-0145 Objective Data Analyst turning SQL queries and Excel models into clear, actionable reporting. Work History Data An..."
+      ],
+      "reasoning": "Good match (79/100). Closest sections: experience (0.71), summary (0.65). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.697,
+        "bm25_norm": 0.832,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.5
+      },
+      "section_scores": {
+        "experience": 0.712880551815033,
+        "summary": 0.6463106870651245,
+        "skills": 0.6334589719772339,
+        "projects": 0.6101211309432983,
+        "education": 0.515855073928833,
+        "contact": 0.4230842590332031
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Chloe Okafor",
+      "resume_path": "data/resumes/chloe_okafor.docx",
+      "match_score": 78,
+      "matched_skills": [
+        "Python",
+        "SQL",
+        "Statistics",
+        "Excel",
+        "Tableau",
+        "Power BI"
+      ],
+      "relevant_excerpts": [
+        "Junior Data Analyst, Bluewing Media\n11/2024 - Present\n- Used Python and Statistics to test whether a marketing change actually moved the metrics it targeted.\n- Published a Power BI dashboard tracking support-ticket volume by region.\n- Built Excel models that forecasted quarterly revenue within 5% of",
+        "Data Analyst turning SQL queries and Excel models into clear, actionable reporting.",
+        "...orting. EXPERIENCE Junior Data Analyst, Bluewing Media 11/2024 - Present - Used Python and Statistics to test whether a marketing change actually moved the metrics it...",
+        "...e Okafor chloe.okafor@example.com | (804) 555-0108 Summary Data Analyst turning SQL queries and Excel models into clear, actionable reporting. EXPERIENCE Junior Da..."
+      ],
+      "reasoning": "Good match (78/100). Closest sections: experience (0.68), summary (0.65). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.648,
+        "bm25_norm": 0.887,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.5
+      },
+      "section_scores": {
+        "experience": 0.6830679178237915,
+        "summary": 0.6509371995925903,
+        "skills": 0.6227026581764221,
+        "education": 0.5237687826156616,
+        "contact": 0.44911229610443115
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Elijah Jackson",
+      "resume_path": "data/resumes/elijah_jackson.pdf",
+      "match_score": 77,
+      "matched_skills": [
+        "Python",
+        "SQL",
+        "Statistics",
+        "Excel",
+        "Tableau",
+        "Power BI",
+        "ETL"
+      ],
+      "relevant_excerpts": [
+        "Junior Data Analyst, Trailhead Robotics\nApr 2024 - Present\n- Built Tableau dashboards used by the executive team in weekly reviews.\n- Used Python and Statistics to test whether a marketing change actually moved the metrics it targeted.\n- Published a Power BI dashboard tracking support-ticket volume ",
+        "Data Analyst with 1+ years turning SQL queries and Excel models into clear Tableau dashboards for\nbusiness stakeholders.",
+        "...- Built Tableau dashboards used by the executive team in weekly reviews. - Used Python and Statistics to test whether a marketing change actually moved the metrics it...",
+        "...jackson@example.com | (804) 555-0126 Summary Data Analyst with 1+ years turning SQL queries and Excel models into clear Tableau dashboards for business stakeholder..."
+      ],
+      "reasoning": "Good match (77/100). Closest sections: experience (0.64), summary (0.62). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.569,
+        "bm25_norm": 0.975,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.75
+      },
+      "section_scores": {
+        "experience": 0.6391285061836243,
+        "summary": 0.6207837462425232,
+        "skills": 0.6099769473075867,
+        "education": 0.48823803663253784,
+        "contact": 0.4152318239212036
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Elizabeth Parker",
+      "resume_path": "data/resumes/elizabeth_parker.pdf",
+      "match_score": 73,
+      "matched_skills": [
+        "Python",
+        "SQL",
+        "Statistics",
+        "Excel",
+        "Tableau",
+        "Power BI"
+      ],
+      "relevant_excerpts": [
+        "Data Analyst turning SQL queries and Excel models into clear, actionable reporting.",
+        "Senior Data Analyst, Clearcut Media\n06/2021 - Present\n- Used Python and Statistics to test whether a marketing change actually moved the metrics it targeted.\n- Published a Power BI dashboard tracking support-ticket volume by region.\n- Wrote SQL queries joining five source tables into a single weekly",
+        "...sional Experience: Senior Data Analyst, Clearcut Media 06/2021 - Present - Used Python and Statistics to test whether a marketing change actually moved the metrics it...",
+        "...rker elizabeth.parker@example.com | (617) 555-0106 Profile Data Analyst turning SQL queries and Excel models into clear, actionable reporting. Professional Experie..."
+      ],
+      "reasoning": "Good match (73/100). Closest sections: summary (0.63), experience (0.62). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.559,
+        "bm25_norm": 0.893,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.5
+      },
+      "section_scores": {
+        "summary": 0.6319997906684875,
+        "experience": 0.6210686564445496,
+        "skills": 0.6173720955848694,
+        "projects": 0.5911786556243896,
+        "education": 0.543097734451294,
+        "contact": 0.40358591079711914
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    }
+  ],
+  "filtered_out": [
+    {
+      "candidate_name": "Amelia Chen",
+      "resume_path": "data/resumes/amelia_chen.pdf",
+      "reasons": [
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Avery Nelson",
+      "resume_path": "data/resumes/avery_nelson.docx",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Benjamin Cook",
+      "resume_path": "data/resumes/benjamin_cook.txt",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Charlotte Hill",
+      "resume_path": "data/resumes/charlotte_hill.txt",
+      "reasons": [
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Daniel Campbell",
+      "resume_path": "data/resumes/daniel_campbell.md",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Dmitri Wilson",
+      "resume_path": "data/resumes/dmitri_wilson.txt",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Ella Garcia",
+      "resume_path": "data/resumes/ella_garcia.pdf",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Ethan Johnson",
+      "resume_path": "data/resumes/ethan_johnson.md",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Evelyn Roberts",
+      "resume_path": "data/resumes/evelyn_roberts.txt",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Harper Evans",
+      "resume_path": "data/resumes/harper_evans.pdf",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Hiroshi Rivera",
+      "resume_path": "data/resumes/hiroshi_rivera.docx",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Jack Ali",
+      "resume_path": "data/resumes/jack_ali.docx",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "James Edwards",
+      "resume_path": "data/resumes/james_edwards.docx",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required",
+        "Total experience: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Liam Murphy",
+      "resume_path": "data/resumes/liam_murphy.txt",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Luca Collins",
+      "resume_path": "data/resumes/luca_collins.txt",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Lucas Williams",
+      "resume_path": "data/resumes/lucas_williams.pdf",
+      "reasons": [
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Matthew Phillips",
+      "resume_path": "data/resumes/matthew_phillips.txt",
+      "reasons": [
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Nadia Baker",
+      "resume_path": "data/resumes/nadia_baker.txt",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Nathan Davis",
+      "resume_path": "data/resumes/nathan_davis.txt",
+      "reasons": [
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Noah Nguyen",
+      "resume_path": "data/resumes/noah_nguyen.pdf",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Oliver Taylor",
+      "resume_path": "data/resumes/oliver_taylor.pdf",
+      "reasons": [
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Olivia Thomas",
+      "resume_path": "data/resumes/olivia_thomas.pdf",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Omar Khan",
+      "resume_path": "data/resumes/omar_khan.txt",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Owen Miller",
+      "resume_path": "data/resumes/owen_miller.docx",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Priya Flores",
+      "resume_path": "data/resumes/priya_flores.pdf",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Scarlett Young",
+      "resume_path": "data/resumes/scarlett_young.pdf",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Sofia Lee",
+      "resume_path": "data/resumes/sofia_lee.docx",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Victoria Patel",
+      "resume_path": "data/resumes/victoria_patel.md",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Yuki Adams",
+      "resume_path": "data/resumes/yuki_adams.pdf",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    },
+    {
+      "candidate_name": "Zara Allen",
+      "resume_path": "data/resumes/zara_allen.docx",
+      "reasons": [
+        "SQL: 0.0 yrs < 1 required",
+        "Excel: 0.0 yrs < 1 required"
+      ]
+    }
+  ],
+  "latency_ms": {
+    "embed": 27.7,
+    "semantic_search": 3.3,
+    "bm25_search": 24.2,
+    "fusion": 0.0,
+    "filter": 0.1,
+    "rerank": 0.0,
+    "score": 0.0,
+    "total": 99.8
+  }
+}
