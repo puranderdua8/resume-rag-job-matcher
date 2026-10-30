@@ -5,7 +5,7 @@
 ## Progress
 
 - [x] **Step 0:** Create the public GitHub repo with agent docs (`AGENTS.md`, `CLAUDE.md`, `PLAN.md`)
-- [ ] **Step 1:** Scaffold: M1 submodule, `m1.py`, `config.py`, `skills.py` stub, venv, CI
+- [x] **Step 1:** Scaffold: M1 submodule, `m1.py`, `config.py`, `skills.py` stub, venv, CI
 - [ ] **Step 2:** Dataset: 36 resumes, 6 JDs, specs and ground truth
 - [ ] **Step 3:** Part A, `resume_rag.py` (load → section → chunk → metadata → embed → ChromaDB)
 - [ ] **Step 4:** Part B, `job_matcher.py` (JD parse → hybrid retrieve → filter → score → reason → JSON)
@@ -158,6 +158,8 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
    ```bash
    python -c "import m1; print(m1.list_files('vendor/file-system-assistant/sample_resumes'))"
    ```
+
+**Deviation:** added `tests/test_scaffold.py` (three smoke tests covering the M1 shim, `config.py` and `skills.py`) a step early, plus `norecursedirs = ["vendor", ".venv"]` and `extend-exclude = ["vendor"]` in `pyproject.toml`. Without them, `pytest -q` collects the submodule's own tests (which fail outside its own CWD) or exits 5 for "no tests collected", breaking the "keep CI green" rule before Step 7 adds the real test suite.
 
 ## Step 2: Dataset (`scripts/generate_dataset.py`)
 
