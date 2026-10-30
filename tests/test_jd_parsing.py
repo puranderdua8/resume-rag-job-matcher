@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from jd_parsing import parse_jd, parse_must_have_clause
+import pytest
+
+from jd_parsing import UnparsableMustHaveError, parse_jd, parse_must_have_clause
 
 SENIOR_ML_JD = """Senior ML Engineer
 
@@ -48,3 +50,82 @@ def test_parse_must_have_clause_sets_a_single_skill_minimum():
     assert alternatives == []
     assert total is None
     assert degree == 0
+
+
+# R2: the per-skill-years match must be word-bounded, not a bare substring search.
+
+
+def test_skill_alias_does_not_match_inside_a_longer_word():
+    jd = parse_jd("Title\n\nRequirements:\n- 3+ years of experience with data products\n")
+    assert jd.skill_year_minimums == {}
+
+
+def test_skill_alias_does_not_match_inside_an_unrelated_word():
+    jd = parse_jd("Title\n\nRequirements:\n- 3+ years of excellent client communication\n")
+    assert jd.skill_year_minimums == {}
+
+
+def test_shorter_alias_does_not_match_inside_a_longer_skill_name():
+    jd = parse_jd("Title\n\nRequirements:\n- 5+ years of experience with PostgreSQL\n")
+    assert jd.skill_year_minimums == {"PostgreSQL": 5.0}
+    assert "SQL" not in jd.skill_year_minimums
+
+
+# R3: each skill pairs with its own, nearest preceding year figure.
+
+
+def test_each_skill_gets_its_own_nearest_year_figure():
+    jd = parse_jd("Title\n\nRequirements:\n- 5+ years of Python and 2+ years of AWS\n")
+    assert jd.skill_year_minimums == {"Python": 5.0, "AWS": 2.0}
+
+
+# R4: "or"-joined degrees take the lowest level; "or equivalent experience" is no hard minimum.
+
+
+def test_or_joined_degrees_take_the_lowest_level():
+    jd = parse_jd("Title\n\nRequirements:\n- Bachelor's or Master's degree required\n")
+    assert jd.degree_minimum == 2
+
+
+def test_or_equivalent_experience_sets_no_hard_degree_minimum():
+    jd = parse_jd("Title\n\nRequirements:\n- Bachelor's degree or equivalent experience\n")
+    assert jd.degree_minimum == 0
+
+
+# R11: widened header synonyms, and an unrecognised header-like line closes the block.
+
+
+def test_qualifications_header_is_recognised_as_the_required_block():
+    jd = parse_jd("Title\n\nQualifications:\n- 5+ years Python\n")
+    assert jd.skill_year_minimums == {"Python": 5.0}
+
+
+def test_unrelated_header_closes_the_open_block():
+    jd = parse_jd(
+        "Title\n\nRequirements:\n- 5+ years Python\n\nAbout us:\n10+ years in the market\n"
+    )
+    assert jd.total_years_minimum is None
+
+
+# R13: an unparsable --must-have clause raises instead of being silently ignored;
+# "yr"/"yrs" are also accepted.
+
+
+def test_unparsable_must_have_clause_raises():
+    with pytest.raises(UnparsableMustHaveError):
+        parse_must_have_clause("5+ years Rust")
+
+
+def test_must_have_clause_accepts_yr_and_yrs():
+    minimums, _, _, _ = parse_must_have_clause("5 yrs Python")
+    assert minimums == {"Python": 5.0}
+    minimums, _, _, _ = parse_must_have_clause("3 yr AWS")
+    assert minimums == {"AWS": 3.0}
+
+
+def test_cli_exits_with_a_clear_error_on_an_unparsable_must_have(capsys):
+    import job_matcher
+
+    with pytest.raises(SystemExit):
+        job_matcher.main(["--text", "Title", "--must-have", "5+ years Rust"])
+    assert "5+ years Rust" in capsys.readouterr().err

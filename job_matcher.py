@@ -20,7 +20,7 @@ from pathlib import Path
 
 import config
 import file_tools
-from jd_parsing import parse_jd, parse_must_have_clause
+from jd_parsing import UnparsableMustHaveError, parse_jd, parse_must_have_clause
 from match_evidence import llm_reasoning as llm_reasoning_fn
 from match_evidence import matched_skills, must_have_check, relevant_excerpts, template_reasoning
 from match_filtering import filter_candidates
@@ -256,6 +256,12 @@ def main(argv: list[str] | None = None) -> None:
         "--chunking", default=config.DEFAULT_CHUNKING, choices=["section", "fixed", "whole"]
     )
     args = parser.parse_args(argv)
+
+    for clause in args.must_haves:
+        try:
+            parse_must_have_clause(clause)
+        except UnparsableMustHaveError as exc:
+            parser.error(str(exc))
 
     embedder = get_embedder(args.model)
     client = get_chroma_client()
