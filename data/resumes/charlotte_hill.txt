@@ -1,0 +1,19 @@
+Charlotte Hill
+
+charlotte.hill@example.com | (617) 555-0116
+
+Summary
+Data Scientist with 1+ years turning SQL and Python analysis into decisions, using Pandas and Scikit-learn to model and explain customer behavior.
+
+Employment
+Junior Data Scientist, Ironclad Security
+10/2024 - Present
+- Queried and joined large SQL tables to build analysis-ready datasets for weekly business reviews.
+- Built Scikit-learn models to predict customer churn, presenting findings with clear statistics to non-technical stakeholders.
+- Designed controlled experiments to compare product variants and measured the impact on conversion before any change shipped broadly.
+
+EDUCATION
+M.S. in Applied Mathematics, Lakeview College
+
+Skills
+Python, SQL, Pandas, NumPy, Scikit-learn, Statistics, Machine Learning

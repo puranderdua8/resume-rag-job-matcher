@@ -1,0 +1,13 @@
+Senior Machine Learning Engineer
+
+We are hiring a Senior Machine Learning Engineer to take models from research notebooks to production systems serving millions of requests.
+
+Must-have:
+- 5+ years of experience with Python
+- 3+ years of experience with TensorFlow or PyTorch
+- Bachelor's degree in Computer Science, Machine Learning, or a related field
+
+Nice-to-have:
+- Experience with MLOps tooling such as MLflow
+- Familiarity with Spark for large-scale data processing
+- Background in Computer Vision or NLP

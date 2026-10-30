@@ -5,8 +5,8 @@
 ## Progress
 
 - [x] **Step 0:** Create the public GitHub repo with agent docs (`AGENTS.md`, `CLAUDE.md`, `PLAN.md`)
-- [x] **Step 1:** Scaffold: M1 submodule, `m1.py`, `config.py`, `skills.py` stub, venv, CI
-- [ ] **Step 2:** Dataset: 36 resumes, 6 JDs, specs and ground truth
+- [x] **Step 1:** Scaffold: M1 submodule, `file_tools.py`, `config.py`, `skills.py` stub, venv, CI
+- [x] **Step 2:** Dataset: 36 resumes, 6 JDs, specs and ground truth
 - [ ] **Step 3:** Part A, `resume_rag.py` (load → section → chunk → metadata → embed → ChromaDB)
 - [ ] **Step 4:** Part B, `job_matcher.py` (JD parse → hybrid retrieve → filter → score → reason → JSON)
 - [ ] **Step 5:** Metrics, `evaluate.py` (retrieval accuracy, extraction accuracy, latency)
@@ -95,13 +95,13 @@ M1 lives at [puranderdua8/file-system-assistant](https://github.com/puranderdua8
 | `fs_tools.write_file(path, content)` | Saving match JSON (`.json` is an allowed type) |
 
 - The M1 sandbox stays **off**: `FS_ROOT` is left unset, so the tools accept normal paths.
-- `m1.py` inserts the submodule path into `sys.path` and re-exports these four tools. **Never** create top-level `utils.py`, `errors.py`, `parsers.py` or `sandbox.py` in this repo, because they would shadow M1's modules.
+- `file_tools.py` inserts the submodule path into `sys.path` and re-exports these four tools. **Never** create top-level `utils.py`, `errors.py`, `parsers.py` or `sandbox.py` in this repo, because they would shadow M1's modules.
 
 ## Target repo layout
 
 ```
 vendor/file-system-assistant/   git submodule (M1, https URL, pinned)
-m1.py                 sys.path shim + re-export of M1 tools
+file_tools.py         sys.path shim + re-export of M1 tools
 config.py             paths, model registry (name -> HF id, query prompt, calibration), K=10, score weights
 skills.py             skills taxonomy: canonical -> aliases ("ML"->"Machine Learning", "k8s"->"Kubernetes", "Postgres"->"PostgreSQL")
 resume_rag.py         Part A (CLI: ingest / stats)
@@ -137,7 +137,7 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
    ```
 
 2. Write the core modules:
-   - `m1.py`: the shim described above.
+   - `file_tools.py`: the shim described above.
    - `config.py`: paths, model registry, K, weights and calibration bounds.
    - `skills.py`: a starter taxonomy, which grows in Step 2.
 3. Add `pyproject.toml`, `requirements.txt`, `requirements-dev.txt` and `.env.example` (`GEMINI_API_KEY`, `GEMINI_MODEL`).
@@ -156,7 +156,7 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
 6. Smoke test:
 
    ```bash
-   python -c "import m1; print(m1.list_files('vendor/file-system-assistant/sample_resumes'))"
+   python -c "import file_tools; print(file_tools.list_files('vendor/file-system-assistant/sample_resumes'))"
    ```
 
 **Deviation:** added `tests/test_scaffold.py` (three smoke tests covering the M1 shim, `config.py` and `skills.py`) a step early, plus `norecursedirs = ["vendor", ".venv"]` and `extend-exclude = ["vendor"]` in `pyproject.toml`. Without them, `pytest -q` collects the submodule's own tests (which fail outside its own CWD) or exits 5 for "no tests collected", breaking the "keep CI green" rule before Step 7 adds the real test suite.
@@ -343,7 +343,7 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
 
 - [ ] `gh repo view puranderdua8/resume-rag-job-matcher` shows a public repo.
 - [ ] `ruff check . && ruff format --check . && pytest -q` all pass, both locally and in CI.
-- [ ] `python scripts/generate_dataset.py` produces 36 resumes and 6 JDs, and every resume passes the M1 `read_file` round-trip.
+- [x] `python scripts/generate_dataset.py` produces 36 resumes and 6 JDs, and every resume passes the M1 `read_file` round-trip.
 - [ ] `python resume_rag.py ingest && python resume_rag.py stats`:
   - Every resume has Experience, Education and Skills sections.
   - Extraction accuracy is at least 90% on names and years.

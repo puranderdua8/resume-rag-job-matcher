@@ -23,7 +23,7 @@ This repo is a RAG system that indexes resumes and matches them against job desc
 
 ## Hard rules
 
-- **Load resumes only through Milestone 1.** Use the tools from [file-system-assistant](https://github.com/puranderdua8/file-system-assistant), vendored as a git submodule at `vendor/file-system-assistant` and imported via `m1.py`. Don't write a separate PDF/DOCX loader.
+- **Load resumes only through Milestone 1.** Use the tools from [file-system-assistant](https://github.com/puranderdua8/file-system-assistant), vendored as a git submodule at `vendor/file-system-assistant` and imported via `file_tools.py`. Don't write a separate PDF/DOCX loader.
 - **Don't shadow M1's module names.** M1's modules are top-level files: `fs_tools`, `parsers`, `sandbox`, `errors`, `utils`. Never create files with those names in this repo.
 - **M1 tools never raise.** They return `{"success": False, "error": ...}` instead, and `list_files` returns a one-item list containing that dict. Check `success` and skip failed files with a logged warning.
 - **Leave `FS_ROOT` unset.** It turns on M1's sandbox, which this project doesn't use.

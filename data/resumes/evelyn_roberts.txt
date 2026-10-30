@@ -1,0 +1,33 @@
+Evelyn Roberts
+
+evelyn.roberts@example.com | (312) 555-0175
+
+Summary
+React Frontend Engineer with 10+ years building React applications in TypeScript, from component libraries to full product surfaces.
+
+Professional Experience:
+Senior Frontend Engineer, Verdant Agritech
+08/2021 - Present
+- Set up CI checks in Git so a broken build never reached the main branch.
+- Wrote semantic HTML and CSS that kept the app usable with a screen reader.
+- Rewrote a jQuery page in React, cutting first-paint time by 40%.
+- Managed complex UI state with Redux across a multi-step checkout flow.
+Frontend Engineer, Clearcut Media
+11/2019 - 08/2021
+- Set up CI checks in Git so a broken build never reached the main branch.
+- Rewrote a jQuery page in React, cutting first-paint time by 40%.
+- Built server-rendered pages that loaded fast and ranked well in search, without a separate backend team.
+Junior Frontend Engineer, Vertex Cloud Systems
+11/2015 - 03/2020
+- Set up CI checks in Git so a broken build never reached the main branch.
+- Managed complex UI state with Redux across a multi-step checkout flow.
+- Built server-rendered pages that loaded fast and ranked well in search, without a separate backend team.
+
+Education
+B.A. in Web Design, Grand Valley University
+
+Core Competencies
+JavaScript, TypeScript, React, HTML, CSS, Git
+
+Certifications
+- Meta Front-End Developer Certificate

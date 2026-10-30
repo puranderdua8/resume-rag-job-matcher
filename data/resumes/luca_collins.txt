@@ -1,0 +1,37 @@
+Luca Collins
+
+luca.collins@example.com | (512) 555-0140
+
+Objective
+DevOps/Cloud Engineer running containerized workloads on Kubernetes and AWS, with infrastructure defined in Terraform.
+
+Work History
+Senior DevOps Engineer, Westbridge Capital
+Sep 2024 – Present
+- Wrote Terraform modules that stood up a full environment in one command.
+- Set up dashboards and alerts that caught production issues before customers noticed, cutting the average time to detect an outage in half.
+- Ran production workloads on Kubernetes across multiple AWS regions.
+DevOps Engineer, Fathom AI
+Apr 2023 – Sep 2024
+- Containerized a legacy application with Docker so it could run on Kubernetes.
+- Administered a fleet of Linux hosts, automating patching with Ansible.
+- Built CI/CD pipelines that cut deploy time from an hour to under ten minutes.
+Junior DevOps Engineer, Cedarline Retail
+Sep 2019 – Jun 2023
+- Built CI/CD pipelines that cut deploy time from an hour to under ten minutes.
+- Set up dashboards and alerts that caught production issues before customers noticed, cutting the average time to detect an outage in half.
+- Wrote Terraform modules that stood up a full environment in one command.
+
+Education
+B.S. in Information Systems, Hamilton Institute of Technology
+
+Technical Skills
+AWS, Docker, Kubernetes, Terraform, CI/CD, Linux
+
+Projects
+- Migrated a fleet of EC2 instances to a Kubernetes cluster defined entirely in Terraform.
+- Built a CI/CD pipeline that deploys to AWS on every merge to main.
+
+Certifications
+- AWS Certified Solutions Architect - Associate
+- Certified Kubernetes Administrator (CKA)

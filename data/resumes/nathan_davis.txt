@@ -1,0 +1,29 @@
+Nathan Davis
+
+nathan.davis@example.com | (312) 555-0147
+
+Profile
+Data Scientist who pairs SQL and Python with statistical rigor to find and explain patterns in messy, real-world data.
+
+Work History
+Data Scientist, Quantum Byte
+03/2024 - Present
+- Built dashboards summarizing key metrics for the leadership team.
+- Used Pandas and NumPy to clean and transform multi-source data before modeling.
+- Queried and joined large SQL tables to build analysis-ready datasets for weekly business reviews.
+- Ran large joins and aggregations on a Spark cluster when a dataset outgrew a single machine.
+Junior Data Scientist, Northstar Robotics
+08/2021 - 03/2024
+- Built dashboards summarizing key metrics for the leadership team.
+- Designed controlled experiments to compare product variants and measured the impact on conversion before any change shipped broadly.
+- Ran large joins and aggregations on a Spark cluster when a dataset outgrew a single machine.
+
+Education
+Ph.D. in Statistics, Pinecrest College
+
+SKILLS
+Python, SQL, Pandas, NumPy, Scikit-learn, Statistics, Tableau
+
+Projects
+- Built a churn-prediction model in Scikit-learn and tracked its lift in a subsequent experiment.
+- Ran a cohort analysis in SQL and Pandas that reshaped the onboarding roadmap.

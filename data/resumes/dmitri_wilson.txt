@@ -1,0 +1,23 @@
+Dmitri Wilson
+
+dmitri.wilson@example.com | (206) 555-0181
+
+Objective
+ML Engineer with 3+ years building and shipping machine learning systems in Python, from research prototypes through production deployment.
+
+Professional Experience:
+ML Engineer, Fathom AI
+2023-Present
+- Used Scikit-learn to prototype and compare classical ML baselines before committing to a deep learning approach.
+- Designed and trained deep learning models in PyTorch for a real-time recommendation system, improving click-through rate by 18%.
+- Built systems that let machines interpret and classify photographs for a quality-inspection product.
+Junior ML Engineer, Pinecrest Software
+2022-2023
+- Built data pipelines in Python to preprocess and validate training data at scale.
+- Partnered with product managers to translate business goals into measurable model objectives.
+- Designed and trained deep learning models in PyTorch for a real-time recommendation system, improving click-through rate by 18%.
+
+Education
+M.S. in Machine Learning, Lakeview College
+
+Technical Skills: Python, Machine Learning, Deep Learning, TensorFlow, PyTorch, Scikit-learn

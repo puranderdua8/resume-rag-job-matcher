@@ -1,0 +1,24 @@
+Benjamin Cook
+
+benjamin.cook@example.com | (512) 555-0192
+
+Summary
+DevOps/Cloud Engineer with 4+ years running Kubernetes on AWS and codifying infrastructure in Terraform.
+
+Professional Experience:
+DevOps Engineer, Granite Peak Systems
+May 2023 – Present
+- Administered a fleet of Linux hosts, automating patching with Ansible.
+- Built CI/CD pipelines that cut deploy time from an hour to under ten minutes.
+- Containerized a legacy application with Docker so it could run on Kubernetes.
+Junior DevOps Engineer, Crestview Labs
+May 2021 – May 2023
+- Containerized a legacy application with Docker so it could run on Kubernetes.
+- Set up dashboards and alerts that caught production issues before customers noticed, cutting the average time to detect an outage in half.
+- Ran production workloads on Kubernetes across multiple AWS regions.
+
+EDUCATION
+B.S. in Information Systems, Pinecrest College
+
+Core Competencies
+AWS, Docker, Kubernetes, Terraform, CI/CD, Linux

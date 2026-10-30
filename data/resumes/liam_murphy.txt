@@ -1,0 +1,20 @@
+Liam Murphy
+
+liam.murphy@example.com | (312) 555-0177
+
+Objective
+React Frontend Engineer building accessible, responsive React applications in TypeScript.
+
+Work History
+Junior Frontend Engineer, Solace Health
+2024-Present
+- Rewrote a jQuery page in React, cutting first-paint time by 40%.
+- Managed complex UI state with Redux across a multi-step checkout flow.
+- Wrote semantic HTML and CSS that kept the app usable with a screen reader.
+- Built server-rendered pages that loaded fast and ranked well in search, without a separate backend team.
+
+Education
+B.A. in Web Design, Hamilton Institute of Technology
+
+Skills
+JavaScript, TypeScript, React, HTML, CSS, Git

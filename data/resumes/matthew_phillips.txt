@@ -1,0 +1,18 @@
+Matthew Phillips
+
+matthew.phillips@example.com | (312) 555-0165
+
+Profile
+Data Scientist who pairs SQL and Python with statistical rigor to find and explain patterns in messy, real-world data.
+
+EXPERIENCE
+Junior Data Scientist, Pinecrest Software
+09/2023 - Present
+- Designed controlled experiments to compare product variants and measured the impact on conversion before any change shipped broadly.
+- Ran large joins and aggregations on a Spark cluster when a dataset outgrew a single machine.
+- Used Pandas and NumPy to clean and transform multi-source data before modeling.
+
+Education
+Ph.D. in Statistics, Lakeview College
+
+Technical Skills: Python, SQL, Pandas, NumPy, Scikit-learn, Statistics, Tableau

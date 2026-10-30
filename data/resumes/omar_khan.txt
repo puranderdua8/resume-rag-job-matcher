@@ -1,0 +1,32 @@
+Omar Khan
+
+omar.khan@example.com | (919) 555-0185
+
+Summary
+DevOps/Cloud Engineer running containerized workloads on Kubernetes and AWS, with infrastructure defined in Terraform.
+
+Professional Experience:
+Senior DevOps Engineer, Skyline Mobility
+2019-Present
+- Administered a fleet of Linux hosts, automating patching with Ansible.
+- Built CI/CD pipelines that cut deploy time from an hour to under ten minutes.
+- Wrote Terraform modules that stood up a full environment in one command.
+DevOps Engineer, Riverton Logistics
+2017-2019
+- Set up dashboards and alerts that caught production issues before customers noticed, cutting the average time to detect an outage in half.
+- Administered a fleet of Linux hosts, automating patching with Ansible.
+- Built CI/CD pipelines that cut deploy time from an hour to under ten minutes.
+
+Education
+B.S. in Computer Engineering, Pinecrest College
+
+Skills
+AWS, Docker, Kubernetes, Terraform, CI/CD, Linux
+
+Projects
+- Migrated a fleet of EC2 instances to a Kubernetes cluster defined entirely in Terraform.
+- Built a CI/CD pipeline that deploys to AWS on every merge to main.
+
+Certifications
+- Certified Kubernetes Administrator (CKA)
+- AWS Certified Solutions Architect - Associate
