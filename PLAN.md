@@ -8,7 +8,7 @@
 - [x] **Step 1:** Scaffold: M1 submodule, `file_tools.py`, `config.py`, `skills.py` stub, venv, CI
 - [x] **Step 2:** Dataset: 36 resumes, 6 JDs, specs and ground truth
 - [x] **Step 3:** Part A, `resume_rag.py` (load → section → chunk → metadata → embed → ChromaDB)
-- [ ] **Step 4:** Part B, `job_matcher.py` (JD parse → hybrid retrieve → filter → score → reason → JSON)
+- [x] **Step 4:** Part B, `job_matcher.py` (JD parse → hybrid retrieve → filter → score → reason → JSON)
 - [ ] **Step 5:** Metrics, `evaluate.py` (retrieval accuracy, extraction accuracy, latency)
 - [ ] **Step 6:** Notebook, `notebooks/experiments.ipynb` (experiments A–E and analysis)
 - [ ] **Step 7:** Tests, README and demo script; final push with green CI
@@ -113,7 +113,13 @@ resume_metadata.py    extracts a CandidateProfile: name, contact, skills, years,
 resume_embedding.py   Embedder wrapper (SentenceTransformer) + the model registry lookup
 resume_storage.py     ingest orchestration + ChromaDB storage/retrieval
 resume_models.py      Chunk, CandidateProfile and IngestStats dataclasses
-job_matcher.py        Part B (CLI)
+job_matcher.py        Part B CLI; thin orchestrator wiring the modules below together
+jd_parsing.py         JD -> JDRequirements: required/preferred skills, must-have regexes
+retrieval.py          semantic search (Chroma + prefilter), BM25 keyword search, RRF fusion
+match_filtering.py    post-filter: per-skill/total years and degree must-haves, --soft penalty
+match_scoring.py      score formula, calibration, optional cross-encoder rerank
+match_evidence.py     matched_skills, relevant_excerpts, template/--llm reasoning
+match_models.py       JDRequirements and MatchResult dataclasses
 evaluate.py           accuracy + latency, parameterised for experiments
 scripts/generate_dataset.py   seeded generator for resumes + ground truth
 data/resumes/ (36 files)  data/job_descriptions/ (6 .txt)  data/ground_truth.json  data/resume_specs.json
@@ -293,6 +299,12 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
         [--k 10] [--must-have "5+ years Python"] [--soft] [--rerank] [--llm] [--mode hybrid|semantic|keyword]
     ```
 
+**Deviation:** Part B was split into the six single-concern modules listed in [Target repo layout](#target-repo-layout) (`match_models.py`, `jd_parsing.py`, `retrieval.py`, `match_filtering.py`, `match_scoring.py`, `match_evidence.py`), for the same readability reason as Step 3's split. `job_matcher.py` only wires them together and owns the CLI. Agreed with the user before building, since it's a bigger structural change than the plan's single-file layout.
+
+**Deviation:** the per-skill-years regex (`(\d+)\+?\s*years?[^.\n]{0,40}?<skill>`) matches every skill named in its 40-char window independently, which breaks on lines like "3+ years of experience with TensorFlow or PyTorch": both skills got an **independent** minimum, so a candidate strong in one but not the other was wrongly disqualified. `jd_parsing.py` now also returns `skill_year_alternatives` (OR-groups) whenever matched skills on the same line share a figure and the line contains "or"; `match_filtering.py` passes a group if *any one* skill meets the minimum, and `retrieval.py`'s Chroma prefilter mirrors this with `$or`. Skills joined by "and" are unaffected (still an AND, one minimum each).
+
+**Deviation:** `resume_metadata.py`'s `skill_years` (Step 3) only credited years to a skill found by name inside a dated experience entry. In practice most resumes name specific frameworks in bullets ("FastAPI", "Django", "PostgreSQL") without repeating the base skill ("Python") there — it only appears on the Skills line. This left `skill_years["Python"]` empty for most `python_backend`/`ml_engineer`/devops resumes regardless of seniority, which made Part B's must-have filter reject almost everyone on JDs requiring "N+ years Python" or "N+ years AWS" (confirmed against `data/resume_specs.json`: e.g. all 6 `python_backend` resumes extracted `None` for Python years despite specs of up to 10.8). Fixed the fallback: a skill confirmed present (`matched_skills`) but not found in any dated entry is now credited with the candidate's total `experience_years` instead of 0, the same idea the existing "no dated entries at all" fallback already used. Re-ran Step 3's own ingest/stats checks after the fix: still 36/36 resumes loaded, name accuracy 36/36, years-within-±1 34/36 (unchanged, since this doesn't touch `experience_years`). This was agreed with the user before building, since Step 3 was already merged.
+
 ## Step 5: Metrics (`evaluate.py`)
 
 - **Retrieval accuracy**, for each JD and as a macro average: Precision@5, Precision@10, Recall@10, MRR, nDCG@10 (graded) and Hit@1.
@@ -359,7 +371,7 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
 - [x] `python resume_rag.py ingest && python resume_rag.py stats`:
   - Every resume has Experience, Education and Skills sections. ✓ (36/36)
   - Extraction accuracy is at least 90% on names and years. ✓ (names 100%, years 94% within ±1yr)
-- [ ] `python job_matcher.py --all` writes 6 JSON files in the required format. For the senior ML JD, the top results are ML engineers with at least 5 years of Python, and the junior candidates appear in `filtered_out`.
+- [x] `python job_matcher.py --all` writes 6 JSON files in the required format. For the senior ML JD, the top results are ML engineers with at least 5 years of Python (Ella Garcia 84, Scarlett Young 83), and the junior candidates (Harper Evans, James Edwards, Dmitri Wilson, Daniel Campbell) appear in `filtered_out`.
 - [ ] `python evaluate.py` shows hybrid nDCG@10 ≥ semantic-only, and the numbers are copied into the README.
 - [ ] `jupyter nbconvert --to notebook --execute notebooks/experiments.ipynb` runs with no errors.
 - [ ] A fresh `git clone --recursive` of the public repo into a temp dir installs and passes `pytest`.

@@ -1,0 +1,501 @@
+{
+  "job_description": "MLOps Engineer",
+  "top_matches": [
+    {
+      "candidate_name": "Scarlett Young",
+      "resume_path": "data/resumes/scarlett_young.pdf",
+      "match_score": 75,
+      "matched_skills": [
+        "Python",
+        "Machine Learning",
+        "AWS",
+        "TensorFlow",
+        "PyTorch",
+        "MLflow"
+      ],
+      "relevant_excerpts": [
+        "Senior ML Engineer, Skyline Mobility\n09/2023 - Present\n- Tracked experiments and model versions with MLflow across a team of four engineers.\n- Deployed TensorFlow models to production behind a REST API with automated retraining on a schedule.\n- Built systems that let machines interpret and classify ",
+        "ML Engineer, Hollowbrook Energy\n04/2017 - 09/2023\n- Deployed TensorFlow models to production behind a REST API with automated retraining on a schedule.\n- Used Scikit-learn to prototype and compare classical ML baselines before committing to a deep learning\napproach.\n- Partnered with product managers",
+        "...rofile ML Engineer focused on building and deploying machine learning models in Python, with hands-on experience across the full model lifecycle. Professional Experie...",
+        "...mple.com | (312) 555-0101 Profile ML Engineer focused on building and deploying machine learning models in Python, with hands-on experience across the full model lifecycle. Pro..."
+      ],
+      "reasoning": "Good match (75/100). Closest sections: experience (0.75), summary (0.67). Required-skill coverage: 50% of required skills; missing Docker, Kubernetes, GCP. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.774,
+        "bm25_norm": 0.972,
+        "required_coverage": 0.5,
+        "preferred_coverage": 0.8
+      },
+      "section_scores": {
+        "experience": 0.7453593015670776,
+        "summary": 0.6695672869682312,
+        "certifications": 0.6501327157020569,
+        "skills": 0.6264335513114929
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Ella Garcia",
+      "resume_path": "data/resumes/ella_garcia.pdf",
+      "match_score": 73,
+      "matched_skills": [
+        "Python",
+        "Machine Learning",
+        "AWS",
+        "TensorFlow",
+        "PyTorch"
+      ],
+      "relevant_excerpts": [
+        "ML Engineer, Lumen Data Labs\n08/2018 - 08/2023\n- Deployed TensorFlow models to production behind a REST API with automated retraining on a schedule.\n- Partnered with product managers to translate business goals into measurable model objectives.\n- Built data pipelines in Python to preprocess and vali",
+        "Senior ML Engineer, Hollowbrook Energy\n08/2023 - Present\n- Deployed TensorFlow models to production behind a REST API with automated retraining on a schedule.\n- Partnered with product managers to translate business goals into measurable model objectives.\n- Built data pipelines in Python to preproces",
+        "...ummary ML Engineer focused on building and deploying machine learning models in Python, with hands-on experience across the full model lifecycle. Work History Senior...",
+        "...mple.com | (312) 555-0143 Summary ML Engineer focused on building and deploying machine learning models in Python, with hands-on experience across the full model lifecycle. Wor..."
+      ],
+      "reasoning": "Good match (73/100). Closest sections: experience (0.74), summary (0.70). Required-skill coverage: 50% of required skills; missing Docker, Kubernetes, GCP. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.778,
+        "bm25_norm": 0.923,
+        "required_coverage": 0.5,
+        "preferred_coverage": 0.6
+      },
+      "section_scores": {
+        "experience": 0.7419078350067139,
+        "summary": 0.6972158551216125,
+        "certifications": 0.6595220565795898,
+        "skills": 0.6463755965232849,
+        "projects": 0.6071937680244446
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Daniel Campbell",
+      "resume_path": "data/resumes/daniel_campbell.md",
+      "match_score": 67,
+      "matched_skills": [
+        "Python",
+        "Machine Learning",
+        "TensorFlow",
+        "PyTorch",
+        "MLflow"
+      ],
+      "relevant_excerpts": [
+        "Junior ML Engineer, Ironclad Security\n2022-2023\n- Used Scikit-learn to prototype and compare classical ML baselines before committing to a deep learning approach.\n- Tracked experiments and model versions with MLflow across a team of four engineers.\n- Built systems that let machines interpret and cla",
+        "ML Engineer with 3+ years building and shipping machine learning systems in Python, from research prototypes through production deployment.",
+        "...ive ML Engineer with 3+ years building and shipping machine learning systems in Python, from research prototypes through production deployment. EXPERIENCE ML Enginee...",
+        "...com | (312) 555-0122 Objective ML Engineer with 3+ years building and shipping machine learning systems in Python, from research prototypes through production deployment. EXP..."
+      ],
+      "reasoning": "Good match (67/100). Closest sections: experience (0.71), summary (0.69). Required-skill coverage: 33% of required skills; missing Docker, Kubernetes, AWS, GCP. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.699,
+        "bm25_norm": 1.0,
+        "required_coverage": 0.333,
+        "preferred_coverage": 0.8
+      },
+      "section_scores": {
+        "experience": 0.7053050398826599,
+        "summary": 0.6854858994483948,
+        "certifications": 0.6164401173591614,
+        "skills": 0.61075359582901,
+        "projects": 0.6087521910667419
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Sofia Lee",
+      "resume_path": "data/resumes/sofia_lee.docx",
+      "match_score": 55,
+      "matched_skills": [
+        "Python",
+        "Docker",
+        "AWS"
+      ],
+      "relevant_excerpts": [
+        "Python Backend Engineer with 10+ years building Python services with FastAPI and Django on top of PostgreSQL, deployed with Docker.",
+        "Senior Backend Engineer, Cedarline Retail\n07/2022 - Present\n- Containerized services with Docker and wrote the Git branching workflow the team still uses.\n- Cached expensive query results in Redis to cut p95 latency by half.\n- Split a monolithic application into independently deployable services tha",
+        "Sofia Lee sofia.lee@example.com | (617) 555-0124 Objective Python Backend Engineer with 10+ years building Python services with FastAPI and Djang...",
+        "...ing Python services with FastAPI and Django on top of PostgreSQL, deployed with Docker. Professional Experience: Senior Backend Engineer, Cedarline Retail 07/2022 - P..."
+      ],
+      "reasoning": "Partial match (55/100). Closest sections: summary (0.68), experience (0.67). Required-skill coverage: 50% of required skills; missing Machine Learning, Kubernetes, GCP. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.653,
+        "bm25_norm": 0.491,
+        "required_coverage": 0.5,
+        "preferred_coverage": 0.0
+      },
+      "section_scores": {
+        "summary": 0.6808620095252991,
+        "experience": 0.6658487915992737,
+        "skills": 0.6499439477920532,
+        "projects": 0.6254591345787048
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Owen Miller",
+      "resume_path": "data/resumes/owen_miller.docx",
+      "match_score": 48,
+      "matched_skills": [
+        "Python",
+        "Docker"
+      ],
+      "relevant_excerpts": [
+        "Python Backend Engineer building Python services with FastAPI and Django, backed by PostgreSQL and shipped in Docker containers.",
+        "Backend Engineer, Fathom AI\n08/2022 - Present\n- Designed PostgreSQL schemas and wrote migrations for a growing Django monolith.\n- Containerized services with Docker and wrote the Git branching workflow the team still uses.\n- Cached expensive query results in Redis to cut p95 latency by half.",
+        "Owen Miller owen.miller@example.com | (206) 555-0197 Summary Python Backend Engineer building Python services with FastAPI and Django, backed by Po...",
+        "...ng Python services with FastAPI and Django, backed by PostgreSQL and shipped in Docker containers. Employment Backend Engineer, Fathom AI 08/2022 - Present - Designed..."
+      ],
+      "reasoning": "Partial match (48/100). Closest sections: summary (0.67), experience (0.66). Required-skill coverage: 33% of required skills; missing Machine Learning, Kubernetes, AWS, GCP. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.625,
+        "bm25_norm": 0.412,
+        "required_coverage": 0.333,
+        "preferred_coverage": 0.0
+      },
+      "section_scores": {
+        "summary": 0.66599440574646,
+        "experience": 0.6586576700210571,
+        "skills": 0.6396309733390808,
+        "projects": 0.6206259727478027
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Olivia Thomas",
+      "resume_path": "data/resumes/olivia_thomas.pdf",
+      "match_score": 47,
+      "matched_skills": [
+        "Python",
+        "Docker",
+        "AWS"
+      ],
+      "relevant_excerpts": [
+        "Python Backend Engineer building Python services with FastAPI and Django, backed by PostgreSQL and\nshipped in Docker containers.",
+        "Junior Backend Engineer, Skyline Mobility\nOct 2022 - Oct 2024\n- Cached expensive query results in Redis to cut p95 latency by half.\n- Split a monolithic application into independently deployable services that scaled under load without a full\nrewrite.\n- Containerized services with Docker and wrote th",
+        "Olivia Thomas olivia.thomas@example.com | (415) 555-0119 Profile Python Backend Engineer building Python services with FastAPI and Django, backed by Po...",
+        "...ng Python services with FastAPI and Django, backed by PostgreSQL and shipped in Docker containers. Professional Experience: Backend Engineer, Quantum Byte Oct 2024 -..."
+      ],
+      "reasoning": "Partial match (47/100). Closest sections: summary (0.61), experience (0.60). Required-skill coverage: 50% of required skills; missing Machine Learning, Kubernetes, GCP. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.514,
+        "bm25_norm": 0.453,
+        "required_coverage": 0.5,
+        "preferred_coverage": 0.0
+      },
+      "section_scores": {
+        "summary": 0.6076838970184326,
+        "experience": 0.6019175052642822
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Priya Flores",
+      "resume_path": "data/resumes/priya_flores.pdf",
+      "match_score": 47,
+      "matched_skills": [
+        "Python",
+        "Docker",
+        "AWS"
+      ],
+      "relevant_excerpts": [
+        "Python Backend Engineer building Python services with FastAPI and Django, backed by PostgreSQL and\nshipped in Docker containers.",
+        "Senior Backend Engineer, Pivotal Works\n07/2021 - Present\n- Containerized services with Docker and wrote the Git branching workflow the team still uses.\n- Built and maintained REST endpoints in FastAPI serving millions of requests per day.\n- Cached expensive query results in Redis to cut p95 latency ",
+        "Priya Flores priya.flores@example.com | (804) 555-0165 Profile Python Backend Engineer building Python services with FastAPI and Django, backed by Po...",
+        "...ng Python services with FastAPI and Django, backed by PostgreSQL and shipped in Docker containers. Employment Senior Backend Engineer, Pivotal Works 07/2021 - Present..."
+      ],
+      "reasoning": "Partial match (47/100). Closest sections: summary (0.62), experience (0.60). Required-skill coverage: 50% of required skills; missing Machine Learning, Kubernetes, GCP. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.533,
+        "bm25_norm": 0.395,
+        "required_coverage": 0.5,
+        "preferred_coverage": 0.0
+      },
+      "section_scores": {
+        "summary": 0.6191364526748657,
+        "experience": 0.6030113101005554
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Oliver Taylor",
+      "resume_path": "data/resumes/oliver_taylor.pdf",
+      "match_score": 44,
+      "matched_skills": [
+        "Python",
+        "Machine Learning"
+      ],
+      "relevant_excerpts": [
+        "Senior Data Scientist, Verdant Agritech\n06/2018 - Present\n- Used Pandas and NumPy to clean and transform multi-source data before modeling.\n- Built dashboards summarizing key metrics for the leadership team.\n- Built Scikit-learn models to predict customer churn, presenting findings with clear statis",
+        "Data Scientist, Westbridge Capital\n03/2016 - 07/2018\n- Designed controlled experiments to compare product variants and measured the impact on conversion\nbefore any change shipped broadly.\n- Used Pandas and NumPy to clean and transform multi-source data before modeling.\n- Built Scikit-learn models to",
+        "....taylor@example.com | (512) 555-0196 Objective Data Scientist who pairs SQL and Python with statistical rigor to find and explain patterns in messy, real-world data....",
+        "...hnology Core Competencies Python, SQL, Pandas, NumPy, Scikit-learn, Statistics, Machine Learning Certifications - Microsoft Certified: Azure Data Scientist Associate - Google D..."
+      ],
+      "reasoning": "Partial match (44/100). Closest sections: experience (0.63), skills (0.59). Required-skill coverage: 33% of required skills; missing Docker, Kubernetes, AWS, GCP. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.556,
+        "bm25_norm": 0.363,
+        "required_coverage": 0.333,
+        "preferred_coverage": 0.2
+      },
+      "section_scores": {
+        "experience": 0.6345461010932922,
+        "skills": 0.5912454128265381
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Lucas Williams",
+      "resume_path": "data/resumes/lucas_williams.pdf",
+      "match_score": 40,
+      "matched_skills": [
+        "Python"
+      ],
+      "relevant_excerpts": [
+        "Senior Data Scientist, Trailhead Robotics\n11/2023 - Present\n- Designed controlled experiments to compare product variants and measured the impact on conversion\nbefore any change shipped broadly.\n- Used Pandas and NumPy to clean and transform multi-source data before modeling.\n- Built Scikit-learn mo",
+        "Junior Data Scientist, Fathom AI\n07/2016 - 09/2018\n- Designed controlled experiments to compare product variants and measured the impact on conversion\nbefore any change shipped broadly.\n- Used Pandas and NumPy to clean and transform multi-source data before modeling.\n- Built Scikit-learn models to p",
+        "....williams@example.com | (312) 555-0141 Profile Data Scientist who pairs SQL and Python with statistical rigor to find and explain patterns in messy, real-world data...."
+      ],
+      "reasoning": "Partial match (40/100). Closest sections: experience (0.62), projects (0.60). Required-skill coverage: 17% of required skills; missing Machine Learning, Docker, Kubernetes, AWS, GCP. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.539,
+        "bm25_norm": 0.451,
+        "required_coverage": 0.167,
+        "preferred_coverage": 0.0
+      },
+      "section_scores": {
+        "experience": 0.6243027448654175,
+        "projects": 0.5976722240447998
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Amelia Chen",
+      "resume_path": "data/resumes/amelia_chen.pdf",
+      "match_score": 38,
+      "matched_skills": [
+        "Python"
+      ],
+      "relevant_excerpts": [
+        "Junior Data Scientist, Quantum Byte\nMar 2022 - Jul 2024\n- Built dashboards summarizing key metrics for the leadership team.\n- Used Pandas and NumPy to clean and transform multi-source data before modeling.\n- Built Scikit-learn models to predict customer churn, presenting findings with clear statisti",
+        "Data Scientist, Pivotal Works\nJul 2024 - Present\n- Built dashboards summarizing key metrics for the leadership team.\n- Designed controlled experiments to compare product variants and measured the impact on conversion\nbefore any change shipped broadly.\n- Used Pandas and NumPy to clean and transform m",
+        "...ple.com | (415) 555-0134 Objective Data Scientist with 3+ years turning SQL and Python analysis into decisions, using Pandas and Scikit-learn to model and explain cus..."
+      ],
+      "reasoning": "Partial match (38/100). Closest sections: experience (0.60). Required-skill coverage: 17% of required skills; missing Machine Learning, Docker, Kubernetes, AWS, GCP. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.5,
+        "bm25_norm": 0.443,
+        "required_coverage": 0.167,
+        "preferred_coverage": 0.0
+      },
+      "section_scores": {
+        "experience": 0.6003089547157288
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    }
+  ],
+  "filtered_out": [
+    {
+      "candidate_name": "Avery Nelson",
+      "resume_path": "data/resumes/avery_nelson.docx",
+      "reasons": [
+        "Python: 1.3 yrs < 3 required",
+        "Total experience: 1.3 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Benjamin Cook",
+      "resume_path": "data/resumes/benjamin_cook.txt",
+      "reasons": [
+        "Python: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Charlotte Hill",
+      "resume_path": "data/resumes/charlotte_hill.txt",
+      "reasons": [
+        "Python: 1.0 yrs < 3 required",
+        "Total experience: 1.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Chloe Okafor",
+      "resume_path": "data/resumes/chloe_okafor.docx",
+      "reasons": [
+        "Python: 2.0 yrs < 3 required",
+        "Total experience: 2.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Dmitri Wilson",
+      "resume_path": "data/resumes/dmitri_wilson.txt",
+      "reasons": [
+        "Python: 1.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Elijah Jackson",
+      "resume_path": "data/resumes/elijah_jackson.pdf",
+      "reasons": [
+        "Python: 2.6 yrs < 3 required",
+        "Total experience: 1.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Emma Walker",
+      "resume_path": "data/resumes/emma_walker.md",
+      "reasons": [
+        "Python: 2.2 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Ethan Johnson",
+      "resume_path": "data/resumes/ethan_johnson.md",
+      "reasons": [
+        "Python: 0.0 yrs < 3 required",
+        "Total experience: 1.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Evelyn Roberts",
+      "resume_path": "data/resumes/evelyn_roberts.txt",
+      "reasons": [
+        "Python: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Fatima Robinson",
+      "resume_path": "data/resumes/fatima_robinson.docx",
+      "reasons": [
+        "Python: 2.3 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Harper Evans",
+      "resume_path": "data/resumes/harper_evans.pdf",
+      "reasons": [
+        "Python: 1.0 yrs < 3 required",
+        "Total experience: 1.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Hiroshi Rivera",
+      "resume_path": "data/resumes/hiroshi_rivera.docx",
+      "reasons": [
+        "Python: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Jack Ali",
+      "resume_path": "data/resumes/jack_ali.docx",
+      "reasons": [
+        "Python: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "James Edwards",
+      "resume_path": "data/resumes/james_edwards.docx",
+      "reasons": [
+        "Python: 1.6 yrs < 3 required",
+        "Total experience: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Liam Murphy",
+      "resume_path": "data/resumes/liam_murphy.txt",
+      "reasons": [
+        "Python: 0.0 yrs < 3 required",
+        "Total experience: 2.3 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Luca Collins",
+      "resume_path": "data/resumes/luca_collins.txt",
+      "reasons": [
+        "Python: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Nadia Baker",
+      "resume_path": "data/resumes/nadia_baker.txt",
+      "reasons": [
+        "Python: 0.0 yrs < 3 required",
+        "Total experience: 1.5 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Noah Nguyen",
+      "resume_path": "data/resumes/noah_nguyen.pdf",
+      "reasons": [
+        "Python: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Omar Khan",
+      "resume_path": "data/resumes/omar_khan.txt",
+      "reasons": [
+        "Python: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Victoria Patel",
+      "resume_path": "data/resumes/victoria_patel.md",
+      "reasons": [
+        "Python: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Yuki Adams",
+      "resume_path": "data/resumes/yuki_adams.pdf",
+      "reasons": [
+        "Python: 2.3 yrs < 3 required",
+        "Total experience: 2.3 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Zara Allen",
+      "resume_path": "data/resumes/zara_allen.docx",
+      "reasons": [
+        "Python: 0.0 yrs < 3 required"
+      ]
+    }
+  ],
+  "latency_ms": {
+    "embed": 33.6,
+    "semantic_search": 3.5,
+    "bm25_search": 25.0,
+    "fusion": 0.0,
+    "filter": 0.0,
+    "rerank": 0.0,
+    "score": 0.1,
+    "total": 116.5
+  }
+}
