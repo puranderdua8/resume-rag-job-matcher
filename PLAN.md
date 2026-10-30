@@ -10,7 +10,7 @@
 - [x] **Step 3:** Part A, `resume_rag.py` (load → section → chunk → metadata → embed → ChromaDB)
 - [x] **Step 4:** Part B, `job_matcher.py` (JD parse → hybrid retrieve → filter → score → reason → JSON)
 - [x] **Step 5:** Metrics, `evaluate.py` (retrieval accuracy, extraction accuracy, latency)
-- [ ] **Step 6:** Notebook, `notebooks/experiments.ipynb` (experiments A–E and analysis)
+- [x] **Step 6:** Notebook, `notebooks/experiments.ipynb` (experiments A–E and analysis)
 - [ ] **Step 7:** Tests, README and demo script; final push with green CI
 - [ ] **Deliverable:** Demo video, 3–4 min (recorded by the author)
 
@@ -347,6 +347,10 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
 9. Latency breakdown as stacked bars.
 10. Failure analysis of the misses and their causes, then conclusions and the **threats to validity** of synthetic labels.
 
+**Deviation:** Experiment D's plan item ("a sweep of hybrid weights and RRF k values") turned out to need two separate sweeps, not one grid, once the code was read closely: `config.RRF_K` only affects `rank_candidates`/`match_jd`'s `rrf_fuse` call, whose output (`fused_scores`) is used *only* to pick which top-20 candidates get cross-encoder reranked — with `--rerank` off, the final ranking is sorted by `score_candidate`'s score alone and never looks at the RRF rank, so sweeping `RRF_K` with rerank off would measure nothing. The notebook sweeps the score weights (`semantic`/`required_coverage`) as a heatmap with rerank off, and separately sweeps `RRF_K` with `--rerank` on (the only setting where it has an effect) as a line chart.
+
+**Verified:** `jupyter nbconvert --to notebook --execute notebooks/experiments.ipynb` runs with no errors (24/24 code cells executed, 0 error outputs). Reproduces Step 5's own hybrid-vs-semantic macro nDCG@10 (0.885 vs. 0.860) exactly. New findings: keyword-only slightly edges out hybrid on this small, keyword-heavy dataset (0.894 vs. 0.885); `qwen3-0.6b` reaches 0.904 nDCG@10 at ~5x bge-small's query latency; cross-encoder rerank raises nDCG@10 to 0.903 at ~2.5x the latency. Full numbers and charts are in the notebook itself.
+
 ## Step 7: Tests, README, demo
 
 - **Tests**:
@@ -387,5 +391,5 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
   - Extraction accuracy is at least 90% on names and years. ✓ (names 100%, years 94% within ±1yr)
 - [x] `python job_matcher.py --all` writes 6 JSON files in the required format. For the senior ML JD, the top results are ML engineers with at least 5 years of Python (Ella Garcia 84, Scarlett Young 83), and the junior candidates (Harper Evans, James Edwards, Dmitri Wilson, Daniel Campbell) appear in `filtered_out`.
 - [ ] `python evaluate.py` shows hybrid nDCG@10 ≥ semantic-only, and the numbers are copied into the README.
-- [ ] `jupyter nbconvert --to notebook --execute notebooks/experiments.ipynb` runs with no errors.
+- [x] `jupyter nbconvert --to notebook --execute notebooks/experiments.ipynb` runs with no errors.
 - [ ] A fresh `git clone --recursive` of the public repo into a temp dir installs and passes `pytest`.
