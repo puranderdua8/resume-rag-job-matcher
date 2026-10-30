@@ -40,9 +40,14 @@ def score_candidate(
     calibration: config.ModelSpec,
     filter_penalty: float = 0.0,
     semantic_override: float | None = None,
+    weights: dict[str, float] | None = None,
 ) -> ScoredCandidate:
     """`semantic_override`, when given (from `--rerank`), is already in [0, 1] and replaces
-    the calibrated cosine similarity as the semantic component."""
+    the calibrated cosine similarity as the semantic component.
+
+    `weights` overrides `config.SCORE_WEIGHTS`, for evaluate.py's weight-sweep experiment;
+    callers that don't pass it get the configured defaults.
+    """
     if semantic_override is not None:
         semantic_cal = semantic_override
     else:
@@ -53,7 +58,7 @@ def score_candidate(
     required_cov = skill_coverage(jd.required_skills, profile)
     preferred_cov = skill_coverage(jd.preferred_skills, profile)
 
-    weights = config.SCORE_WEIGHTS
+    weights = weights or config.SCORE_WEIGHTS
     raw_score = (
         weights["semantic"] * semantic_cal
         + weights["bm25"] * bm25_norm
@@ -74,6 +79,9 @@ def score_candidate(
     )
 
 
+_cross_encoder = None
+
+
 def rerank_semantic(
     jd_text: str, hits: dict[str, SemanticHit], candidate_ids: list[str]
 ) -> dict[str, float]:
@@ -82,14 +90,21 @@ def rerank_semantic(
 
     The cross-encoder's raw logit is squashed through a sigmoid to land in
     [0, 1], the same range `calibrate()` expects for the semantic component.
+    The model is cached at module level: evaluate.py's latency sweep calls
+    this many times per run, and reloading the model each time would dwarf
+    the inference time it's trying to measure.
     """
-    from sentence_transformers import CrossEncoder
+    global _cross_encoder
 
     candidates = [cid for cid in candidate_ids if cid in hits and hits[cid].top_chunks]
     if not candidates:
         return {}
 
-    model = CrossEncoder("cross-encoder/ms-marco-MiniLM-L6-v2")
+    if _cross_encoder is None:
+        from sentence_transformers import CrossEncoder
+
+        _cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L6-v2")
+    model = _cross_encoder
     pairs = [(jd_text, hits[cid].top_chunks[0][2]) for cid in candidates]
     raw_scores = model.predict(pairs)
     return {

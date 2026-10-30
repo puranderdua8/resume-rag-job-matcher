@@ -9,7 +9,7 @@
 - [x] **Step 2:** Dataset: 36 resumes, 6 JDs, specs and ground truth
 - [x] **Step 3:** Part A, `resume_rag.py` (load → section → chunk → metadata → embed → ChromaDB)
 - [x] **Step 4:** Part B, `job_matcher.py` (JD parse → hybrid retrieve → filter → score → reason → JSON)
-- [ ] **Step 5:** Metrics, `evaluate.py` (retrieval accuracy, extraction accuracy, latency)
+- [x] **Step 5:** Metrics, `evaluate.py` (retrieval accuracy, extraction accuracy, latency)
 - [ ] **Step 6:** Notebook, `notebooks/experiments.ipynb` (experiments A–E and analysis)
 - [ ] **Step 7:** Tests, README and demo script; final push with green CI
 - [ ] **Deliverable:** Demo video, 3–4 min (recorded by the author)
@@ -319,6 +319,12 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
   - Ingest: total, per resume, and split into parse, chunk, embed and store.
   - Query: p50 and p95 over 20 warm runs per JD, split into JD parse, embed, vector search, BM25, fusion and scoring, rerank, and total.
 - `run_eval(model, chunking, mode, weights, rerank)` returns a dict. The CLI writes `outputs/metrics.json` and prints the markdown tables that go into the README.
+
+**Deviation:** retrieval accuracy and filter accuracy are evaluated as two separate rankings/checks, not one. `run_eval`'s ranking pass always filters *soft* (nobody is dropped), so Precision/Recall/MRR/nDCG/Hit@1 measure the fused-and-scored ranking itself against `ground_truth.json`'s graded labels, uncontaminated by must-have drops. Filter accuracy is instead a confusion matrix comparing `check_must_haves` run on the extracted profile vs. the same check run on a `CandidateProfile` built straight from `resume_specs.json`'s true values — i.e. whether extraction noise changes a must-have verdict. Running them together (filtering the ranking) would conflate "is the ranking good" with "did the filter drop the right people," which the plan already lists as two separate metrics.
+
+**Deviation:** `match_scoring.score_candidate` gained an optional `weights` parameter (`None` falls back to `config.SCORE_WEIGHTS`, so Step 4's `job_matcher.py` is unaffected) so `run_eval`'s `weights` argument and Step 6's weight-sweep experiment don't require hard-coding a second copy of the formula. `rerank_semantic`'s `CrossEncoder` is now cached at module level instead of reloaded on every call — the latency sweep calls it up to 120 times (6 JDs × 20 warm runs) for `--rerank` runs, and reloading the model each time would measure model-load time, not inference time.
+
+**Verified:** `python evaluate.py` (bge-small/section/hybrid) gives macro nDCG@10 0.885, vs. 0.860 for `--mode semantic` — hybrid ≥ semantic-only, as the Verification section expects. Extraction accuracy (name 100%, years-within-±1 94.4%, degree 100%) matches Step 3's own numbers. README copy of these numbers is Step 7's job.
 
 ## Step 6: Notebook (`notebooks/experiments.ipynb`)
 
