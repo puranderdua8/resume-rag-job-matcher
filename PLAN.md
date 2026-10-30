@@ -120,7 +120,13 @@ match_filtering.py    post-filter: per-skill/total years and degree must-haves, 
 match_scoring.py      score formula, calibration, optional cross-encoder rerank
 match_evidence.py     matched_skills, relevant_excerpts, template/--llm reasoning
 match_models.py       JDRequirements and MatchResult dataclasses
-evaluate.py           accuracy + latency, parameterised for experiments
+evaluate.py           Step 5 CLI; thin orchestrator wiring the modules below together
+eval_data.py          ground truth / resume specs loading, true-values profile from a spec
+eval_ranking.py       the timed ranking pass (retrieval + fusion + soft filter + scoring)
+eval_retrieval_metrics.py   Precision@k, Recall@10, MRR, graded nDCG@10, Hit@1, macro average
+eval_extraction.py    name/skills/years/degree accuracy vs. resume_specs.json
+eval_filtering.py     must-have pass/fail confusion matrix, extracted vs. true values
+eval_latency.py       percentiles over warm runs, macro average across JDs
 scripts/generate_dataset.py   seeded generator for resumes + ground truth
 data/resumes/ (36 files)  data/job_descriptions/ (6 .txt)  data/ground_truth.json  data/resume_specs.json
 outputs/matches/*.json    outputs/metrics.json
@@ -319,6 +325,8 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
   - Ingest: total, per resume, and split into parse, chunk, embed and store.
   - Query: p50 and p95 over 20 warm runs per JD, split into JD parse, embed, vector search, BM25, fusion and scoring, rerank, and total.
 - `run_eval(model, chunking, mode, weights, rerank)` returns a dict. The CLI writes `outputs/metrics.json` and prints the markdown tables that go into the README.
+
+**Deviation:** `evaluate.py` was split from a single file into six small, single-concern modules (`eval_data.py`, `eval_retrieval_metrics.py`, `eval_extraction.py`, `eval_filtering.py`, `eval_ranking.py`, `eval_latency.py`), the same way Steps 3 and 4 split `resume_rag.py` and `job_matcher.py`. `evaluate.py` now only wires them together and owns the CLI (`run_eval`, `_print_report`, `main`). Behaviour is unchanged: re-ran `python evaluate.py` after the split and the accuracy/extraction/filter tables matched exactly (only timing jitter and model-load log noise differed).
 
 **Deviation:** retrieval accuracy and filter accuracy are evaluated as two separate rankings/checks, not one. `run_eval`'s ranking pass always filters *soft* (nobody is dropped), so Precision/Recall/MRR/nDCG/Hit@1 measure the fused-and-scored ranking itself against `ground_truth.json`'s graded labels, uncontaminated by must-have drops. Filter accuracy is instead a confusion matrix comparing `check_must_haves` run on the extracted profile vs. the same check run on a `CandidateProfile` built straight from `resume_specs.json`'s true values — i.e. whether extraction noise changes a must-have verdict. Running them together (filtering the ranking) would conflate "is the ranking good" with "did the filter drop the right people," which the plan already lists as two separate metrics.
 
