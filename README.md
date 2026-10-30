@@ -37,20 +37,20 @@ uv pip install -r requirements-dev.txt
 ```mermaid
 flowchart TD
     subgraph "Part A: resume_rag.py ingest"
-        A1["Load resumes\n(Milestone 1 file_tools)"] --> A2["Detect sections\n(resume_sections.py)"]
-        A2 --> A3["Extract metadata\n(resume_metadata.py)"]
-        A2 --> A4["Build chunks\n(resume_chunking.py)"]
-        A4 --> A5["Embed chunks\n(resume_embedding.py)"]
+        A1["Load resumes<br/>(Milestone 1 file_tools)"] --> A2["Detect sections<br/>(resume_sections.py)"]
+        A2 --> A3["Extract metadata<br/>(resume_metadata.py)"]
+        A2 --> A4["Build chunks<br/>(resume_chunking.py)"]
+        A4 --> A5["Embed chunks<br/>(resume_embedding.py)"]
         A3 --> A6
-        A5 --> A6["Store in ChromaDB\n+ candidates.json\n(resume_storage.py)"]
+        A5 --> A6["Store in ChromaDB<br/>+ candidates.json<br/>(resume_storage.py)"]
     end
 
     subgraph "Part B: job_matcher.py"
-        B1["Parse JD\n(jd_parsing.py)"] --> B2["Semantic search (Chroma)\n+ BM25 keyword search\n(retrieval.py)"]
-        B2 --> B3["RRF fusion\n(retrieval.py)"]
-        B3 --> B4["Must-have filter\n(match_filtering.py)"]
-        B4 --> B5["Score 0-100\n(match_scoring.py)"]
-        B5 --> B6["Evidence + reasoning\n(match_evidence.py)"]
+        B1["Parse JD<br/>(jd_parsing.py)"] --> B2["Semantic search (Chroma)<br/>+ BM25 keyword search<br/>(retrieval.py)"]
+        B2 --> B3["RRF fusion<br/>(retrieval.py)"]
+        B3 --> B4["Must-have filter<br/>(match_filtering.py)"]
+        B4 --> B5["Score 0-100<br/>(match_scoring.py)"]
+        B5 --> B6["Evidence + reasoning<br/>(match_evidence.py)"]
         B6 --> B7["top_matches / filtered_out JSON"]
     end
 

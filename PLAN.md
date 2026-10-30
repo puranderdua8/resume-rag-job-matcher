@@ -397,7 +397,7 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
 ## Verification (definition of done)
 
 - [x] `gh repo view puranderdua8/resume-rag-job-matcher` shows a public repo.
-- [x] `ruff check . && ruff format --check . && pytest -q` all pass, both locally and in CI.
+- [ ] `ruff check . && ruff format --check . && pytest -q` all pass, both locally and in CI. (Passes locally; CI is still running on #8.)
 - [x] `python scripts/generate_dataset.py` produces 36 resumes and 6 JDs, and every resume passes the M1 `read_file` round-trip.
 - [x] `python resume_rag.py ingest && python resume_rag.py stats`:
   - Every resume has Experience, Education and Skills sections. ✓ (36/36)
@@ -405,4 +405,4 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
 - [x] `python job_matcher.py --all` writes 6 JSON files in the required format. For the senior ML JD, the top results are ML engineers with at least 5 years of Python (Ella Garcia 84, Scarlett Young 83), and the junior candidates (Harper Evans, James Edwards, Dmitri Wilson, Daniel Campbell) appear in `filtered_out`.
 - [x] `python evaluate.py` shows hybrid nDCG@10 ≥ semantic-only, and the numbers are copied into the README.
 - [x] `jupyter nbconvert --to notebook --execute --inplace notebooks/0*.ipynb` runs all seven with no errors.
-- [x] A fresh `git clone --recursive` of the public repo into a temp dir installs and passes `pytest`.
+- [ ] A fresh `git clone --recursive` of the public repo into a temp dir installs and passes `pytest`. (Verified on the `step-7-tests-readme-demo` branch; recheck once #8 merges to `main`.)
