@@ -388,7 +388,7 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
   6. Latency.
 - Make the final push, then confirm CI is green on GitHub.
 
-**Deviation:** the demo-video script lives at `docs/demo_script.md` (not named in [Target repo layout](#target-repo-layout)); the video itself is the separate Deliverable below, recorded by the author from this script.
+**Deviation:** the demo-video script (the 6 beats listed above) is kept outside this repo rather than committed as a file; the video itself is the separate Deliverable below, recorded by the author from that script.
 
 **Verified:** `ruff check . && ruff format --check . && pytest -q` all pass locally (36 tests, no network access — the test suite uses a fake hash-based embedder and a temp Chroma directory, per the "no network in tests" rule). A fresh `git clone --recursive` of this branch into a temp directory, followed by `uv venv`, `uv pip install -r requirements-dev.txt` and `pytest -q`, also passes. `python evaluate.py`'s numbers (macro nDCG@10 0.885 hybrid vs. 0.860 semantic-only, extraction and filter accuracy, latency) are copied into [README.md](README.md)'s Metrics section.
 
