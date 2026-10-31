@@ -63,7 +63,12 @@ def run_eval(
     calibration = config.MODEL_REGISTRY[model]
 
     ground_truth = load_ground_truth()
-    specs_by_id = {s["candidate_id"]: s for s in load_resume_specs()}
+    # R9 changed candidate_id to the file name *with* its extension (so same-stem
+    # resumes in different formats don't collide); resume_specs.json's own
+    # candidate_id field predates that and is still the bare stem, so key specs by
+    # the file name derived from resume_path instead, which matches both the new
+    # candidate_id convention and data/ground_truth.json's existing filenames.
+    specs_by_id = {Path(s["resume_path"]).name: s for s in load_resume_specs()}
 
     per_jd_retrieval: dict[str, dict[str, float]] = {}
     per_jd_filter: dict[str, dict[str, int]] = {}
@@ -72,7 +77,9 @@ def run_eval(
     for jd_path in sorted(config.JOB_DESCRIPTIONS_DIR.glob("*.txt")):
         jd_id = jd_id_for_path(jd_path)
         jd = parse_jd(jd_path.read_text())
-        grades = {Path(filename).stem: grade for filename, grade in ground_truth[jd_id].items()}
+        # ground_truth.json's filenames already include the extension, matching
+        # candidate_id directly (see the specs_by_id note above).
+        grades = dict(ground_truth[jd_id].items())
 
         ranking: list[str] = []
         timed_runs: dict[str, list[float]] = {}

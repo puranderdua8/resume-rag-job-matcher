@@ -2,6 +2,40 @@
   "job_description": "DevOps Engineer (Kubernetes & AWS)",
   "top_matches": [
     {
+      "candidate_name": "Benjamin Cook",
+      "resume_path": "data/resumes/benjamin_cook.txt",
+      "match_score": 90,
+      "matched_skills": [
+        "Docker",
+        "Kubernetes",
+        "AWS",
+        "Terraform",
+        "CI/CD"
+      ],
+      "relevant_excerpts": [
+        "Junior DevOps Engineer, Crestview Labs\nMay 2021 \u2013 May 2023\n- Containerized a legacy application with Docker so it could run on Kubernetes.\n- Set up dashboards and alerts that caught production issues before customers noticed, cutting the average time to detect an outage in half.\n- Ran production wor",
+        "DevOps/Cloud Engineer with 4+ years running Kubernetes on AWS and codifying infrastructure in Terraform.",
+        "...me from an hour to under ten minutes. - Containerized a legacy application with Docker so it could run on Kubernetes. Junior DevOps Engineer, Crestview Labs May 2021...",
+        "...ample.com | (512) 555-0192 Summary DevOps/Cloud Engineer with 4+ years running Kubernetes on AWS and codifying infrastructure in Terraform. Professional Experience: Dev..."
+      ],
+      "reasoning": "Strong match (90/100). Closest sections: experience (0.81), summary (0.75). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.888,
+        "bm25_norm": 1.0,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.2
+      },
+      "section_scores": {
+        "experience": 0.8124979138374329,
+        "summary": 0.7548739314079285,
+        "skills": 0.6848495602607727
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
       "candidate_name": "Noah Nguyen",
       "resume_path": "data/resumes/noah_nguyen.pdf",
       "match_score": 88,
@@ -30,6 +64,42 @@
         "experience": 0.7823269367218018,
         "summary": 0.7711043357849121,
         "skills": 0.7045568823814392
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
+      "candidate_name": "Luca Collins",
+      "resume_path": "data/resumes/luca_collins.txt",
+      "match_score": 87,
+      "matched_skills": [
+        "Docker",
+        "Kubernetes",
+        "AWS",
+        "Terraform",
+        "CI/CD"
+      ],
+      "relevant_excerpts": [
+        "Senior DevOps Engineer, Westbridge Capital\nSep 2024 \u2013 Present\n- Wrote Terraform modules that stood up a full environment in one command.\n- Set up dashboards and alerts that caught production issues before customers noticed, cutting the average time to detect an outage in half.\n- Ran production workl",
+        "DevOps Engineer, Fathom AI\nApr 2023 \u2013 Sep 2024\n- Containerized a legacy application with Docker so it could run on Kubernetes.\n- Administered a fleet of Linux hosts, automating patching with Ansible.\n- Built CI/CD pipelines that cut deploy time from an hour to under ten minutes.",
+        "...gineer, Fathom AI Apr 2023 \u2013 Sep 2024 - Containerized a legacy application with Docker so it could run on Kubernetes. - Administered a fleet of Linux hosts, automatin...",
+        "...2) 555-0140 Objective DevOps/Cloud Engineer running containerized workloads on Kubernetes and AWS, with infrastructure defined in Terraform. Work History Senior DevOps..."
+      ],
+      "reasoning": "Strong match (87/100). Closest sections: experience (0.78), summary (0.77). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.865,
+        "bm25_norm": 0.908,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.2
+      },
+      "section_scores": {
+        "experience": 0.7848827838897705,
+        "summary": 0.7712472677230835,
+        "projects": 0.7419576644897461,
+        "certifications": 0.6922460794448853,
+        "skills": 0.692197322845459
       },
       "must_have_check": {
         "passed": true,
@@ -105,163 +175,10 @@
         "passed": true,
         "reasons": []
       }
-    },
-    {
-      "candidate_name": "Sofia Lee",
-      "resume_path": "data/resumes/sofia_lee.docx",
-      "match_score": 53,
-      "matched_skills": [
-        "Docker",
-        "AWS"
-      ],
-      "relevant_excerpts": [
-        "Senior Backend Engineer, Cedarline Retail\n07/2022 - Present\n- Containerized services with Docker and wrote the Git branching workflow the team still uses.\n- Cached expensive query results in Redis to cut p95 latency by half.\n- Split a monolithic application into independently deployable services tha",
-        "- Rebuilt a billing service in FastAPI with a PostgreSQL-backed ledger.\n- Introduced Docker Compose for local development, cutting onboarding time from a day to an hour.",
-        "...ing Python services with FastAPI and Django on top of PostgreSQL, deployed with Docker. Professional Experience: Senior Backend Engineer, Cedarline Retail 07/2022 - P...",
-        "...al development, cutting onboarding time from a day to an hour. Certifications - AWS Certified Developer - Associate"
-      ],
-      "reasoning": "Partial match (53/100). Closest sections: experience (0.70), projects (0.63). Required-skill coverage: 50% of required skills; missing Kubernetes, Terraform. Must-have check: passed all must-haves.",
-      "score_breakdown": {
-        "semantic_cal": 0.67,
-        "bm25_norm": 0.373,
-        "required_coverage": 0.5,
-        "preferred_coverage": 0.0
-      },
-      "section_scores": {
-        "experience": 0.6984924077987671,
-        "projects": 0.6331536173820496,
-        "summary": 0.6264814734458923,
-        "certifications": 0.621852695941925,
-        "skills": 0.6084092855453491
-      },
-      "must_have_check": {
-        "passed": true,
-        "reasons": []
-      }
-    },
-    {
-      "candidate_name": "Olivia Thomas",
-      "resume_path": "data/resumes/olivia_thomas.pdf",
-      "match_score": 49,
-      "matched_skills": [
-        "Docker",
-        "AWS"
-      ],
-      "relevant_excerpts": [
-        "Junior Backend Engineer, Skyline Mobility\nOct 2022 - Oct 2024\n- Cached expensive query results in Redis to cut p95 latency by half.\n- Split a monolithic application into independently deployable services that scaled under load without a full\nrewrite.\n- Containerized services with Docker and wrote th",
-        "Backend Engineer, Quantum Byte\nOct 2024 - Present\n- Wrote integration tests covering the most critical API endpoints.\n- Split a monolithic application into independently deployable services that scaled under load without a full\nrewrite.\n- Containerized services with Docker and wrote the Git branchin",
-        "...ng Python services with FastAPI and Django, backed by PostgreSQL and shipped in Docker containers. Professional Experience: Backend Engineer, Quantum Byte Oct 2024 -...",
-        "...nical Skills: Python, FastAPI, Django, PostgreSQL, Docker, Git Certifications - AWS Certified Developer - Associate"
-      ],
-      "reasoning": "Partial match (49/100). Closest sections: experience (0.65), certifications (0.60). Required-skill coverage: 50% of required skills; missing Kubernetes, Terraform. Must-have check: passed all must-haves.",
-      "score_breakdown": {
-        "semantic_cal": 0.581,
-        "bm25_norm": 0.371,
-        "required_coverage": 0.5,
-        "preferred_coverage": 0.0
-      },
-      "section_scores": {
-        "experience": 0.6455653309822083,
-        "certifications": 0.5992230176925659,
-        "summary": 0.5938394665718079,
-        "skills": 0.5621299743652344
-      },
-      "must_have_check": {
-        "passed": true,
-        "reasons": []
-      }
-    },
-    {
-      "candidate_name": "Priya Flores",
-      "resume_path": "data/resumes/priya_flores.pdf",
-      "match_score": 48,
-      "matched_skills": [
-        "Docker",
-        "AWS"
-      ],
-      "relevant_excerpts": [
-        "Senior Backend Engineer, Pivotal Works\n07/2021 - Present\n- Containerized services with Docker and wrote the Git branching workflow the team still uses.\n- Built and maintained REST endpoints in FastAPI serving millions of requests per day.\n- Cached expensive query results in Redis to cut p95 latency ",
-        "- AWS Certified Developer - Associate",
-        "...ng Python services with FastAPI and Django, backed by PostgreSQL and shipped in Docker containers. Employment Senior Backend Engineer, Pivotal Works 07/2021 - Present...",
-        "...hnical Skills Python, FastAPI, Django, PostgreSQL, Docker, Git Certifications - AWS Certified Developer - Associate"
-      ],
-      "reasoning": "Partial match (48/100). Closest sections: experience (0.65), certifications (0.61). Required-skill coverage: 50% of required skills; missing Kubernetes, Terraform. Must-have check: passed all must-haves.",
-      "score_breakdown": {
-        "semantic_cal": 0.578,
-        "bm25_norm": 0.333,
-        "required_coverage": 0.5,
-        "preferred_coverage": 0.0
-      },
-      "section_scores": {
-        "experience": 0.6480225324630737,
-        "certifications": 0.6053178906440735,
-        "summary": 0.5982498526573181,
-        "skills": 0.5778102874755859
-      },
-      "must_have_check": {
-        "passed": true,
-        "reasons": []
-      }
-    },
-    {
-      "candidate_name": "Scarlett Young",
-      "resume_path": "data/resumes/scarlett_young.pdf",
-      "match_score": 42,
-      "matched_skills": [
-        "AWS"
-      ],
-      "relevant_excerpts": [
-        "Senior ML Engineer, Skyline Mobility\n09/2023 - Present\n- Tracked experiments and model versions with MLflow across a team of four engineers.\n- Deployed TensorFlow models to production behind a REST API with automated retraining on a schedule.\n- Built systems that let machines interpret and classify ",
-        "ML Engineer, Hollowbrook Energy\n04/2017 - 09/2023\n- Deployed TensorFlow models to production behind a REST API with automated retraining on a schedule.\n- Used Scikit-learn to prototype and compare classical ML baselines before committing to a deep learning\napproach.\n- Partnered with product managers",
-        "...Flow, PyTorch, Scikit-learn Certifications - TensorFlow Developer Certificate - AWS Certified Machine Learning - Specialty"
-      ],
-      "reasoning": "Partial match (42/100). Closest sections: experience (0.62), certifications (0.60). Required-skill coverage: 25% of required skills; missing Docker, Kubernetes, Terraform. Must-have check: passed all must-haves.",
-      "score_breakdown": {
-        "semantic_cal": 0.526,
-        "bm25_norm": 0.46,
-        "required_coverage": 0.25,
-        "preferred_coverage": 0.0
-      },
-      "section_scores": {
-        "experience": 0.6151607036590576,
-        "certifications": 0.6027476191520691
-      },
-      "must_have_check": {
-        "passed": true,
-        "reasons": []
-      }
-    },
-    {
-      "candidate_name": "Ella Garcia",
-      "resume_path": "data/resumes/ella_garcia.pdf",
-      "match_score": 41,
-      "matched_skills": [
-        "AWS"
-      ],
-      "relevant_excerpts": [
-        "Senior ML Engineer, Hollowbrook Energy\n08/2023 - Present\n- Deployed TensorFlow models to production behind a REST API with automated retraining on a schedule.\n- Partnered with product managers to translate business goals into measurable model objectives.\n- Built data pipelines in Python to preproces",
-        "- TensorFlow Developer Certificate\n- AWS Certified Machine Learning - Specialty",
-        "...card internally for reuse. Certifications - TensorFlow Developer Certificate - AWS Certified Machine Learning - Specialty"
-      ],
-      "reasoning": "Partial match (41/100). Closest sections: experience (0.62), certifications (0.60). Required-skill coverage: 25% of required skills; missing Docker, Kubernetes, Terraform. Must-have check: passed all must-haves.",
-      "score_breakdown": {
-        "semantic_cal": 0.532,
-        "bm25_norm": 0.428,
-        "required_coverage": 0.25,
-        "preferred_coverage": 0.0
-      },
-      "section_scores": {
-        "experience": 0.6192865371704102,
-        "certifications": 0.6048074960708618,
-        "summary": 0.5562834143638611,
-        "skills": 0.550754189491272
-      },
-      "must_have_check": {
-        "passed": true,
-        "reasons": []
-      }
     }
   ],
+  "returned": 5,
+  "requested": 10,
   "filtered_out": [
     {
       "candidate_name": "Amelia Chen",
@@ -276,13 +193,6 @@
       "reasons": [
         "AWS: 0.0 yrs < 3 required",
         "Total experience: 1.3 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Benjamin Cook",
-      "resume_path": "data/resumes/benjamin_cook.txt",
-      "reasons": [
-        "AWS: 2.0 yrs < 3 required"
       ]
     },
     {
@@ -326,6 +236,13 @@
     {
       "candidate_name": "Elizabeth Parker",
       "resume_path": "data/resumes/elizabeth_parker.pdf",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Ella Garcia",
+      "resume_path": "data/resumes/ella_garcia.pdf",
       "reasons": [
         "AWS: 0.0 yrs < 3 required"
       ]
@@ -398,13 +315,6 @@
       ]
     },
     {
-      "candidate_name": "Luca Collins",
-      "resume_path": "data/resumes/luca_collins.txt",
-      "reasons": [
-        "AWS: 2.2 yrs < 3 required"
-      ]
-    },
-    {
       "candidate_name": "Lucas Williams",
       "resume_path": "data/resumes/lucas_williams.pdf",
       "reasons": [
@@ -441,8 +351,36 @@
       ]
     },
     {
+      "candidate_name": "Olivia Thomas",
+      "resume_path": "data/resumes/olivia_thomas.pdf",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
       "candidate_name": "Owen Miller",
       "resume_path": "data/resumes/owen_miller.docx",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Priya Flores",
+      "resume_path": "data/resumes/priya_flores.pdf",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Scarlett Young",
+      "resume_path": "data/resumes/scarlett_young.pdf",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Sofia Lee",
+      "resume_path": "data/resumes/sofia_lee.docx",
       "reasons": [
         "AWS: 0.0 yrs < 3 required"
       ]
@@ -471,13 +409,13 @@
     }
   ],
   "latency_ms": {
-    "embed": 36.2,
-    "semantic_search": 3.8,
-    "bm25_search": 24.9,
+    "embed": 29.3,
+    "semantic_search": 5.9,
+    "bm25_search": 23.9,
     "fusion": 0.0,
     "filter": 0.1,
     "rerank": 0.0,
     "score": 0.1,
-    "total": 109.0
+    "total": 78.2
   }
 }

@@ -361,7 +361,7 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
 
 **Deviation:** retrieval accuracy and filter accuracy are evaluated as two separate rankings/checks, not one. `run_eval`'s ranking pass always filters *soft* (nobody is dropped), so Precision/Recall/MRR/nDCG/Hit@1 measure the fused-and-scored ranking itself against `ground_truth.json`'s graded labels, uncontaminated by must-have drops. Filter accuracy is instead a confusion matrix comparing `check_must_haves` run on the extracted profile vs. the same check run on a `CandidateProfile` built straight from `resume_specs.json`'s true values — i.e. whether extraction noise changes a must-have verdict. Running them together (filtering the ranking) would conflate "is the ranking good" with "did the filter drop the right people," which the plan already lists as two separate metrics.
 
-**Correction (review, 2026-10-30):** the "uncontaminated by must-have drops" claim above is wrong. The soft ranking still calls `semantic_search`, which always applies the Chroma prefilter (`retrieval.build_prefilter`). Every candidate who fails a must-have therefore gets a semantic score of 0 *on top of* the soft penalty: for the senior ML JD, 29 candidates get semantic hits without the prefilter and only 2 with it. Every retrieval number from this step, Step 6's notebooks and the README inherits this. See finding R1; Step 10 fixes it and re-measures.
+**Correction (review, 2026-10-30):** the "uncontaminated by must-have drops" claim above was wrong (finding R1): the soft ranking's `semantic_search` call always applied the Chroma prefilter, so every must-have failure also zeroed the semantic score. [Step 10](#step-10-fix-pipeline-storage-and-cli-bugs-then-re-measure) fixes it and re-measures; see that step's **Verified** note for the corrected numbers.
 
 **Deviation:** `match_scoring.score_candidate` gained an optional `weights` parameter (`None` falls back to `config.SCORE_WEIGHTS`, so Step 4's `job_matcher.py` is unaffected) so `run_eval`'s `weights` argument and Step 6's weight-sweep experiment don't require hard-coding a second copy of the formula. `rerank_semantic`'s `CrossEncoder` is now cached at module level instead of reloaded on every call — the latency sweep calls it up to 120 times (6 JDs × 20 warm runs) for `--rerank` runs, and reloading the model each time would measure model-load time, not inference time.
 
@@ -630,6 +630,35 @@ Branch `step-10-pipeline-fixes-remeasure`. Fixes R1, R8–R10, R12, R23, R24 and
 - Ingest accepts a resumes directory outside the repo and same-stem files.
 - All seven notebooks execute.
 - README and PLAN numbers match `outputs/metrics.json`.
+
+**Deviation:** R9's `candidate_id` (now the file name *with* its extension, e.g. `jane_doe.pdf` instead of `jane_doe`) broke two places that still keyed `data/resume_specs.json` by its own `candidate_id` field, which predates R9 and is still the bare stem: `evaluate.py`'s `specs_by_id` (silently zeroed every extraction- and filter-accuracy number, caught by re-running `evaluate.py` after the fix) and `notebooks/_setup.py`'s `specs_by_id` plus two `Path(filename).stem` lookups in `notebooks/07_calibration_and_analysis.ipynb` (raised a `KeyError` on first re-run). Both now key specs by the file name derived from `resume_path` instead of the spec's own `candidate_id` field, which matches both the new `candidate_id` convention and `data/ground_truth.json`'s filenames (which already included the extension and needed no change). Added a regression test (`tests/test_evaluate_specs_mapping.py`) for the `evaluate.py` half; the notebook half is exercised by the notebook re-run itself, per this project's existing split between unit-tested modules and notebook-level checks.
+
+**Verified:** `ruff check . && ruff format --check . && pytest -q` pass (90 tests, including new regressions for R1, R9, R10, R12, R23 and the `evaluate.py` specs-mapping fix above). `python resume_rag.py ingest && python resume_rag.py stats` still loads 36/36 resumes. `python job_matcher.py --all` writes 6 files with the output contract intact, plus the new `returned`/`requested` fields. Confirmed from a manual run: `--k 0` and a not-yet-ingested `--model`/`--chunking` pair both exit non-zero with a clear message (and without loading an embedding model first); running `job_matcher.py` from `/tmp` against a resume outside the repo still produces non-empty `relevant_excerpts` (R8); `load_resumes` raises naming both files on a simulated same-id collision and accepts a resumes directory outside `config.ROOT_DIR` (R9/R10).
+
+Re-ran `python evaluate.py` (hybrid) and `python evaluate.py --mode semantic`, then executed all seven notebooks (`jupyter nbconvert --to notebook --execute --inplace notebooks/0*.ipynb`, 0 cell errors). New numbers, replacing Step 5's R1-contaminated ones everywhere they're quoted (README, this file):
+
+| Metric | Pre-Step-10 (R1-contaminated) | Post-Step-10 |
+|---|---|---|
+| Retrieval macro nDCG@10 (hybrid) | 0.885 | 0.944 |
+| Retrieval macro nDCG@10 (semantic) | 0.860 | 0.941 |
+| Retrieval macro nDCG@10 (keyword) | *(not measured)* | 0.901 |
+| Extraction (name/years/degree/skills P/R) | unaffected by R1 | 100% / 94.4% / 100% / 89.0% / 97.6% (unchanged) |
+| Filter accuracy | 93.5% (TP=39,FP=10,FN=4,TN=163) | 95.8% (TP=43,FP=9,FN=0,TN=164) |
+
+Hybrid now beats *both* semantic-only and keyword-only, reversing the pre-Step-10 notebook 03 finding ("keyword-only edges out hybrid by a hair") — that reading was an artifact of R1, not a real property of the dataset. Rerank (notebook 06) also reverses: a small nDCG@10 *loss* (0.944 → 0.936) instead of the previously measured small gain, at ~3.5x latency instead of ~2.5x; `--rerank` stays off by default either way. Extraction accuracy is exactly unchanged (R1 only affected the retrieval path, not extraction), confirming the fix is isolated to its target. Filter accuracy rose because `evaluate.py`'s own specs-mapping bug (the Deviation above) was fixed at the same time; the 93.5%/95.8%/97.7% numbers at Steps 8/9 used the then-correct stem-keyed mapping, so they don't need correcting themselves — only the post-R9 code needed the key changed to match.
+
+Hard-filter strictness (R24), per JD, passed-hard-filter count vs. ground-truth relevant count (grade ≥ 1):
+
+| JD | passed hard filter | ground-truth relevant |
+|---|---|---|
+| backend_python_fastapi | 17 | 12 |
+| devops_kubernetes_aws | 5 | 12 |
+| junior_data_analyst | 6 | 12 |
+| mlops_cross_role | 17 | 18 |
+| react_frontend | 5 | 6 |
+| senior_ml_engineer | 2 | 12 |
+
+README's Metrics section, [`notebooks/03_experiment_b_search_mode.ipynb`](notebooks/03_experiment_b_search_mode.ipynb)'s and [`notebooks/06_experiment_e_rerank.ipynb`](notebooks/06_experiment_e_rerank.ipynb)'s Finding notes are updated to match.
 
 ## Step 11: One ranking pipeline
 

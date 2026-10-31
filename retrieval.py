@@ -78,13 +78,18 @@ def semantic_search(
     query_embedding: list[float],
     jd: JDRequirements,
     pool_size: int,
+    apply_prefilter: bool = True,
 ) -> dict[str, SemanticHit]:
     """Query Chroma for the `pool_size` nearest chunks and group them by candidate.
 
     A candidate's score is `0.7*max + 0.3*mean(top-3)` cosine similarity
     (similarity = 1 - cosine distance, since chunks are stored in cosine space).
+
+    `apply_prefilter=False` (soft filtering) skips the Chroma `where` filter: a
+    soft-filtered candidate that fails a must-have should still get a real semantic
+    score plus the soft penalty, not a semantic score of 0 (R1).
     """
-    where = build_prefilter(jd)
+    where = build_prefilter(jd) if apply_prefilter else None
     kwargs: dict = {
         "query_embeddings": [query_embedding],
         "n_results": pool_size,

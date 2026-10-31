@@ -46,7 +46,10 @@ candidates_by_id = {c.candidate_id: c for c in candidates}
 calibration = config.MODEL_REGISTRY[config.DEFAULT_MODEL]
 
 specs = load_resume_specs()
-specs_by_id = {spec["candidate_id"]: spec for spec in specs}
+# R9 changed candidate_id to the file name *with* its extension; resume_specs.json's
+# own candidate_id field predates that and is still the bare stem, so key by the
+# file name derived from resume_path instead (same fix as evaluate.py's specs_by_id).
+specs_by_id = {Path(spec["resume_path"]).name: spec for spec in specs}
 ground_truth = load_ground_truth()
 jd_paths = sorted(config.JOB_DESCRIPTIONS_DIR.glob("*.txt"))
 
@@ -55,7 +58,11 @@ def score_all(jd, weights=None, soft=True):
     """Score every candidate against `jd` with the default (bge-small/section) index,
     the same formula `job_matcher.match_jd` uses, minus evidence/output."""
     jd_embedding = embedder.embed_query(jd.raw_text)
-    hits = semantic_search(collection, jd_embedding, jd, config.SEMANTIC_POOL_SIZE)
+    # R1: soft filtering must not apply the Chroma prefilter, the same fix as
+    # job_matcher.match_jd and eval_ranking.rank_candidates.
+    hits = semantic_search(
+        collection, jd_embedding, jd, config.SEMANTIC_POOL_SIZE, apply_prefilter=not soft
+    )
     bm25_scores = bm25_search(candidates, jd.raw_text)
     bm25_max = max(bm25_scores.values(), default=0.0)
     filter_results = filter_candidates(jd, candidates, soft=soft)

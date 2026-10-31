@@ -37,7 +37,7 @@ def relevant_excerpts(
         for _, _, text in hit.top_chunks:
             excerpts.append(text[:EXCERPT_MAX_CHARS])
     for skill in required_matches[:2]:
-        result = file_tools.search_in_file(profile.resume_path, skill)
+        result = file_tools.search_in_file(profile.source_path or profile.resume_path, skill)
         if result.get("success") and result.get("matches"):
             excerpts.append(result["matches"][0]["context"])
     return excerpts

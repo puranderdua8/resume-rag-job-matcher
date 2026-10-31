@@ -168,9 +168,9 @@ From `outputs/metrics.json` (`bge-small` / `section` chunking / hybrid retrieval
 
 | precision@5 | precision@10 | recall@10 | MRR | nDCG@10 | Hit@1 |
 |---|---|---|---|---|---|
-| 0.900 | 0.717 | 0.653 | 1.000 | 0.885 | 1.000 |
+| 0.967 | 0.800 | 0.713 | 1.000 | 0.944 | 1.000 |
 
-Hybrid retrieval's nDCG@10 (0.885) beats semantic-only (0.860) on this dataset; see [`notebooks/03_experiment_b_search_mode.ipynb`](notebooks/03_experiment_b_search_mode.ipynb) for the full sweep, including that keyword-only slightly edges out hybrid on this particular, keyword-heavy synthetic dataset.
+Hybrid retrieval's nDCG@10 (0.944) beats both semantic-only (0.941) and keyword-only (0.901) on this dataset; see [`notebooks/03_experiment_b_search_mode.ipynb`](notebooks/03_experiment_b_search_mode.ipynb) for the full sweep. These numbers are measurably higher than the pre-Step-10 ones (0.885/0.860), and hybrid no longer trails keyword-only as it previously appeared to: Step 10 (R1) fixed `--soft` still applying the hard Chroma prefilter, which had been silently zeroing out the semantic score of every soft-filtered candidate across every retrieval metric reported before this step.
 
 **Extraction accuracy** (36 resumes, vs. `data/resume_specs.json`):
 
@@ -178,15 +178,28 @@ Hybrid retrieval's nDCG@10 (0.885) beats semantic-only (0.860) on this dataset; 
 |---|---|---|---|---|
 | 100% | 94.4% | 100% | 89.0% | 97.6% |
 
-**Filter accuracy** (extracted metadata vs. true values, must-have pass/fail across all 6 JDs): 93.5% (TP=39, FP=10, FN=4, TN=163).
+**Filter accuracy** (extracted metadata vs. true values, must-have pass/fail across all 6 JDs): 95.8% (TP=43, FP=9, FN=0, TN=164).
+
+**Hard-filter strictness** (R24): the must-have filter stays strict (see [PLAN.md](PLAN.md)'s Step 10), so most JDs return fewer than the requested `k=10` matches. Per JD, against the ground-truth relevant count (grade ≥ 1):
+
+| JD | passed hard filter | ground-truth relevant |
+|---|---|---|
+| backend_python_fastapi | 17 | 12 |
+| devops_kubernetes_aws | 5 | 12 |
+| junior_data_analyst | 6 | 12 |
+| mlops_cross_role | 17 | 18 |
+| react_frontend | 5 | 6 |
+| senior_ml_engineer | 2 | 12 |
+
+A `job_matcher.py` run that returns fewer than `k` matches says so in its output (`"returned"`/`"requested"` fields alongside the output contract).
 
 **Latency** (ms, macro-average p50 across JDs, hybrid mode, `bge-small`):
 
 | embed | semantic search | BM25 search | total |
 |---|---|---|---|
-| 21.7 | 2.7 | 23.8 | 48.4 |
+| 21.2 | 2.7 | 24.1 | 48.9 |
 
-Ingest (36 resumes, cold): ~7.2s total, dominated by embedding (~6.2s); model cold load is a separate ~16.3s one-time cost.
+Ingest (36 resumes, warm disk cache): ~2.5s total, dominated by embedding (~1.9s); model cold load is a separate ~15.9s one-time cost.
 
 ## Limitations
 
@@ -194,7 +207,7 @@ Ingest (36 resumes, cold): ~7.2s total, dominated by embedding (~6.2s); model co
 - **Small dataset.** 36 resumes and 6 job descriptions are enough to compare design choices (chunking, search mode, embedding model) but not to make strong accuracy claims; see each notebook's own caveats in [`notebooks/07_calibration_and_analysis.ipynb`](notebooks/07_calibration_and_analysis.ipynb).
 - **Rule-based extraction is pattern-sensitive.** Name, date and education extraction rely on regexes and a fixed synonym list; resumes with unusual formatting (e.g. a name split across two lines, or a date style not in the three supported patterns) will extract incorrectly or fall back to a default.
 - **`experience_years` drifts over time.** "Present" resolves to `date.today()`, while the dataset's ground truth was computed against a fixed reference date (see [PLAN.md](PLAN.md)'s Step 3 deviation notes), so years-based accuracy will slowly diverge from the numbers above as real time moves further from that reference date.
-- **No reranking by default.** `--rerank`'s cross-encoder gives a small nDCG gain at roughly 2.5x the query latency (see [`notebooks/06_experiment_e_rerank.ipynb`](notebooks/06_experiment_e_rerank.ipynb)); it's off by default because the gain is small relative to the cost at this dataset size.
+- **No reranking by default.** `--rerank`'s cross-encoder gives a small nDCG@10 *loss* (0.944 → 0.936) at roughly 3.5x the query latency on this dataset (see [`notebooks/06_experiment_e_rerank.ipynb`](notebooks/06_experiment_e_rerank.ipynb)); it's off by default both for the cost and because it doesn't help here.
 
 ## For AI agents
 

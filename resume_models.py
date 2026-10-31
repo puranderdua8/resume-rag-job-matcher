@@ -20,6 +20,7 @@ class CandidateProfile:
     candidate_id: str
     name: str
     resume_path: str
+    source_path: str = ""
     email: str | None = None
     phone: str | None = None
     skills: list[str] = field(default_factory=list)
