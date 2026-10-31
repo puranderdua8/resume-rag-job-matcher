@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 import time
 from dataclasses import asdict
+from datetime import date
 from pathlib import Path
 
 import chromadb
@@ -36,6 +37,7 @@ def ingest(
     chunking: str = config.DEFAULT_CHUNKING,
     embedder: Embedder | None = None,
     resumes_dir: Path = config.RESUMES_DIR,
+    as_of: date | None = None,
 ) -> IngestStats:
     """Load, chunk, embed and store every resume. Idempotent: recreates the collection."""
     name = collection_name(model, chunking)
@@ -52,7 +54,7 @@ def ingest(
     for item in loaded:
         sections = detect_sections(item["text"])
         profile = extract_metadata(
-            item["candidate_id"], item["resume_path"], item["text"], sections
+            item["candidate_id"], item["resume_path"], item["text"], sections, as_of=as_of
         )
         profile.chunks = build_chunks(
             item["candidate_id"], profile.name, sections, item["text"], strategy=chunking
