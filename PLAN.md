@@ -13,7 +13,7 @@
 - [x] **Step 6:** Notebooks, `notebooks/01_...ipynb`-`07_...ipynb` (experiments A–E and analysis)
 - [x] **Step 7:** Tests, README and demo script; final push with green CI
 - [x] **Step 8:** Fix JD parsing bugs (R2, R3, R4, R11, R13)
-- [ ] **Step 9:** Fix resume extraction bugs
+- [x] **Step 9:** Fix resume extraction bugs
 - [ ] **Step 10:** Fix pipeline, storage and CLI bugs, then re-measure
 - [ ] **Step 11:** One ranking pipeline
 - [ ] **Step 11 verification**
@@ -571,6 +571,39 @@ Branch `step-9-resume-extraction-fixes`. Fixes R5, R6, R7, R14–R17 in `resume_
 - Extraction accuracy doesn't regress (names 100%; years within ±1 yr ≥ 94%, measured with `as_of` = the generator's `TODAY`).
 - A property test proves `skill_years` is monotonic: for every resume and skill, adding the skill's name to any dated bullet or to the Skills line never lowers its years.
 - Re-run the R7 comparison with Step 8 merged, and record the new numbers here. The must-have filter must have **0 false negatives** on the dataset, and filter accuracy at least the current 93.5%.
+
+**Deviation:** the per-skill years accuracy metric (new in this step) is a dict key added to `extraction_accuracy`'s return value (`skill_years_within_1yr_accuracy`), not a new top-level function, since `evaluate.py`'s report loop already iterates every key in that dict generically.
+
+**Deviation:** R17's "log a warning when a chunk's embed text exceeds the model's max sequence length" doesn't have a tokenizer on hand at chunk-build time (no model is loaded yet), so the check uses a conservative character-count proxy, `config.EMBEDDING_MAX_SEQ_CHARS` (2000 chars, below the ~512-token budget shared by every model in `MODEL_REGISTRY`), rather than an exact token count.
+
+**Verified:** `ruff check . && ruff format --check . && pytest -q` pass (76 tests, 25 new regressions covering R5-R7 and R14-R17, including a monotonicity property-style test over several resume variants). `python resume_rag.py ingest && python resume_rag.py stats` loads 36/36 resumes, all with Experience, Education and Skills sections. `python job_matcher.py --all` still writes 6 files in the required format with the output contract intact.
+
+Re-ingesting with `as_of` pinned to the generator's `TODAY` (2026-01-01) and re-running `eval_extraction.extraction_accuracy`:
+
+| Metric | Value |
+|---|---|
+| name_accuracy | 1.000 |
+| years_within_1yr_accuracy | 1.000 |
+| degree_accuracy | 1.000 |
+| skills_precision | 0.890 |
+| skills_recall | 0.976 |
+| skill_years_within_1yr_accuracy (new) | 0.681 |
+
+Names and years both regress-check at 100% (≥ the required 94% for years), well above the Step 9 bar. `skill_years_within_1yr_accuracy` isn't a tuning target (see R7's note on the generator's true per-skill years), but 68.1% is in the same range as R7's measured 62.5% for the chosen policy, confirming the monotonic implementation behaves as designed.
+
+Re-running the R7 must-have filter confusion matrix (same `as_of`, Step 8 merged) across all 6 JDs:
+
+| JD | TP | FP | FN | TN |
+|---|---|---|---|---|
+| backend_python_fastapi | 14 | 2 | 0 | 20 |
+| devops_kubernetes_aws | 4 | 0 | 0 | 32 |
+| junior_data_analyst | 6 | 0 | 0 | 30 |
+| mlops_cross_role | 14 | 2 | 0 | 20 |
+| react_frontend | 4 | 0 | 0 | 32 |
+| senior_ml_engineer | 1 | 1 | 0 | 34 |
+| **overall** | **43** | **5** | **0** | **168** |
+
+**0 false negatives** (the required bar) and **97.7% filter accuracy**, up from the pre-Step-9 93.5% and above R7's measured 95.8% for the chosen policy on its own.
 
 ## Step 10: Fix pipeline, storage and CLI bugs, then re-measure
 

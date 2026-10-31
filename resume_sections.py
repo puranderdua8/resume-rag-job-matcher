@@ -5,20 +5,52 @@ from __future__ import annotations
 CONTACT_SECTION = "contact"
 MAX_HEADER_WORDS = 5
 
+
+def _is_unrecognized_header(line: str) -> bool:
+    """A short, all-caps or colon-terminated line not in SECTION_SYNONYMS (R5).
+
+    Narrow on purpose: job titles ("Senior Software Engineer") and other
+    short prose lines inside a section must not be mistaken for a header,
+    so this only fires for shapes that are unambiguously headers.
+    """
+    stripped = line.strip()
+    if not stripped or len(stripped.split()) > MAX_HEADER_WORDS:
+        return False
+    has_colon = stripped.endswith(":")
+    body = stripped.rstrip(":").strip()
+    if not body:
+        return False
+    if has_colon:
+        return True
+    return body == body.upper() and any(ch.isalpha() for ch in body)
+
+
 SECTION_SYNONYMS: dict[str, str] = {
     "summary": "summary",
     "profile": "summary",
     "objective": "summary",
+    "professional summary": "summary",
     "experience": "experience",
     "work history": "experience",
     "professional experience": "experience",
     "employment": "experience",
+    "work experience": "experience",
+    "employment history": "experience",
+    "career history": "experience",
+    "relevant experience": "experience",
     "education": "education",
+    "education & training": "education",
     "skills": "skills",
     "technical skills": "skills",
     "core competencies": "skills",
+    "skills & tools": "skills",
     "projects": "projects",
     "certifications": "certifications",
+    "publications": "publications",
+    "awards": "awards",
+    "volunteer": "volunteer",
+    "languages": "languages",
+    "interests": "interests",
 }
 
 
@@ -60,6 +92,10 @@ def detect_sections(text: str) -> dict[str, list[str]]:
             canonical, content = inline
             current = canonical
             sections.setdefault(current, []).append(content)
+            continue
+        if current != CONTACT_SECTION and _is_unrecognized_header(line):
+            current = line.strip().rstrip(":").strip().lower()
+            sections.setdefault(current, [])
             continue
         sections.setdefault(current, []).append(line)
     return {section: lines for section, lines in sections.items() if lines}

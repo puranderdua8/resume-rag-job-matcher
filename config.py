@@ -86,6 +86,9 @@ SOFT_FILTER_PENALTY = 20
 MAX_CHUNK_CHARS = 1000
 FIXED_CHUNK_SIZE = 500
 FIXED_CHUNK_OVERLAP = 100
+# Conservative char-count proxy for the ~512-token max sequence length shared by every
+# model in MODEL_REGISTRY, so resume_chunking can warn without needing a tokenizer on hand.
+EMBEDDING_MAX_SEQ_CHARS = 2000
 
 # Dataset generation (Step 2): fixed seed so the synthetic dataset is reproducible.
 DATASET_SEED = 20260214

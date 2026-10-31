@@ -11,16 +11,20 @@ import re
 from datetime import date, datetime, timedelta
 
 DATE_TOKEN = r"[A-Za-z]{3,9}\.?\s+\d{4}|\d{1,2}/\d{4}|\d{4}"
+PRESENT_WORD = r"Present|Current|Now|Today"
+SEPARATOR = r"[-–—]|\s+to\s+|\s+until\s+"
 DATE_RANGE_RE = re.compile(
-    rf"(?P<start>{DATE_TOKEN})\s*[-–—]\s*(?P<end>Present|{DATE_TOKEN})",
+    rf"(?P<start>{DATE_TOKEN})\s*(?:{SEPARATOR})\s*(?P<end>{PRESENT_WORD}|{DATE_TOKEN})",
     re.IGNORECASE,
 )
+# Month abbreviations/spellings strptime's "%b"/"%B" don't accept on their own (R16).
+_MONTH_ALIASES = {"sept": "sep"}
 
 
-def _parse_date_token(token: str) -> date:
+def _parse_date_token(token: str, as_of: date) -> date:
     token = token.strip()
-    if token.lower() == "present":
-        return date.today()
+    if token.lower() in {"present", "current", "now", "today"}:
+        return as_of
     if re.fullmatch(r"\d{4}", token):
         # A bare year loses sub-year precision; the middle of the year is the
         # unbiased point estimate given no other info.
@@ -28,21 +32,26 @@ def _parse_date_token(token: str) -> date:
     if re.fullmatch(r"\d{1,2}/\d{4}", token):
         month, year = token.split("/")
         return date(int(year), int(month), 1)
-    for fmt in ("%b %Y", "%B %Y"):
-        try:
-            return datetime.strptime(token.replace(".", ""), fmt).date()
-        except ValueError:
-            continue
+    token = token.replace(".", "")
+    month_part, _, year_part = token.rpartition(" ")
+    normalized = f"{_MONTH_ALIASES.get(month_part.lower(), month_part)} {year_part}"
+    for candidate in (normalized, token):
+        for fmt in ("%b %Y", "%B %Y"):
+            try:
+                return datetime.strptime(candidate, fmt).date()
+            except ValueError:
+                continue
     raise ValueError(f"Unrecognised date token: {token!r}")
 
 
-def parse_date_range(line: str) -> tuple[date, date] | None:
+def parse_date_range(line: str, as_of: date | None = None) -> tuple[date, date] | None:
+    as_of = as_of or date.today()
     match = DATE_RANGE_RE.search(line)
     if not match:
         return None
     try:
-        start = _parse_date_token(match.group("start"))
-        end = _parse_date_token(match.group("end"))
+        start = _parse_date_token(match.group("start"), as_of)
+        end = _parse_date_token(match.group("end"), as_of)
     except ValueError:
         return None
     if end <= start:

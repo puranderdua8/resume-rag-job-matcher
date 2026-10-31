@@ -2,23 +2,40 @@
 
 from __future__ import annotations
 
+import logging
+
 import config
 from resume_dates import DATE_RANGE_RE
 from resume_models import Chunk
+
+logger = logging.getLogger(__name__)
+
+BULLET_GLYPHS = "-*•–▪"
 
 
 def split_experience_entries(lines: list[str]) -> list[list[str]]:
     """Split Experience-section lines into per-job entries at date-range lines.
 
     A date-range line's preceding title line (if any) is pulled in with it, so
-    each entry reads as [title, date line, bullets...].
+    each entry reads as [title, date line, bullets...]. That pull only happens
+    when the date-range line contains *nothing but* the date range; when the
+    title and dates share one line ("Eng, A | Jan 2020 - Present"), pulling in
+    the actual previous line would instead misattribute the prior job's last
+    bullet to this entry (R15).
     """
     boundaries: list[int] = []
     for i, line in enumerate(lines):
-        if not DATE_RANGE_RE.search(line):
+        match = DATE_RANGE_RE.search(line)
+        if not match:
             continue
         start = i
-        if i > 0 and lines[i - 1].strip() and not DATE_RANGE_RE.search(lines[i - 1]):
+        remainder = (line[: match.start()] + line[match.end() :]).strip(" |,-–—")
+        if (
+            not remainder
+            and i > 0
+            and lines[i - 1].strip()
+            and not DATE_RANGE_RE.search(lines[i - 1])
+        ):
             start = i - 1
         if not boundaries or start > boundaries[-1]:
             boundaries.append(start)
@@ -35,14 +52,29 @@ def split_experience_entries(lines: list[str]) -> list[list[str]]:
     return entries
 
 
+def _starts_with_bullet(line: str) -> bool:
+    return line.strip()[:1] in BULLET_GLYPHS
+
+
+def _hard_split(text: str, max_chars: int) -> list[str]:
+    """Split a single over-long bullet by character count, as a last resort (R17)."""
+    return [text[i : i + max_chars] for i in range(0, len(text), max_chars)] or [text]
+
+
 def _split_long_chunk(text: str, max_chars: int = config.MAX_CHUNK_CHARS) -> list[str]:
-    """Split an over-long chunk at bullet boundaries, with a one-bullet overlap."""
+    """Split an over-long chunk at bullet boundaries, with a one-bullet overlap.
+
+    Recognises any common bullet glyph, not just "-" (R17): a resume using
+    "•" exclusively used to produce one chunk per section regardless of
+    length. A single bullet that is still over `max_chars` on its own is
+    hard-split by character count rather than left oversized.
+    """
     if len(text) <= max_chars:
         return [text]
     lines = text.splitlines()
     bullets: list[list[str]] = [[]]
     for line in lines:
-        if line.strip().startswith("-") and bullets[-1]:
+        if _starts_with_bullet(line) and bullets[-1]:
             bullets.append([])
         bullets[-1].append(line)
 
@@ -59,7 +91,15 @@ def _split_long_chunk(text: str, max_chars: int = config.MAX_CHUNK_CHARS) -> lis
         current_len += len(bullet_text)
     if current:
         pieces.append("\n".join("\n".join(b) for b in current))
-    return pieces or [text]
+    pieces = pieces or [text]
+
+    result: list[str] = []
+    for piece in pieces:
+        if len(piece) > max_chars:
+            result.extend(_hard_split(piece, max_chars))
+        else:
+            result.append(piece)
+    return result
 
 
 def _chunk_fixed(text: str) -> list[str]:
@@ -75,6 +115,26 @@ def _chunk_fixed(text: str) -> list[str]:
     return pieces or [text]
 
 
+def _make_chunk(
+    chunk_id: str, candidate_id: str, section: str, text: str, embed_text: str
+) -> Chunk:
+    if len(embed_text) > config.EMBEDDING_MAX_SEQ_CHARS:
+        logger.warning(
+            "Chunk %s's embed text is %d chars, over the ~%d-char budget for the model's "
+            "max sequence length; it will be truncated at embedding time.",
+            chunk_id,
+            len(embed_text),
+            config.EMBEDDING_MAX_SEQ_CHARS,
+        )
+    return Chunk(
+        chunk_id=chunk_id,
+        candidate_id=candidate_id,
+        section=section,
+        text=text,
+        embed_text=embed_text,
+    )
+
+
 def build_chunks(
     candidate_id: str,
     name: str,
@@ -86,12 +146,12 @@ def build_chunks(
 
     if strategy == "whole":
         chunks.append(
-            Chunk(
-                chunk_id=f"{candidate_id}::whole::0",
-                candidate_id=candidate_id,
-                section="whole",
-                text=full_text,
-                embed_text=f"{name} | whole\n{full_text}",
+            _make_chunk(
+                f"{candidate_id}::whole::0",
+                candidate_id,
+                "whole",
+                full_text,
+                f"{name} | whole\n{full_text}",
             )
         )
         return chunks
@@ -99,12 +159,12 @@ def build_chunks(
     if strategy == "fixed":
         for n, piece in enumerate(_chunk_fixed(full_text)):
             chunks.append(
-                Chunk(
-                    chunk_id=f"{candidate_id}::fixed::{n}",
-                    candidate_id=candidate_id,
-                    section="fixed",
-                    text=piece,
-                    embed_text=f"{name} | fixed\n{piece}",
+                _make_chunk(
+                    f"{candidate_id}::fixed::{n}",
+                    candidate_id,
+                    "fixed",
+                    piece,
+                    f"{name} | fixed\n{piece}",
                 )
             )
         return chunks
@@ -122,12 +182,12 @@ def build_chunks(
                 if not piece.strip():
                     continue
                 chunks.append(
-                    Chunk(
-                        chunk_id=f"{candidate_id}::{section}::{n}",
-                        candidate_id=candidate_id,
-                        section=section,
-                        text=piece,
-                        embed_text=f"{name} | {section}\n{piece}",
+                    _make_chunk(
+                        f"{candidate_id}::{section}::{n}",
+                        candidate_id,
+                        section,
+                        piece,
+                        f"{name} | {section}\n{piece}",
                     )
                 )
                 n += 1
