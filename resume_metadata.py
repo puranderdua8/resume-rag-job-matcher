@@ -188,6 +188,7 @@ def extract_metadata(
     full_text: str,
     sections: dict[str, list[str]],
     as_of: date | None = None,
+    source_path: str = "",
 ) -> CandidateProfile:
     as_of = as_of or date.today()
     name = _extract_name(sections, candidate_id)
@@ -232,6 +233,7 @@ def extract_metadata(
         candidate_id=candidate_id,
         name=name,
         resume_path=resume_path,
+        source_path=source_path or resume_path,
         email=email_match.group(0) if email_match else None,
         phone=phone_match.group(0) if phone_match else None,
         skills=matched_skills,

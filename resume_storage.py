@@ -29,7 +29,11 @@ def collection_dir(model: str, chunking: str) -> Path:
 
 
 def get_chroma_client() -> chromadb.ClientAPI:
-    return chromadb.PersistentClient(path=str(config.CHROMA_DIR))
+    # E2: anonymized_telemetry defaults to True, and this index stores PII.
+    return chromadb.PersistentClient(
+        path=str(config.CHROMA_DIR),
+        settings=chromadb.Settings(anonymized_telemetry=False),
+    )
 
 
 def ingest(
@@ -54,7 +58,12 @@ def ingest(
     for item in loaded:
         sections = detect_sections(item["text"])
         profile = extract_metadata(
-            item["candidate_id"], item["resume_path"], item["text"], sections, as_of=as_of
+            item["candidate_id"],
+            item["resume_path"],
+            item["text"],
+            sections,
+            as_of=as_of,
+            source_path=item["source_path"],
         )
         profile.chunks = build_chunks(
             item["candidate_id"], profile.name, sections, item["text"], strategy=chunking

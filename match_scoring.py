@@ -59,11 +59,26 @@ def score_candidate(
     preferred_cov = skill_coverage(jd.preferred_skills, profile)
 
     weights = weights or config.SCORE_WEIGHTS
+    # R12: a JD with no recognised required (or preferred) skills would otherwise award
+    # that component in full to everyone (skill_coverage returns 1.0 for an empty target
+    # list), handing out free points with no skill signal behind them. Drop the component
+    # and renormalise the remaining weights instead, so they still sum to 1.
+    components = {"semantic": semantic_cal, "bm25": bm25_norm}
+    active_weights = {"semantic": weights["semantic"], "bm25": weights["bm25"]}
+    required_scored = bool(jd.required_skills)
+    preferred_scored = bool(jd.preferred_skills)
+    if required_scored:
+        components["required_coverage"] = required_cov
+        active_weights["required_coverage"] = weights["required_coverage"]
+    if preferred_scored:
+        components["preferred_coverage"] = preferred_cov
+        active_weights["preferred_coverage"] = weights["preferred_coverage"]
+
+    total_weight = sum(active_weights.values())
     raw_score = (
-        weights["semantic"] * semantic_cal
-        + weights["bm25"] * bm25_norm
-        + weights["required_coverage"] * required_cov
-        + weights["preferred_coverage"] * preferred_cov
+        sum(active_weights[k] * components[k] for k in components) / total_weight
+        if total_weight > 0
+        else 0.0
     )
     score = round(100 * raw_score) - filter_penalty
     breakdown = {
@@ -72,6 +87,10 @@ def score_candidate(
         "required_coverage": round(required_cov, 3),
         "preferred_coverage": round(preferred_cov, 3),
     }
+    if not required_scored:
+        breakdown["required_coverage_scored"] = False
+    if not preferred_scored:
+        breakdown["preferred_coverage_scored"] = False
     if filter_penalty:
         breakdown["soft_penalty"] = filter_penalty
     return ScoredCandidate(

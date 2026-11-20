@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from match_models import JDRequirements
-from retrieval import build_prefilter, rrf_fuse
+from retrieval import build_prefilter, rrf_fuse, semantic_search
 
 
 def _jd(**kwargs) -> JDRequirements:
@@ -49,3 +49,31 @@ def test_rrf_fuse_rewards_candidates_ranked_high_in_both_lists_equally():
 
 def test_rrf_fuse_with_no_rankings_is_empty():
     assert rrf_fuse([], k=60) == {}
+
+
+class _RecordingCollection:
+    """Records the `where` kwarg `semantic_search` passed, so tests can assert on it
+    without a real Chroma collection."""
+
+    def __init__(self):
+        self.last_kwargs: dict | None = None
+
+    def query(self, **kwargs):
+        self.last_kwargs = kwargs
+        return {"metadatas": [[]], "documents": [[]], "distances": [[]]}
+
+
+def test_semantic_search_applies_the_prefilter_by_default():
+    jd = _jd(total_years_minimum=5.0)
+    collection = _RecordingCollection()
+    semantic_search(collection, [0.0], jd, pool_size=10)
+    assert collection.last_kwargs["where"] == {"experience_years": {"$gte": 5.0}}
+
+
+def test_semantic_search_skips_the_prefilter_when_apply_prefilter_is_false():
+    """R1: soft filtering must not apply the Chroma prefilter, so a soft-failed
+    candidate still gets a real semantic score instead of 0."""
+    jd = _jd(total_years_minimum=5.0)
+    collection = _RecordingCollection()
+    semantic_search(collection, [0.0], jd, pool_size=10, apply_prefilter=False)
+    assert "where" not in collection.last_kwargs

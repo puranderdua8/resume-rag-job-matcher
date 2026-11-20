@@ -228,6 +228,8 @@
       }
     }
   ],
+  "returned": 6,
+  "requested": 10,
   "filtered_out": [
     {
       "candidate_name": "Amelia Chen",
@@ -466,13 +468,13 @@
     }
   ],
   "latency_ms": {
-    "embed": 27.7,
-    "semantic_search": 3.3,
-    "bm25_search": 24.2,
+    "embed": 20.8,
+    "semantic_search": 5.6,
+    "bm25_search": 24.0,
     "fusion": 0.0,
     "filter": 0.1,
     "rerank": 0.0,
     "score": 0.0,
-    "total": 99.8
+    "total": 97.3
   }
 }

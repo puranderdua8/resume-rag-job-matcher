@@ -13,10 +13,13 @@ CLI:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import time
 from pathlib import Path
+
+import chromadb
 
 import config
 import file_tools
@@ -45,7 +48,13 @@ def apply_must_have_overrides(jd: JDRequirements, clauses: list[str]) -> JDRequi
 
 
 def slugify(text: str) -> str:
-    return re.sub(r"[^a-z0-9]+", "_", text.lower()).strip("_")
+    """Filesystem-safe slug for an output filename. Falls back to a hash of `text`
+    when nothing alphanumeric survives (e.g. a title of only punctuation), so the
+    result is never an empty stem (R23)."""
+    slug = re.sub(r"[^a-z0-9]+", "_", text.lower()).strip("_")
+    if slug:
+        return slug
+    return f"jd_{hashlib.sha1(text.encode()).hexdigest()[:8]}"
 
 
 def match_jd(
@@ -71,7 +80,9 @@ def match_jd(
 
     t0 = time.perf_counter()
     hits = (
-        semantic_search(collection, jd_embedding, jd, config.SEMANTIC_POOL_SIZE)
+        semantic_search(
+            collection, jd_embedding, jd, config.SEMANTIC_POOL_SIZE, apply_prefilter=not soft
+        )
         if mode != "keyword"
         else {}
     )
@@ -182,6 +193,8 @@ def match_jd(
     return {
         "job_description": jd.title,
         "top_matches": top_matches,
+        "returned": len(top_matches),
+        "requested": k,
         "filtered_out": filtered_out,
         "latency_ms": {
             "embed": round(t_embed * 1000, 1),
@@ -257,15 +270,25 @@ def main(argv: list[str] | None = None) -> None:
     )
     args = parser.parse_args(argv)
 
+    if args.k < 1:
+        parser.error(f"--k must be >= 1, got {args.k}")
+
     for clause in args.must_haves:
         try:
             parse_must_have_clause(clause)
         except UnparsableMustHaveError as exc:
             parser.error(str(exc))
 
-    embedder = get_embedder(args.model)
     client = get_chroma_client()
-    collection = client.get_collection(collection_name(args.model, args.chunking))
+    name = collection_name(args.model, args.chunking)
+    try:
+        collection = client.get_collection(name)
+    except chromadb.errors.NotFoundError:
+        parser.error(
+            f"No index found for collection {name!r}. Run "
+            f"`python resume_rag.py ingest --model {args.model} --chunking {args.chunking}` first."
+        )
+    embedder = get_embedder(args.model)
 
     if args.text:
         _run_and_write(args.text, slugify(parse_jd(args.text).title), embedder, collection, args)

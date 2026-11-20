@@ -144,6 +144,34 @@
       }
     },
     {
+      "candidate_name": "Dmitri Wilson",
+      "resume_path": "data/resumes/dmitri_wilson.txt",
+      "match_score": 47,
+      "matched_skills": [
+        "Python"
+      ],
+      "relevant_excerpts": [
+        "Junior ML Engineer, Pinecrest Software\n2022-2023\n- Built data pipelines in Python to preprocess and validate training data at scale.\n- Partnered with product managers to translate business goals into measurable model objectives.\n- Designed and trained deep learning models in PyTorch for a real-time ",
+        "ML Engineer with 3+ years building and shipping machine learning systems in Python, from research prototypes through production deployment.",
+        "...ive ML Engineer with 3+ years building and shipping machine learning systems in Python, from research prototypes through production deployment. Professional Experien..."
+      ],
+      "reasoning": "Partial match (47/100). Closest sections: experience (0.67), summary (0.63). Required-skill coverage: 20% of required skills; missing FastAPI, Django, PostgreSQL, Docker. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.621,
+        "bm25_norm": 0.55,
+        "required_coverage": 0.2,
+        "preferred_coverage": 0.0
+      },
+      "section_scores": {
+        "experience": 0.6727167367935181,
+        "summary": 0.6273195743560791
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
       "candidate_name": "Scarlett Young",
       "resume_path": "data/resumes/scarlett_young.pdf",
       "match_score": 45,
@@ -283,34 +311,10 @@
         "passed": true,
         "reasons": []
       }
-    },
-    {
-      "candidate_name": "Matthew Phillips",
-      "resume_path": "data/resumes/matthew_phillips.txt",
-      "match_score": 38,
-      "matched_skills": [
-        "Python"
-      ],
-      "relevant_excerpts": [
-        "Python, SQL, Pandas, NumPy, Scikit-learn, Statistics, Tableau",
-        "...phillips@example.com | (312) 555-0165 Profile Data Scientist who pairs SQL and Python with statistical rigor to find and explain patterns in messy, real-world data...."
-      ],
-      "reasoning": "Partial match (38/100). Closest sections: skills (0.59). Required-skill coverage: 20% of required skills; missing FastAPI, Django, PostgreSQL, Docker. Must-have check: passed all must-haves.",
-      "score_breakdown": {
-        "semantic_cal": 0.484,
-        "bm25_norm": 0.448,
-        "required_coverage": 0.2,
-        "preferred_coverage": 0.0
-      },
-      "section_scores": {
-        "skills": 0.591992199420929
-      },
-      "must_have_check": {
-        "passed": true,
-        "reasons": []
-      }
     }
   ],
+  "returned": 10,
+  "requested": 10,
   "filtered_out": [
     {
       "candidate_name": "Avery Nelson",
@@ -344,25 +348,11 @@
       ]
     },
     {
-      "candidate_name": "Dmitri Wilson",
-      "resume_path": "data/resumes/dmitri_wilson.txt",
-      "reasons": [
-        "Python: 1.0 yrs < 3 required"
-      ]
-    },
-    {
       "candidate_name": "Elijah Jackson",
       "resume_path": "data/resumes/elijah_jackson.pdf",
       "reasons": [
         "Python: 2.6 yrs < 3 required",
         "Total experience: 1.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Emma Walker",
-      "resume_path": "data/resumes/emma_walker.md",
-      "reasons": [
-        "Python: 2.2 yrs < 3 required"
       ]
     },
     {
@@ -378,13 +368,6 @@
       "resume_path": "data/resumes/evelyn_roberts.txt",
       "reasons": [
         "Python: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Fatima Robinson",
-      "resume_path": "data/resumes/fatima_robinson.docx",
-      "reasons": [
-        "Python: 2.3 yrs < 3 required"
       ]
     },
     {
@@ -478,13 +461,13 @@
     }
   ],
   "latency_ms": {
-    "embed": 931.9,
-    "semantic_search": 114.7,
-    "bm25_search": 25.9,
-    "fusion": 0.0,
+    "embed": 793.6,
+    "semantic_search": 347.0,
+    "bm25_search": 23.7,
+    "fusion": 0.1,
     "filter": 0.1,
     "rerank": 0.0,
-    "score": 0.1,
-    "total": 1142.6
+    "score": 0.2,
+    "total": 1231.9
   }
 }

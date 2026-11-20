@@ -76,6 +76,8 @@
       }
     }
   ],
+  "returned": 2,
+  "requested": 10,
   "filtered_out": [
     {
       "candidate_name": "Amelia Chen",
@@ -134,7 +136,7 @@
       "candidate_name": "Dmitri Wilson",
       "resume_path": "data/resumes/dmitri_wilson.txt",
       "reasons": [
-        "Python: 1.0 yrs < 5 required",
+        "Python: 3.0 yrs < 5 required",
         "Total experience: 3.0 yrs < 5 required"
       ]
     },
@@ -158,7 +160,7 @@
       "candidate_name": "Emma Walker",
       "resume_path": "data/resumes/emma_walker.md",
       "reasons": [
-        "Python: 2.2 yrs < 5 required",
+        "Python: 4.0 yrs < 5 required",
         "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
         "Total experience: 4.0 yrs < 5 required"
       ]
@@ -184,7 +186,6 @@
       "candidate_name": "Fatima Robinson",
       "resume_path": "data/resumes/fatima_robinson.docx",
       "reasons": [
-        "Python: 2.3 yrs < 5 required",
         "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
       ]
     },
@@ -210,7 +211,6 @@
       "candidate_name": "Isabella Lewis",
       "resume_path": "data/resumes/isabella_lewis.docx",
       "reasons": [
-        "Python: 4.3 yrs < 5 required",
         "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)"
       ]
     },
@@ -362,13 +362,13 @@
     }
   ],
   "latency_ms": {
-    "embed": 30.5,
-    "semantic_search": 5.1,
-    "bm25_search": 24.3,
+    "embed": 31.3,
+    "semantic_search": 3.5,
+    "bm25_search": 24.2,
     "fusion": 0.0,
     "filter": 0.1,
     "rerank": 0.0,
     "score": 0.0,
-    "total": 75.4
+    "total": 70.9
   }
 }

@@ -125,3 +125,27 @@ def test_ingest_and_match_end_to_end(tmp_path, monkeypatch, fake_embedder):
     for match in result["top_matches"]:
         assert required_keys <= match.keys()
         assert 0 <= match["match_score"] <= 100
+
+
+def test_excerpts_survive_a_different_working_directory(tmp_path, monkeypatch, fake_embedder):
+    """R8: match_evidence reads resumes via M1's `search_in_file`, which resolves a
+    relative path against the process's current working directory. Excerpts must not
+    depend on job_matcher.py being run from the repo root."""
+    monkeypatch.setattr(config, "ROOT_DIR", tmp_path)
+    monkeypatch.setattr(config, "INDEX_DIR", tmp_path / "index")
+    monkeypatch.setattr(config, "CHROMA_DIR", tmp_path / "index" / "chroma")
+    resumes_dir = _write_resumes(tmp_path / "resumes")
+    ingest(embedder=fake_embedder, resumes_dir=resumes_dir)
+
+    client = get_chroma_client()
+    name = collection_name(config.DEFAULT_MODEL, config.DEFAULT_CHUNKING)
+    collection = client.get_collection(name)
+    jd = parse_jd(JD_TEXT)
+
+    elsewhere = tmp_path / "elsewhere"
+    elsewhere.mkdir()
+    monkeypatch.chdir(elsewhere)
+
+    result = match_jd(jd, fake_embedder, collection, k=100)
+    jordan = next(m for m in result["top_matches"] if m["candidate_name"] == "Jordan Lee")
+    assert jordan["relevant_excerpts"]

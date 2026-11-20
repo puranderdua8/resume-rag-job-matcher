@@ -110,6 +110,39 @@
       }
     },
     {
+      "candidate_name": "Dmitri Wilson",
+      "resume_path": "data/resumes/dmitri_wilson.txt",
+      "match_score": 62,
+      "matched_skills": [
+        "Python",
+        "Machine Learning",
+        "TensorFlow",
+        "PyTorch"
+      ],
+      "relevant_excerpts": [
+        "ML Engineer with 3+ years building and shipping machine learning systems in Python, from research prototypes through production deployment.",
+        "Junior ML Engineer, Pinecrest Software\n2022-2023\n- Built data pipelines in Python to preprocess and validate training data at scale.\n- Partnered with product managers to translate business goals into measurable model objectives.\n- Designed and trained deep learning models in PyTorch for a real-time ",
+        "...ive ML Engineer with 3+ years building and shipping machine learning systems in Python, from research prototypes through production deployment. Professional Experien...",
+        "...com | (206) 555-0181 Objective ML Engineer with 3+ years building and shipping machine learning systems in Python, from research prototypes through production deployment. Pro..."
+      ],
+      "reasoning": "Good match (62/100). Closest sections: summary (0.68), experience (0.67). Required-skill coverage: 33% of required skills; missing Docker, Kubernetes, AWS, GCP. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.647,
+        "bm25_norm": 0.934,
+        "required_coverage": 0.333,
+        "preferred_coverage": 0.6
+      },
+      "section_scores": {
+        "summary": 0.6751225590705872,
+        "experience": 0.6740772724151611,
+        "skills": 0.6025795936584473
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
       "candidate_name": "Sofia Lee",
       "resume_path": "data/resumes/sofia_lee.docx",
       "match_score": 55,
@@ -293,35 +326,10 @@
         "passed": true,
         "reasons": []
       }
-    },
-    {
-      "candidate_name": "Amelia Chen",
-      "resume_path": "data/resumes/amelia_chen.pdf",
-      "match_score": 38,
-      "matched_skills": [
-        "Python"
-      ],
-      "relevant_excerpts": [
-        "Junior Data Scientist, Quantum Byte\nMar 2022 - Jul 2024\n- Built dashboards summarizing key metrics for the leadership team.\n- Used Pandas and NumPy to clean and transform multi-source data before modeling.\n- Built Scikit-learn models to predict customer churn, presenting findings with clear statisti",
-        "Data Scientist, Pivotal Works\nJul 2024 - Present\n- Built dashboards summarizing key metrics for the leadership team.\n- Designed controlled experiments to compare product variants and measured the impact on conversion\nbefore any change shipped broadly.\n- Used Pandas and NumPy to clean and transform m",
-        "...ple.com | (415) 555-0134 Objective Data Scientist with 3+ years turning SQL and Python analysis into decisions, using Pandas and Scikit-learn to model and explain cus..."
-      ],
-      "reasoning": "Partial match (38/100). Closest sections: experience (0.60). Required-skill coverage: 17% of required skills; missing Machine Learning, Docker, Kubernetes, AWS, GCP. Must-have check: passed all must-haves.",
-      "score_breakdown": {
-        "semantic_cal": 0.5,
-        "bm25_norm": 0.443,
-        "required_coverage": 0.167,
-        "preferred_coverage": 0.0
-      },
-      "section_scores": {
-        "experience": 0.6003089547157288
-      },
-      "must_have_check": {
-        "passed": true,
-        "reasons": []
-      }
     }
   ],
+  "returned": 10,
+  "requested": 10,
   "filtered_out": [
     {
       "candidate_name": "Avery Nelson",
@@ -355,25 +363,11 @@
       ]
     },
     {
-      "candidate_name": "Dmitri Wilson",
-      "resume_path": "data/resumes/dmitri_wilson.txt",
-      "reasons": [
-        "Python: 1.0 yrs < 3 required"
-      ]
-    },
-    {
       "candidate_name": "Elijah Jackson",
       "resume_path": "data/resumes/elijah_jackson.pdf",
       "reasons": [
         "Python: 2.6 yrs < 3 required",
         "Total experience: 1.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Emma Walker",
-      "resume_path": "data/resumes/emma_walker.md",
-      "reasons": [
-        "Python: 2.2 yrs < 3 required"
       ]
     },
     {
@@ -389,13 +383,6 @@
       "resume_path": "data/resumes/evelyn_roberts.txt",
       "reasons": [
         "Python: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Fatima Robinson",
-      "resume_path": "data/resumes/fatima_robinson.docx",
-      "reasons": [
-        "Python: 2.3 yrs < 3 required"
       ]
     },
     {
@@ -489,13 +476,13 @@
     }
   ],
   "latency_ms": {
-    "embed": 33.6,
-    "semantic_search": 3.5,
-    "bm25_search": 25.0,
+    "embed": 30.8,
+    "semantic_search": 4.7,
+    "bm25_search": 24.6,
     "fusion": 0.0,
     "filter": 0.0,
     "rerank": 0.0,
     "score": 0.1,
-    "total": 116.5
+    "total": 113.2
   }
 }

@@ -35,7 +35,9 @@ def rank_candidates(
 
     t0 = time.perf_counter()
     hits = (
-        semantic_search(collection, jd_embedding, jd, config.SEMANTIC_POOL_SIZE)
+        semantic_search(
+            collection, jd_embedding, jd, config.SEMANTIC_POOL_SIZE, apply_prefilter=False
+        )
         if mode != "keyword"
         else {}
     )
