@@ -1,11 +1,14 @@
 """Part B CLI: retrieval accuracy, extraction accuracy, filter accuracy and latency.
 
 The metrics themselves live across eval_data.py, eval_retrieval_metrics.py,
-eval_extraction.py, eval_filtering.py, eval_ranking.py and eval_latency.py; this
-module wires them together and owns the CLI and outputs/metrics.json.
+eval_extraction.py, eval_filtering.py and eval_latency.py; this module wires
+them together, calls `ranking.rank()` directly (Step 11: the one ranking
+pipeline, shared with job_matcher.py and the notebooks), and owns the CLI and
+outputs/metrics.json.
 
 `run_eval(model, chunking, mode, weights, rerank)` re-ingests the given
-(model, chunking) pair, then for every JD in data/job_descriptions/ builds a
+(model, chunking) pair into config.EVAL_INDEX_DIR (A6: never the index
+job_matcher.py serves), then for every JD in data/job_descriptions/ builds a
 full ranking over all candidates (retrieval + fusion + scoring, with the
 must-have filter run *soft* so nobody is dropped from the ranking) and scores
 it against data/ground_truth.json's graded relevance labels. This keeps
@@ -35,9 +38,9 @@ from eval_data import jd_id_for_path, load_ground_truth, load_resume_specs
 from eval_extraction import extraction_accuracy
 from eval_filtering import confusion_accuracy, filter_confusion, sum_confusion
 from eval_latency import macro_average_latency, percentile
-from eval_ranking import rank_candidates
 from eval_retrieval_metrics import macro_average, retrieval_metrics
 from jd_parsing import parse_jd
+from ranking import RankingOptions, rank
 from resume_embedding import get_embedder
 from resume_storage import collection_name, get_chroma_client, ingest, load_candidates
 
@@ -54,12 +57,18 @@ def run_eval(
     embedder = get_embedder(model)
     model_cold_load_s = time.perf_counter() - t0
 
-    ingest_stats = ingest(model=model, chunking=chunking, embedder=embedder)
+    # A6: a separate index directory, never the one job_matcher.py serves.
+    ingest_stats = ingest(
+        model=model,
+        chunking=chunking,
+        embedder=embedder,
+        index_dir=config.EVAL_INDEX_DIR,
+        chroma_dir=config.EVAL_CHROMA_DIR,
+    )
 
-    client = get_chroma_client()
+    client = get_chroma_client(config.EVAL_CHROMA_DIR)
     collection = client.get_collection(collection_name(model, chunking))
-    candidates = load_candidates(model, chunking)
-    candidates_by_id = {c.candidate_id: c for c in candidates}
+    candidates = load_candidates(model, chunking, index_dir=config.EVAL_INDEX_DIR)
     calibration = config.MODEL_REGISTRY[model]
 
     ground_truth = load_ground_truth()
@@ -83,22 +92,13 @@ def run_eval(
 
         ranking: list[str] = []
         timed_runs: dict[str, list[float]] = {}
+        options = RankingOptions(mode=mode, soft=True, rerank=rerank, weights=weights)
         for run_index in range(warm_runs + 1):
-            result = rank_candidates(
-                jd,
-                embedder,
-                collection,
-                candidates,
-                candidates_by_id,
-                calibration,
-                mode,
-                rerank,
-                weights,
-            )
-            ranking = result["ranking"]
+            result = rank(jd, embedder, collection, candidates, calibration, options)
+            ranking = result.order
             if run_index == 0:
                 continue  # discard the cold first run
-            for stage, seconds in result["timings_s"].items():
+            for stage, seconds in result.timings_s.items():
                 timed_runs.setdefault(stage, []).append(seconds * 1000)
 
         per_jd_retrieval[jd_id] = retrieval_metrics(ranking, grades)

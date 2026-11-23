@@ -15,13 +15,13 @@
       "relevant_excerpts": [
         "Junior DevOps Engineer, Crestview Labs\nMay 2021 \u2013 May 2023\n- Containerized a legacy application with Docker so it could run on Kubernetes.\n- Set up dashboards and alerts that caught production issues before customers noticed, cutting the average time to detect an outage in half.\n- Ran production wor",
         "DevOps/Cloud Engineer with 4+ years running Kubernetes on AWS and codifying infrastructure in Terraform.",
-        "...me from an hour to under ten minutes. - Containerized a legacy application with Docker so it could run on Kubernetes. Junior DevOps Engineer, Crestview Labs May 2021...",
-        "...ample.com | (512) 555-0192 Summary DevOps/Cloud Engineer with 4+ years running Kubernetes on AWS and codifying infrastructure in Terraform. Professional Experience: Dev..."
+        "Built CI/CD pipelines that cut deploy time from an hour to under ten minutes.\n- Containerized a legacy application with Docker so it could run on Kubernetes.",
+        "DevOps/Cloud Engineer with 4+ years running Kubernetes on AWS and codifying infrastructure in Terraform."
       ],
       "reasoning": "Strong match (90/100). Closest sections: experience (0.81), summary (0.75). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
       "score_breakdown": {
         "semantic_cal": 0.888,
-        "bm25_norm": 1.0,
+        "bm25_norm": 0.983,
         "required_coverage": 1.0,
         "preferred_coverage": 0.2
       },
@@ -29,41 +29,6 @@
         "experience": 0.8124979138374329,
         "summary": 0.7548739314079285,
         "skills": 0.6848495602607727
-      },
-      "must_have_check": {
-        "passed": true,
-        "reasons": []
-      }
-    },
-    {
-      "candidate_name": "Noah Nguyen",
-      "resume_path": "data/resumes/noah_nguyen.pdf",
-      "match_score": 88,
-      "matched_skills": [
-        "Docker",
-        "Kubernetes",
-        "AWS",
-        "Terraform",
-        "CI/CD",
-        "Grafana"
-      ],
-      "relevant_excerpts": [
-        "Junior DevOps Engineer, Trailhead Robotics\n09/2022 - 06/2024\n- Wrote Terraform modules that stood up a full environment in one command.\n- Containerized a legacy application with Docker so it could run on Kubernetes.\n- Set up dashboards and alerts that caught production issues before customers notice",
-        "DevOps/Cloud Engineer with 3+ years running Kubernetes on AWS and codifying infrastructure in Terraform.",
-        "...up a full environment in one command. - Containerized a legacy application with Docker so it could run on Kubernetes. - Set up dashboards and alerts that caught produ...",
-        "...xample.com | (312) 555-0198 Profile DevOps/Cloud Engineer with 3+ years running Kubernetes on AWS and codifying infrastructure in Terraform. Work History DevOps Engineer,..."
-      ],
-      "reasoning": "Strong match (88/100). Closest sections: experience (0.78), summary (0.77). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
-      "score_breakdown": {
-        "semantic_cal": 0.849,
-        "bm25_norm": 0.925,
-        "required_coverage": 1.0,
-        "preferred_coverage": 0.4
-      },
-      "section_scores": {
-        "experience": 0.7823269367218018,
-        "summary": 0.7711043357849121,
-        "skills": 0.7045568823814392
       },
       "must_have_check": {
         "passed": true,
@@ -84,13 +49,13 @@
       "relevant_excerpts": [
         "Senior DevOps Engineer, Westbridge Capital\nSep 2024 \u2013 Present\n- Wrote Terraform modules that stood up a full environment in one command.\n- Set up dashboards and alerts that caught production issues before customers noticed, cutting the average time to detect an outage in half.\n- Ran production workl",
         "DevOps Engineer, Fathom AI\nApr 2023 \u2013 Sep 2024\n- Containerized a legacy application with Docker so it could run on Kubernetes.\n- Administered a fleet of Linux hosts, automating patching with Ansible.\n- Built CI/CD pipelines that cut deploy time from an hour to under ten minutes.",
-        "...gineer, Fathom AI Apr 2023 \u2013 Sep 2024 - Containerized a legacy application with Docker so it could run on Kubernetes. - Administered a fleet of Linux hosts, automatin...",
-        "...2) 555-0140 Objective DevOps/Cloud Engineer running containerized workloads on Kubernetes and AWS, with infrastructure defined in Terraform. Work History Senior DevOps..."
+        "DevOps Engineer, Fathom AI\nApr 2023 \u2013 Sep 2024\n- Containerized a legacy application with Docker so it could run on Kubernetes.\n- Administered a fleet of Linux hosts, automating patching with Ansible.\n- Built CI/CD p",
+        "DevOps/Cloud Engineer running containerized workloads on Kubernetes and AWS, with infrastructure defined in Terraform."
       ],
       "reasoning": "Strong match (87/100). Closest sections: experience (0.78), summary (0.77). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
       "score_breakdown": {
         "semantic_cal": 0.865,
-        "bm25_norm": 0.908,
+        "bm25_norm": 0.893,
         "required_coverage": 1.0,
         "preferred_coverage": 0.2
       },
@@ -107,9 +72,44 @@
       }
     },
     {
+      "candidate_name": "Noah Nguyen",
+      "resume_path": "data/resumes/noah_nguyen.pdf",
+      "match_score": 87,
+      "matched_skills": [
+        "Docker",
+        "Kubernetes",
+        "AWS",
+        "Terraform",
+        "CI/CD",
+        "Grafana"
+      ],
+      "relevant_excerpts": [
+        "Junior DevOps Engineer, Trailhead Robotics\n09/2022 - 06/2024\n- Wrote Terraform modules that stood up a full environment in one command.\n- Containerized a legacy application with Docker so it could run on Kubernetes.\n- Set up dashboards and alerts that caught production issues before customers notice",
+        "DevOps/Cloud Engineer with 3+ years running Kubernetes on AWS and codifying infrastructure in Terraform.",
+        "24\n- Wrote Terraform modules that stood up a full environment in one command.\n- Containerized a legacy application with Docker so it could run on Kubernetes.\n- Set up dashboards and alerts that caught production issues before customers noticed, c",
+        "DevOps/Cloud Engineer with 3+ years running Kubernetes on AWS and codifying infrastructure in Terraform."
+      ],
+      "reasoning": "Strong match (87/100). Closest sections: experience (0.78), summary (0.77). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": {
+        "semantic_cal": 0.849,
+        "bm25_norm": 0.896,
+        "required_coverage": 1.0,
+        "preferred_coverage": 0.4
+      },
+      "section_scores": {
+        "experience": 0.7823269367218018,
+        "summary": 0.7711043357849121,
+        "skills": 0.7045568823814392
+      },
+      "must_have_check": {
+        "passed": true,
+        "reasons": []
+      }
+    },
+    {
       "candidate_name": "Omar Khan",
       "resume_path": "data/resumes/omar_khan.txt",
-      "match_score": 84,
+      "match_score": 83,
       "matched_skills": [
         "Docker",
         "Kubernetes",
@@ -120,13 +120,13 @@
       "relevant_excerpts": [
         "DevOps/Cloud Engineer running containerized workloads on Kubernetes and AWS, with infrastructure defined in Terraform.",
         "- Migrated a fleet of EC2 instances to a Kubernetes cluster defined entirely in Terraform.\n- Built a CI/CD pipeline that deploys to AWS on every merge to main.",
-        "...inutes. Education B.S. in Computer Engineering, Pinecrest College Skills AWS, Docker, Kubernetes, Terraform, CI/CD, Linux Projects - Migrated a fleet of EC2 instan...",
-        "...919) 555-0185 Summary DevOps/Cloud Engineer running containerized workloads on Kubernetes and AWS, with infrastructure defined in Terraform. Professional Experience: Se..."
+        "AWS, Docker, Kubernetes, Terraform, CI/CD, Linux",
+        "DevOps/Cloud Engineer running containerized workloads on Kubernetes and AWS, with infrastructure defined in Terraform."
       ],
-      "reasoning": "Strong match (84/100). Closest sections: summary (0.76), projects (0.72). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "reasoning": "Strong match (83/100). Closest sections: summary (0.76), projects (0.72). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
       "score_breakdown": {
         "semantic_cal": 0.79,
-        "bm25_norm": 0.901,
+        "bm25_norm": 0.888,
         "required_coverage": 1.0,
         "preferred_coverage": 0.2
       },
@@ -145,7 +145,7 @@
     {
       "candidate_name": "Hiroshi Rivera",
       "resume_path": "data/resumes/hiroshi_rivera.docx",
-      "match_score": 80,
+      "match_score": 79,
       "matched_skills": [
         "Docker",
         "Kubernetes",
@@ -156,13 +156,13 @@
       "relevant_excerpts": [
         "DevOps/Cloud Engineer running containerized workloads on Kubernetes and AWS, with infrastructure defined in Terraform.",
         "Junior DevOps Engineer, Granite Peak Systems\n08/2023 - Present\n- Set up dashboards and alerts that caught production issues before customers noticed, cutting the average time to detect an outage in half.\n- Wrote Terraform modules that stood up a full environment in one command.\n- Built CI/CD pipelin",
-        "...tes. Education B.S. in Computer Engineering, Brightmoor University SKILLS: AWS, Docker, Kubernetes, Terraform, CI/CD, Linux",
-        "...(312) 555-0135 Summary DevOps/Cloud Engineer running containerized workloads on Kubernetes and AWS, with infrastructure defined in Terraform. Employment Junior DevOps Eng..."
+        "AWS, Docker, Kubernetes, Terraform, CI/CD, Linux",
+        "DevOps/Cloud Engineer running containerized workloads on Kubernetes and AWS, with infrastructure defined in Terraform."
       ],
-      "reasoning": "Strong match (80/100). Closest sections: summary (0.74), experience (0.66). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "reasoning": "Good match (79/100). Closest sections: summary (0.74), experience (0.66). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
       "score_breakdown": {
         "semantic_cal": 0.742,
-        "bm25_norm": 0.839,
+        "bm25_norm": 0.811,
         "required_coverage": 1.0,
         "preferred_coverage": 0.2
       },
@@ -181,121 +181,11 @@
   "requested": 10,
   "filtered_out": [
     {
-      "candidate_name": "Amelia Chen",
-      "resume_path": "data/resumes/amelia_chen.pdf",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Avery Nelson",
-      "resume_path": "data/resumes/avery_nelson.docx",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required",
-        "Total experience: 1.3 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Charlotte Hill",
-      "resume_path": "data/resumes/charlotte_hill.txt",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required",
-        "Total experience: 1.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Chloe Okafor",
-      "resume_path": "data/resumes/chloe_okafor.docx",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required",
-        "Total experience: 2.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Daniel Campbell",
-      "resume_path": "data/resumes/daniel_campbell.md",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Dmitri Wilson",
-      "resume_path": "data/resumes/dmitri_wilson.txt",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Elijah Jackson",
-      "resume_path": "data/resumes/elijah_jackson.pdf",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required",
-        "Total experience: 1.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Elizabeth Parker",
-      "resume_path": "data/resumes/elizabeth_parker.pdf",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Ella Garcia",
-      "resume_path": "data/resumes/ella_garcia.pdf",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Emma Walker",
-      "resume_path": "data/resumes/emma_walker.md",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Ethan Johnson",
-      "resume_path": "data/resumes/ethan_johnson.md",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required",
-        "Total experience: 1.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Evelyn Roberts",
-      "resume_path": "data/resumes/evelyn_roberts.txt",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Fatima Robinson",
-      "resume_path": "data/resumes/fatima_robinson.docx",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
-      ]
-    },
-    {
       "candidate_name": "Harper Evans",
       "resume_path": "data/resumes/harper_evans.pdf",
       "reasons": [
         "AWS: 0.0 yrs < 3 required",
         "Total experience: 1.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Isabella Lewis",
-      "resume_path": "data/resumes/isabella_lewis.docx",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Jack Ali",
-      "resume_path": "data/resumes/jack_ali.docx",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
       ]
     },
     {
@@ -307,38 +197,8 @@
       ]
     },
     {
-      "candidate_name": "Liam Murphy",
-      "resume_path": "data/resumes/liam_murphy.txt",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required",
-        "Total experience: 2.3 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Lucas Williams",
-      "resume_path": "data/resumes/lucas_williams.pdf",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Matthew Phillips",
-      "resume_path": "data/resumes/matthew_phillips.txt",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Nadia Baker",
-      "resume_path": "data/resumes/nadia_baker.txt",
-      "reasons": [
-        "AWS: 1.5 yrs < 3 required",
-        "Total experience: 1.5 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Nathan Davis",
-      "resume_path": "data/resumes/nathan_davis.txt",
+      "candidate_name": "Ella Garcia",
+      "resume_path": "data/resumes/ella_garcia.pdf",
       "reasons": [
         "AWS: 0.0 yrs < 3 required"
       ]
@@ -346,6 +206,13 @@
     {
       "candidate_name": "Oliver Taylor",
       "resume_path": "data/resumes/oliver_taylor.pdf",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Sofia Lee",
+      "resume_path": "data/resumes/sofia_lee.docx",
       "reasons": [
         "AWS: 0.0 yrs < 3 required"
       ]
@@ -365,22 +232,8 @@
       ]
     },
     {
-      "candidate_name": "Priya Flores",
-      "resume_path": "data/resumes/priya_flores.pdf",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Scarlett Young",
-      "resume_path": "data/resumes/scarlett_young.pdf",
-      "reasons": [
-        "AWS: 0.0 yrs < 3 required"
-      ]
-    },
-    {
-      "candidate_name": "Sofia Lee",
-      "resume_path": "data/resumes/sofia_lee.docx",
+      "candidate_name": "Zara Allen",
+      "resume_path": "data/resumes/zara_allen.docx",
       "reasons": [
         "AWS: 0.0 yrs < 3 required"
       ]
@@ -393,29 +246,176 @@
       ]
     },
     {
+      "candidate_name": "Fatima Robinson",
+      "resume_path": "data/resumes/fatima_robinson.docx",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Nadia Baker",
+      "resume_path": "data/resumes/nadia_baker.txt",
+      "reasons": [
+        "AWS: 1.6 yrs < 3 required",
+        "Total experience: 1.6 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Priya Flores",
+      "resume_path": "data/resumes/priya_flores.pdf",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Nathan Davis",
+      "resume_path": "data/resumes/nathan_davis.txt",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Chloe Okafor",
+      "resume_path": "data/resumes/chloe_okafor.docx",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required",
+        "Total experience: 2.1 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Lucas Williams",
+      "resume_path": "data/resumes/lucas_williams.pdf",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Daniel Campbell",
+      "resume_path": "data/resumes/daniel_campbell.md",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Evelyn Roberts",
+      "resume_path": "data/resumes/evelyn_roberts.txt",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Isabella Lewis",
+      "resume_path": "data/resumes/isabella_lewis.docx",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Ethan Johnson",
+      "resume_path": "data/resumes/ethan_johnson.md",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required",
+        "Total experience: 1.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Scarlett Young",
+      "resume_path": "data/resumes/scarlett_young.pdf",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Elijah Jackson",
+      "resume_path": "data/resumes/elijah_jackson.pdf",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required",
+        "Total experience: 1.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Avery Nelson",
+      "resume_path": "data/resumes/avery_nelson.docx",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required",
+        "Total experience: 1.4 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Liam Murphy",
+      "resume_path": "data/resumes/liam_murphy.txt",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required",
+        "Total experience: 2.4 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Dmitri Wilson",
+      "resume_path": "data/resumes/dmitri_wilson.txt",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Jack Ali",
+      "resume_path": "data/resumes/jack_ali.docx",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Emma Walker",
+      "resume_path": "data/resumes/emma_walker.md",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
       "candidate_name": "Yuki Adams",
       "resume_path": "data/resumes/yuki_adams.pdf",
       "reasons": [
         "AWS: 0.0 yrs < 3 required",
-        "Total experience: 2.3 yrs < 3 required"
+        "Total experience: 2.4 yrs < 3 required"
       ]
     },
     {
-      "candidate_name": "Zara Allen",
-      "resume_path": "data/resumes/zara_allen.docx",
+      "candidate_name": "Matthew Phillips",
+      "resume_path": "data/resumes/matthew_phillips.txt",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Amelia Chen",
+      "resume_path": "data/resumes/amelia_chen.pdf",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Charlotte Hill",
+      "resume_path": "data/resumes/charlotte_hill.txt",
+      "reasons": [
+        "AWS: 0.0 yrs < 3 required",
+        "Total experience: 1.0 yrs < 3 required"
+      ]
+    },
+    {
+      "candidate_name": "Elizabeth Parker",
+      "resume_path": "data/resumes/elizabeth_parker.pdf",
       "reasons": [
         "AWS: 0.0 yrs < 3 required"
       ]
     }
   ],
   "latency_ms": {
-    "embed": 29.3,
-    "semantic_search": 5.9,
-    "bm25_search": 23.9,
+    "embed": 19.3,
+    "semantic_search": 24.3,
+    "bm25_search": 23.6,
     "fusion": 0.0,
     "filter": 0.1,
     "rerank": 0.0,
-    "score": 0.1,
-    "total": 78.2
+    "score": 0.0,
+    "total": 67.6
   }
 }

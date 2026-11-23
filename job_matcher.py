@@ -26,12 +26,11 @@ import file_tools
 from jd_parsing import UnparsableMustHaveError, parse_jd, parse_must_have_clause
 from match_evidence import llm_reasoning as llm_reasoning_fn
 from match_evidence import matched_skills, must_have_check, relevant_excerpts, template_reasoning
-from match_filtering import filter_candidates
 from match_models import JDRequirements, MatchResult
-from match_scoring import rerank_semantic, score_candidate
+from ranking import RankingOptions, rank
 from resume_embedding import Embedder, get_embedder
+from resume_models import CandidateProfile
 from resume_storage import collection_name, get_chroma_client, load_candidates
-from retrieval import bm25_search, rrf_fuse, semantic_search
 
 
 def apply_must_have_overrides(jd: JDRequirements, clauses: list[str]) -> JDRequirements:
@@ -61,90 +60,36 @@ def match_jd(
     jd: JDRequirements,
     embedder: Embedder,
     collection,
+    candidates: list[CandidateProfile],
     *,
     model: str = config.DEFAULT_MODEL,
-    chunking: str = config.DEFAULT_CHUNKING,
     k: int = config.TOP_K,
     soft: bool = False,
     rerank: bool = False,
     llm: bool = False,
     mode: str = "hybrid",
 ) -> dict:
+    """`candidates` is loaded once per process by the caller (A3), not once per JD."""
     t_start = time.perf_counter()
-    candidates = load_candidates(model=model, chunking=chunking)
     candidates_by_id = {c.candidate_id: c for c in candidates}
-
-    t0 = time.perf_counter()
-    jd_embedding = embedder.embed_query(jd.raw_text)
-    t_embed = time.perf_counter() - t0
-
-    t0 = time.perf_counter()
-    hits = (
-        semantic_search(
-            collection, jd_embedding, jd, config.SEMANTIC_POOL_SIZE, apply_prefilter=not soft
-        )
-        if mode != "keyword"
-        else {}
-    )
-    t_semantic = time.perf_counter() - t0
-
-    t0 = time.perf_counter()
-    bm25_scores = bm25_search(candidates, jd.raw_text) if mode != "semantic" else {}
-    t_bm25 = time.perf_counter() - t0
-
-    t0 = time.perf_counter()
-    rankings = []
-    if hits:
-        rankings.append(sorted(hits, key=lambda cid: hits[cid].score, reverse=True))
-    if bm25_scores:
-        rankings.append(sorted(bm25_scores, key=lambda cid: bm25_scores[cid], reverse=True))
-    fused_scores = rrf_fuse(rankings, config.RRF_K)
-    t_fusion = time.perf_counter() - t0
-
-    t0 = time.perf_counter()
-    filter_results = filter_candidates(jd, candidates, soft)
-    t_filter = time.perf_counter() - t0
-
-    t_rerank = 0.0
-    semantic_overrides: dict[str, float] = {}
-    if rerank and hits:
-        t0 = time.perf_counter()
-        eligible = [cid for cid, fr in filter_results.items() if fr.passed]
-        rerank_pool = sorted(eligible, key=lambda cid: fused_scores.get(cid, 0.0), reverse=True)[
-            :20
-        ]
-        semantic_overrides = rerank_semantic(jd.raw_text, hits, rerank_pool)
-        t_rerank = time.perf_counter() - t0
-
-    t0 = time.perf_counter()
-    bm25_max = max(bm25_scores.values(), default=0.0)
     calibration = config.MODEL_REGISTRY[model]
-    scored = []
-    for candidate_id, filter_result in filter_results.items():
-        if not filter_result.passed:
-            continue
-        profile = candidates_by_id[candidate_id]
-        scored.append(
-            score_candidate(
-                profile,
-                jd,
-                semantic_raw=hits[candidate_id].score if candidate_id in hits else 0.0,
-                bm25_raw=bm25_scores.get(candidate_id, 0.0),
-                bm25_max=bm25_max,
-                calibration=calibration,
-                filter_penalty=filter_result.penalty,
-                semantic_override=semantic_overrides.get(candidate_id),
-            )
-        )
-    scored.sort(key=lambda sc: (-sc.score, candidates_by_id[sc.candidate_id].name))
-    top_scored = scored[:k]
-    t_score = time.perf_counter() - t0
+
+    result = rank(
+        jd,
+        embedder,
+        collection,
+        candidates,
+        calibration,
+        RankingOptions(mode=mode, soft=soft, rerank=rerank),
+    )
+    top_ids = result.order[:k]
 
     top_matches = []
-    for sc in top_scored:
-        profile = candidates_by_id[sc.candidate_id]
-        hit = hits.get(sc.candidate_id)
-        filter_result = filter_results[sc.candidate_id]
+    for candidate_id in top_ids:
+        sc = result.scored[candidate_id]
+        profile = candidates_by_id[candidate_id]
+        hit = result.hits.get(candidate_id)
+        filter_result = result.filter_results[candidate_id]
         section_scores = hit.section_scores if hit else {}
         skills_matched = matched_skills(profile, jd)
         required_matched = [s for s in jd.required_skills if s in profile.skills]
@@ -185,27 +130,20 @@ def match_jd(
             "resume_path": candidates_by_id[cid].resume_path,
             "reasons": fr.reasons,
         }
-        for cid, fr in filter_results.items()
+        for cid, fr in result.filter_results.items()
         if not fr.passed
     ]
 
     total_ms = (time.perf_counter() - t_start) * 1000
+    latency_ms = {stage: round(seconds * 1000, 1) for stage, seconds in result.timings_s.items()}
+    latency_ms["total"] = round(total_ms, 1)
     return {
         "job_description": jd.title,
         "top_matches": top_matches,
         "returned": len(top_matches),
         "requested": k,
         "filtered_out": filtered_out,
-        "latency_ms": {
-            "embed": round(t_embed * 1000, 1),
-            "semantic_search": round(t_semantic * 1000, 1),
-            "bm25_search": round(t_bm25 * 1000, 1),
-            "fusion": round(t_fusion * 1000, 1),
-            "filter": round(t_filter * 1000, 1),
-            "rerank": round(t_rerank * 1000, 1),
-            "score": round(t_score * 1000, 1),
-            "total": round(total_ms, 1),
-        },
+        "latency_ms": latency_ms,
     }
 
 
@@ -214,6 +152,7 @@ def _run_and_write(
     stem: str,
     embedder: Embedder,
     collection,
+    candidates: list[CandidateProfile],
     args: argparse.Namespace,
 ) -> dict:
     jd = parse_jd(jd_text)
@@ -222,8 +161,8 @@ def _run_and_write(
         jd,
         embedder,
         collection,
+        candidates,
         model=args.model,
-        chunking=args.chunking,
         k=args.k,
         soft=args.soft,
         rerank=args.rerank,
@@ -259,7 +198,9 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument(
         "--soft", action="store_true", help="Penalize must-have failures instead of dropping them."
     )
-    parser.add_argument("--rerank", action="store_true", help="Cross-encoder rerank the top 20.")
+    parser.add_argument(
+        "--rerank", action="store_true", help="Cross-encoder rerank the whole filtered pool."
+    )
     parser.add_argument("--llm", action="store_true", help="Paraphrase reasoning with Gemini.")
     parser.add_argument("--mode", default="hybrid", choices=["hybrid", "semantic", "keyword"])
     parser.add_argument(
@@ -289,14 +230,22 @@ def main(argv: list[str] | None = None) -> None:
             f"`python resume_rag.py ingest --model {args.model} --chunking {args.chunking}` first."
         )
     embedder = get_embedder(args.model)
+    # A3: load candidates once per process, whether matching one JD or all of them.
+    candidates = load_candidates(model=args.model, chunking=args.chunking)
 
     if args.text:
-        _run_and_write(args.text, slugify(parse_jd(args.text).title), embedder, collection, args)
+        _run_and_write(
+            args.text, slugify(parse_jd(args.text).title), embedder, collection, candidates, args
+        )
     elif args.jd:
-        _run_and_write(Path(args.jd).read_text(), Path(args.jd).stem, embedder, collection, args)
+        _run_and_write(
+            Path(args.jd).read_text(), Path(args.jd).stem, embedder, collection, candidates, args
+        )
     else:
         for jd_path in sorted(config.JOB_DESCRIPTIONS_DIR.glob("*.txt")):
-            _run_and_write(jd_path.read_text(), jd_path.stem, embedder, collection, args)
+            _run_and_write(
+                jd_path.read_text(), jd_path.stem, embedder, collection, candidates, args
+            )
 
 
 if __name__ == "__main__":

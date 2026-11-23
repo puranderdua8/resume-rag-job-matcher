@@ -19,6 +19,11 @@ RESUME_SPECS_PATH = DATA_DIR / "resume_specs.json"
 INDEX_DIR = ROOT_DIR / "index"
 CHROMA_DIR = INDEX_DIR / "chroma"
 
+# A6: evaluate.py and the notebooks ingest here instead, so a metrics run never
+# touches the index job_matcher.py serves.
+EVAL_INDEX_DIR = ROOT_DIR / "index_eval"
+EVAL_CHROMA_DIR = EVAL_INDEX_DIR / "chroma"
+
 OUTPUTS_DIR = ROOT_DIR / "outputs"
 MATCHES_DIR = OUTPUTS_DIR / "matches"
 METRICS_PATH = OUTPUTS_DIR / "metrics.json"
@@ -70,7 +75,10 @@ DEFAULT_CHUNKING = "section"
 
 # Retrieval
 TOP_K = 10
-SEMANTIC_POOL_SIZE = 50
+# A2: the ranked pool is union(top N_SEMANTIC by semantic, top N_BM25 by BM25);
+# only pool members are filtered, scored and ranked (Step 11).
+N_SEMANTIC = 50
+N_BM25 = 50
 RRF_K = 60
 
 # Scoring: score = 100 * sum(weight * component), components in [0, 1].
@@ -81,6 +89,23 @@ SCORE_WEIGHTS = {
     "preferred_coverage": 0.05,
 }
 SOFT_FILTER_PENALTY = 20
+
+# R19: cross-encoder rerank, scored over the whole filtered pool on one scale.
+# Bounds are placeholders in the same spirit as ModelSpec's: tuned against the
+# dataset in notebooks/06_experiment_e_rerank.ipynb, not yet re-measured post-Step-11.
+CROSS_ENCODER_MODEL = "cross-encoder/ms-marco-MiniLM-L6-v2"
+CROSS_ENCODER_REVISION = "main"
+CROSS_ENCODER_CALIBRATION_LOW = -10.0
+CROSS_ENCODER_CALIBRATION_HIGH = 10.0
+
+# R20: BM25 scores aren't comparable across JDs on their own (the corpus IDF
+# shifts per query), so each candidate's raw BM25 score is normalised against a
+# fixed per-JD reference instead of the pool's own max: the BM25 score the JD's
+# own condensed requirement text would get if it were scored as a document
+# against itself, using the same query. That reference grows with how much
+# distinctive requirement text a JD has, so it stays a stable yardstick across
+# JDs regardless of which candidates happen to be in the pool.
+BM25_REFERENCE_IS_SELF_SCORE = True
 
 # Chunking
 MAX_CHUNK_CHARS = 1000

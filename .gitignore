@@ -13,6 +13,7 @@ venv/
 
 # Generated state
 index/
+index_eval/
 .cache/
 .hf_cache/
 

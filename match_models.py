@@ -18,6 +18,23 @@ class JDRequirements:
     degree_minimum: int = 0
 
 
+def condensed_requirements_text(jd: JDRequirements) -> str:
+    """Title + requirement lines only, not the whole JD text: used both to query the
+    cross-encoder (R19, cheaper per-candidate inference) and as the BM25 reference
+    document (R20, a stable per-JD normaliser built from the same requirement
+    signal, not the full posting's narrative text)."""
+    lines = [jd.title]
+    for skill, min_years in jd.skill_year_minimums.items():
+        lines.append(f"{skill} {min_years:g}+ years")
+    for group_skills, min_years in jd.skill_year_alternatives:
+        lines.append(f"{'/'.join(group_skills)} {min_years:g}+ years")
+    if jd.total_years_minimum is not None:
+        lines.append(f"{jd.total_years_minimum:g}+ years of experience")
+    lines.extend(jd.required_skills)
+    lines.extend(jd.preferred_skills)
+    return "\n".join(lines)
+
+
 @dataclass
 class MatchResult:
     candidate_name: str

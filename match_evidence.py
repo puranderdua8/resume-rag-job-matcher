@@ -9,14 +9,31 @@ from __future__ import annotations
 
 import json
 import os
+import re
 
-import file_tools
+import skills
 from match_filtering import FilterResult
 from match_models import JDRequirements
 from resume_models import CandidateProfile
 from retrieval import SemanticHit
 
 EXCERPT_MAX_CHARS = 300
+_EXCERPT_CONTEXT_CHARS = 120
+
+
+def _skill_excerpt(profile: CandidateProfile, skill: str) -> str | None:
+    """First snippet of stored chunk text mentioning `skill` or one of its aliases
+    (A3): resumes are already loaded and chunked at ingest time, so this needs no
+    per-query file read, unlike the old `file_tools.search_in_file` call."""
+    aliases = skills.SKILL_ALIASES.get(skill, [skill])
+    pattern = re.compile("|".join(re.escape(alias) for alias in aliases), re.IGNORECASE)
+    for chunk in profile.chunks:
+        match = pattern.search(chunk.text)
+        if match:
+            start = max(0, match.start() - _EXCERPT_CONTEXT_CHARS)
+            end = min(len(chunk.text), match.end() + _EXCERPT_CONTEXT_CHARS)
+            return chunk.text[start:end]
+    return None
 
 
 def matched_skills(profile: CandidateProfile, jd: JDRequirements) -> list[str]:
@@ -31,15 +48,16 @@ def matched_skills(profile: CandidateProfile, jd: JDRequirements) -> list[str]:
 def relevant_excerpts(
     profile: CandidateProfile, hit: SemanticHit | None, required_matches: list[str]
 ) -> list[str]:
-    """Top semantic chunks, plus `search_in_file` snippets for up to 2 required skills."""
+    """Top semantic chunks, plus alias-aware keyword-matched snippets for up to 2
+    required skills, all drawn from the candidate's already-stored chunk text (A3)."""
     excerpts: list[str] = []
     if hit is not None:
         for _, _, text in hit.top_chunks:
             excerpts.append(text[:EXCERPT_MAX_CHARS])
     for skill in required_matches[:2]:
-        result = file_tools.search_in_file(profile.source_path or profile.resume_path, skill)
-        if result.get("success") and result.get("matches"):
-            excerpts.append(result["matches"][0]["context"])
+        excerpt = _skill_excerpt(profile, skill)
+        if excerpt:
+            excerpts.append(excerpt)
     return excerpts
 
 
