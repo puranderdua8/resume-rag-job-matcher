@@ -14,8 +14,8 @@
 - [x] **Step 7:** Tests, README and demo script; final push with green CI
 - [x] **Step 8:** Fix JD parsing bugs (R2, R3, R4, R11, R13)
 - [x] **Step 9:** Fix resume extraction bugs
-- [ ] **Step 10:** Fix pipeline, storage and CLI bugs, then re-measure
-- [ ] **Step 11:** One ranking pipeline
+- [x] **Step 10:** Fix pipeline, storage and CLI bugs, then re-measure
+- [x] **Step 11:** One ranking pipeline
 - [ ] **Step 11 verification**
 - [ ] **Step 12:** Packaging, type checking and CI hardening
 - [ ] **Step 13:** Index integrity on the current stack
@@ -26,10 +26,10 @@
 
 **Production readiness** (from the [code review of 2026-10-30](#production-readiness-review-2026-10-30); one step per session, branch and PR):
 
-- [ ] **Step 8:** Fix JD parsing bugs (R2, R3, R4, R11, R13)
-- [ ] **Step 9:** Fix resume extraction bugs (R5, R6, R7, R14–R17)
-- [ ] **Step 10:** Fix pipeline, storage and CLI bugs, then re-measure every metric (R1, R8–R10, R12, R23, R24, E2)
-- [ ] **Step 11:** One ranking pipeline shared by the CLI, `evaluate.py` and the notebooks (A1–A3, A6, A7, R19–R21)
+- [x] **Step 8:** Fix JD parsing bugs (R2, R3, R4, R11, R13)
+- [x] **Step 9:** Fix resume extraction bugs (R5, R6, R7, R14–R17)
+- [x] **Step 10:** Fix pipeline, storage and CLI bugs, then re-measure every metric (R1, R8–R10, R12, R23, R24, E2)
+- [x] **Step 11:** One ranking pipeline shared by the CLI, `evaluate.py` and the notebooks (A1–A3, A6, A7, R19–R21)
 - [ ] **Step 11 verification:** confirm every caller, notebook, test and doc reflects the Step 11 pipeline
 - [ ] **Step 12:** Packaging, type checking and CI hardening, keeping the M1 submodule (H1–H4, H6)
 - [ ] **Step 13:** Index integrity on the current stack: Chroma `PersistentClient` + `candidates.json` (A4, A5, E3)
@@ -144,9 +144,10 @@ match_filtering.py    post-filter: per-skill/total years and degree must-haves, 
 match_scoring.py      score formula, calibration, optional cross-encoder rerank
 match_evidence.py     matched_skills, relevant_excerpts, template/--llm reasoning
 match_models.py       JDRequirements and MatchResult dataclasses
+ranking.py            Step 11: the one ranking pipeline (pool -> filter -> score -> rerank -> sort),
+                       the only caller of retrieval.py/match_filtering.py/match_scoring.py
 evaluate.py           Step 5 CLI; thin orchestrator wiring the modules below together
 eval_data.py          ground truth / resume specs loading, true-values profile from a spec
-eval_ranking.py       the timed ranking pass (retrieval + fusion + soft filter + scoring)
 eval_retrieval_metrics.py   Precision@k, Recall@10, MRR, graded nDCG@10, Hit@1, macro average
 eval_extraction.py    name/skills/years/degree accuracy vs. resume_specs.json
 eval_filtering.py     must-have pass/fail confusion matrix, extracted vs. true values
@@ -295,7 +296,7 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
      - A bare "N+ years of (professional) experience" sets a minimum on total years.
      - Degree words set a minimum degree level.
    - `--must-have "5+ years Python"` (repeatable) adds to or overrides these.
-2. **Semantic retrieval**:
+2. **Semantic retrieval** *(superseded by Step 11: query size is now `config.N_SEMANTIC`, and every pool candidate — including BM25-only ones — gets a real semantic score via a second, exact lookup, R21)*:
    - Embed the JD with the model's query prompt.
    - Run `collection.query(query_embeddings=..., n_results=50, where=prefilter)`. The **prefilter** covers the must-haves Chroma can express: `skills $contains` for each must-have skill, `experience_years $gte` and `education_level $gte`.
    - Group the returned chunks by candidate. A candidate's semantic score is `0.7·max + 0.3·mean(top-3)` cosine similarity. Keep the best similarity per section for the reasoning step.
@@ -303,13 +304,13 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
    - Run BM25Okapi over each candidate's full text.
    - Tokenise with lowercasing and alias normalisation from `skills.py`, so "k8s" counts as "kubernetes".
    - Separately, **critical-skill coverage** is the share of `required_skills` found in the profile.
-4. **Hybrid fusion**: merge the semantic and BM25 rankings with **RRF** (k=60) to form the candidate pool. This keeps a strong keyword match even when its embedding scores lower.
-5. **Post-filter**:
+4. **Hybrid fusion** *(superseded by Step 11, A2: the pool is `union(top N_SEMANTIC, top N_BM25)`, and RRF now orders that pool and is the score tie-breaker, not just a ranking used to pick the rerank subset)*: merge the semantic and BM25 rankings with **RRF** (k=60) to form the candidate pool. This keeps a strong keyword match even when its embedding scores lower.
+5. **Post-filter** *(superseded by Step 11: runs on the pool, not every candidate — AGENTS.md's "before the top-K cut" rule still holds, just scoped to the pool)*:
    - Check per-skill years (`skill_years[s] >= min`), which Chroma's filters can't express.
    - Run this **before** the top-K cut, so all K results are eligible.
    - Rejected candidates go into `filtered_out` with their reasons, e.g. `"Python: 3.0 yrs < 5 required"`.
    - `--soft` keeps them in the ranking with a −20 penalty instead.
-6. **Optional rerank** (`--rerank`): `cross-encoder/ms-marco-MiniLM-L6-v2` scores (JD, best chunks) pairs for the top 20, and its score replaces the semantic component.
+6. **Optional rerank** (`--rerank`) *(superseded by Step 11, R19: scores every candidate in the filtered pool, not a top-20 subset, and its raw logit is calibrated with fixed per-model bounds, not a sigmoid)*: `cross-encoder/ms-marco-MiniLM-L6-v2` scores (JD, best chunks) pairs for the top 20, and its score replaces the semantic component.
 7. **Score** (an int from 0 to 100):
 
    ```
@@ -317,11 +318,11 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
    ```
 
    - `semantic_cal` maps cosine linearly from [lo, hi] to [0, 1], clipped. The bounds are fixed per model in `config`, so scores are comparable across JDs. They get tuned in the notebook.
-   - `bm25_norm` is the BM25 score divided by the pool's maximum.
+   - `bm25_norm` is the BM25 score divided by the pool's maximum *(superseded by Step 11, R20: divided by a fixed per-JD reference score instead, so it's comparable across JDs, not just within one pool)*.
    - The weights live in `config.py`.
 8. **Evidence**:
    - `matched_skills` is the profile's skills that appear in the JD's required or preferred lists, with required skills listed first.
-   - `relevant_excerpts` holds the top 2 chunks by similarity (trimmed to about 300 chars), plus M1 `search_in_file` snippets for up to 2 matched required skills.
+   - `relevant_excerpts` holds the top 2 chunks by similarity (trimmed to about 300 chars), plus M1 `search_in_file` snippets for up to 2 matched required skills *(superseded by Step 11, A3: an alias-aware search over the candidate's already-loaded chunk text instead, so excerpts need no per-query file read)*.
    - The template reasoning includes:
      - A band: Strong ≥ 80, Good ≥ 60, otherwise Partial.
      - The closest sections, with their similarities.
@@ -380,7 +381,7 @@ The public repo has been created with `README.md`, `LICENSE` (MIT), `.gitignore`
 9. Latency breakdown as stacked bars.
 10. Failure analysis of the misses and their causes, then conclusions and the **threats to validity** of synthetic labels.
 
-**Deviation:** Experiment D's plan item ("a sweep of hybrid weights and RRF k values") turned out to need two separate sweeps, not one grid, once the code was read closely: `config.RRF_K` only affects `rank_candidates`/`match_jd`'s `rrf_fuse` call, whose output (`fused_scores`) is used *only* to pick which top-20 candidates get cross-encoder reranked — with `--rerank` off, the final ranking is sorted by `score_candidate`'s score alone and never looks at the RRF rank, so sweeping `RRF_K` with rerank off would measure nothing. `notebooks/05_experiment_d_weights_and_rrf.ipynb` sweeps the score weights (`semantic`/`required_coverage`) as a heatmap with rerank off, and separately sweeps `RRF_K` with `--rerank` on (the only setting where it has an effect) as a line chart.
+**Deviation (superseded by Step 11):** Experiment D's plan item ("a sweep of hybrid weights and RRF k values") turned out to need two separate sweeps, not one grid, once the code was read closely: `config.RRF_K` only affects `rank_candidates`/`match_jd`'s `rrf_fuse` call, whose output (`fused_scores`) is used *only* to pick which top-20 candidates get cross-encoder reranked — with `--rerank` off, the final ranking is sorted by `score_candidate`'s score alone and never looks at the RRF rank, so sweeping `RRF_K` with rerank off would measure nothing. `notebooks/05_experiment_d_weights_and_rrf.ipynb` sweeps the score weights (`semantic`/`required_coverage`) as a heatmap with rerank off, and separately sweeps `RRF_K` with `--rerank` on (the only setting where it has an effect) as a line chart. Step 11 (A2) changed this: RRF now orders the whole candidate pool and is the score tie-breaker regardless of `--rerank`, so `RRF_K` has an effect either way; the notebook now sweeps it with rerank both off and on.
 
 **Deviation:** split the single planned `notebooks/experiments.ipynb` into seven standalone notebooks (`01_dataset_and_chunking.ipynb` through `07_calibration_and_analysis.ipynb`, one per plan item above, plus a shared `notebooks/_setup.py` for their common setup), the same way Steps 3-5 split `resume_rag.py`/`job_matcher.py`/`evaluate.py` into single-concern modules. Agreed with the user before building. Each notebook ingests its own collection(s) independently (via `_setup.py`'s shared helpers) and is runnable and readable on its own, instead of one ~40-cell notebook mixing ten different analyses; `07_calibration_and_analysis.ipynb`'s conclusions reference the other six by filename for their exact numbers rather than recomputing or duplicating them.
 
@@ -709,6 +710,15 @@ parse JD → candidate generation → must-have filter → score → (optional) 
 - `python evaluate.py` and the notebooks re-run; numbers updated in README and PLAN.
 - Running `evaluate.py` leaves `index/chroma` untouched (compare modification times).
 
+**Deviation:** per the plan's own A3 bullet, `match_evidence.relevant_excerpts` no longer calls M1's `search_in_file` per query (a relative path resolved against the process's cwd, which R8/Step 10 had to specifically guard against). It now searches the candidate's already-loaded chunk text (from `load_candidates`, cached once per process) for the skill or one of its `skills.SKILL_ALIASES`, case-insensitively. M1 remains the only *loader* (ingest-time, via `resume_loading.py`); this only removes a *second*, per-query read of the same files Part A already loaded. `tests/test_end_to_end.py::test_excerpts_survive_a_different_working_directory`'s docstring was updated to describe the new reason the same observable behaviour (excerpts independent of cwd) holds.
+
+**TODO (deferred past Step 11, not blocking this step's merge):**
+- **Hybrid no longer beats semantic-only** (macro nDCG@10: semantic 0.941, hybrid 0.918, keyword 0.875 — see Verified below). Traced to `mlops_cross_role`: R20's fixed per-JD BM25 reference changes how much weight real BM25 signal carries in the final score, and there it promotes two not-relevant candidates ahead of two true matches semantic-only still keeps in its top 10. Confirmed not a bug by inspecting the actual score breakdowns (`ranking.rank`'s `scored`/`hits`/`rrf_scores`) candidate-by-candidate. Needs either a `config.SCORE_WEIGHTS`/`RRF_K` retune or a different BM25 reference choice; out of scope for Step 11 (which only had to move the tunable into `config.py`, not retune it).
+- **`config.CROSS_ENCODER_CALIBRATION_LOW/HIGH` are unvalidated placeholders** (-10.0/10.0), not tuned against this cross-encoder's actual raw-logit distribution on this dataset the way each embedding model's `calibration_low/high` was tuned in the Step 6 notebook. Needs the same kind of calibration pass before `--rerank`'s score breakdown can be trusted the way the cosine-similarity component already is.
+- **`config.CROSS_ENCODER_REVISION = "main"`** is a floating ref, not a pinned commit hash, so the cross-encoder's weights could change under it. Every embedding model in `MODEL_REGISTRY` is pinned by `hf_id` alone (sentence-transformers resolves those to a fixed snapshot in practice), but the cross-encoder should get an explicit pinned revision too.
+
+**Verified:** `ruff check . && ruff format --check . && pytest -q` pass (97 tests, including the new `tests/test_ranking.py` pool-generation/RRF-tie-break/full-pool-rerank tests and `tests/test_pipeline_parity.py`'s ordering-parity and index-isolation tests). `python resume_rag.py ingest`, `python job_matcher.py --all` and `python evaluate.py` (hybrid, semantic, keyword, `--rerank`) all ran cleanly against the new pipeline; `jupyter nbconvert --to notebook --execute --inplace notebooks/0*.ipynb` ran all seven with 0 cell errors. Re-measured macro nDCG@10: semantic 0.941 (unchanged — semantic mode never touches BM25, so R20/R21 don't apply to it, a useful cross-check), hybrid 0.918 (down from 0.944; see the TODO above), keyword 0.875. Extraction accuracy (100%/94.4%/100%/89.0%/97.6%) and filter accuracy (95.8%) are exactly unchanged, as expected (Step 11 only touches the ranking path). Rerank: nDCG@10 0.905 vs. 0.918 without, at ~4x the query latency (249ms vs. 61ms p50) — still a net loss, so `--rerank` stays off by default. README and this file's numbers above are updated to match `outputs/metrics.json`.
+
 ## Step 11 verification
 
 Branch `step-11-verification`. A separate session, after Step 11 merges, that confirms the approved pipeline is the one the whole repo uses and describes. Fix any gap found in the same PR, and record the outcome under this heading as a **Verified:** note listing each check and its result.
@@ -872,6 +882,6 @@ This checklist covers Steps 0–7. Steps 8–16 and Step 11 verification each de
   - Every resume has Experience, Education and Skills sections. ✓ (36/36)
   - Extraction accuracy is at least 90% on names and years. ✓ (names 100%, years 94% within ±1yr)
 - [x] `python job_matcher.py --all` writes 6 JSON files in the required format. For the senior ML JD, the top results are ML engineers with at least 5 years of Python (Ella Garcia 84, Scarlett Young 83), and the junior candidates (Harper Evans, James Edwards, Dmitri Wilson, Daniel Campbell) appear in `filtered_out`.
-- [x] `python evaluate.py` shows hybrid nDCG@10 ≥ semantic-only, and the numbers are copied into the README.
+- [x] `python evaluate.py` shows hybrid nDCG@10 ≥ semantic-only, and the numbers are copied into the README. (True as of Step 7/10 — 0.944 vs. 0.941. No longer true after Step 11's R20/R21 fixes — see that step's own **Checks**/TODOs above, per this list's Steps-0–7 scope note.)
 - [x] `jupyter nbconvert --to notebook --execute --inplace notebooks/0*.ipynb` runs all seven with no errors.
 - [ ] A fresh `git clone --recursive` of the public repo into a temp dir installs and passes `pytest`. (Verified on the `step-7-tests-readme-demo` branch; recheck once #8 merges to `main`.)

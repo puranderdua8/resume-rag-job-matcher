@@ -45,17 +45,20 @@ flowchart TD
         A5 --> A6["Store in ChromaDB<br/>+ candidates.json<br/>(resume_storage.py)"]
     end
 
-    subgraph "Part B: job_matcher.py"
+    subgraph "Part B: job_matcher.py -> ranking.py"
         B1["Parse JD<br/>(jd_parsing.py)"] --> B2["Semantic search (Chroma)<br/>+ BM25 keyword search<br/>(retrieval.py)"]
-        B2 --> B3["RRF fusion<br/>(retrieval.py)"]
-        B3 --> B4["Must-have filter<br/>(match_filtering.py)"]
-        B4 --> B5["Score 0-100<br/>(match_scoring.py)"]
-        B5 --> B6["Evidence + reasoning<br/>(match_evidence.py)"]
+        B2 --> B2b["Pool = top-N_SEMANTIC union top-N_BM25<br/>RRF orders the pool (retrieval.py)"]
+        B2b --> B4["Must-have filter, on the pool<br/>(match_filtering.py)"]
+        B4 --> B5["Score 0-100<br/>(match_scoring.py)<br/>optional cross-encoder rerank, whole pool"]
+        B5 --> B5b["Sort: score, then RRF, then name"]
+        B5b --> B6["Evidence + reasoning<br/>(match_evidence.py)"]
         B6 --> B7["top_matches / filtered_out JSON"]
     end
 
     A6 -. "indexed resumes" .-> B2
 ```
+
+`ranking.py`'s `rank()` is the only caller of `retrieval.py`'s, `match_filtering.py`'s and `match_scoring.py`'s functions (Step 11): `job_matcher.match_jd` and `evaluate.py` both build on the same `Ranking` it returns.
 
 ## CLI usage
 
@@ -104,25 +107,27 @@ python job_matcher.py --jd data/job_descriptions/jd_senior_ml_engineer.txt
     {
       "candidate_name": "Ella Garcia",
       "resume_path": "data/resumes/ella_garcia.pdf",
-      "match_score": 84,
+      "match_score": 77,
       "matched_skills": ["Python", "Machine Learning", "TensorFlow", "PyTorch"],
       "relevant_excerpts": ["Junior ML Engineer, Fern Analytics\n...", "..."],
-      "reasoning": "Strong match (84/100). Closest sections: experience (0.74), summary (0.72). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
-      "score_breakdown": { "semantic_cal": 0.771, "bm25_norm": 1.0, "required_coverage": 1.0, "preferred_coverage": 0.0 }
+      "reasoning": "Strong match (77/100). Closest sections: experience (0.74), summary (0.72). Required-skill coverage: 100% of required skills. Must-have check: passed all must-haves.",
+      "score_breakdown": { "semantic_cal": 0.771, "bm25_norm": 0.661, "required_coverage": 1.0, "preferred_coverage": 0.0 }
     }
   ],
+  "returned": 2,
+  "requested": 10,
   "filtered_out": [
     {
-      "candidate_name": "Amelia Chen",
-      "resume_path": "data/resumes/amelia_chen.pdf",
+      "candidate_name": "Harper Evans",
+      "resume_path": "data/resumes/harper_evans.pdf",
       "reasons": [
-        "Python: 3.0 yrs < 5 required",
-        "TensorFlow/PyTorch: 0.0 yrs < 3 required (any one of TensorFlow, PyTorch)",
-        "Total experience: 3.0 yrs < 5 required"
+        "Python: 1.0 yrs < 5 required",
+        "TensorFlow/PyTorch: 2.4 yrs < 3 required (any one of TensorFlow, PyTorch)",
+        "Total experience: 1.0 yrs < 5 required"
       ]
     }
   ],
-  "latency_ms": { "embed": 30.5, "semantic_search": 5.1, "bm25_search": 24.3, "total": 75.4 }
+  "latency_ms": { "embed": 23.7, "semantic_search": 29.5, "bm25_search": 24.2, "total": 77.6 }
 }
 ```
 
@@ -133,7 +138,7 @@ python job_matcher.py --jd data/job_descriptions/jd_backend_python_fastapi.txt \
     --must-have "3+ years Python" --soft
 ```
 
-`--soft` keeps must-have failures in the ranking with a score penalty instead of dropping them. Other flags: `--rerank` (cross-encoder rerank of the top 20), `--llm` (Gemini paraphrase of the reasoning, falls back to the template on any error), `--mode semantic|keyword|hybrid`, `--model`/`--chunking` to pick a different indexed collection.
+`--soft` keeps must-have failures in the ranking with a score penalty instead of dropping them. Other flags: `--rerank` (cross-encoder rerank of the whole filtered pool, not a top-N subset — Step 11's R19), `--llm` (Gemini paraphrase of the reasoning, falls back to the template on any error), `--mode semantic|keyword|hybrid`, `--model`/`--chunking` to pick a different indexed collection.
 
 Compute metrics (retrieval accuracy, extraction accuracy, filter accuracy, latency):
 
@@ -155,7 +160,8 @@ jupyter nbconvert --to notebook --execute --inplace notebooks/0*.ipynb
 | Embeddings | HuggingFace sentence-transformers, run locally (default `BAAI/bge-small-en-v1.5`) | Free, no API key or rate limits, reproducible metrics |
 | Vector DB | ChromaDB, local `PersistentClient`, precomputed embeddings | Embedded, no server; array metadata filters (`skills $contains`) push must-have filtering into the DB |
 | Hybrid retrieval | Separate BM25 index, merged with semantic search via RRF | Chroma's native sparse/BM25 hybrid search is Chroma Cloud only; RRF keeps a strong keyword match even when its embedding scores lower |
-| Must-have filtering | Runs on extracted metadata (`skill_years`, `experience_years`, `education_level`), before the top-K cut | A candidate can't be hidden from a must-have failure by scoring well on everything else |
+| Candidate pool (Step 11) | Union of the top-`N_SEMANTIC` and top-`N_BM25` candidates; RRF orders the pool and is the score tie-breaker | Keeps the expensive filter/score/rerank steps bounded, while still pulling in a strong keyword-only or semantic-only match; one ranking pipeline (`ranking.py`) instead of three drifting copies |
+| Must-have filtering | Runs on extracted metadata (`skill_years`, `experience_years`, `education_level`), on the pool, before the top-K cut | A candidate can't be hidden from a must-have failure by scoring well on everything else |
 | Metadata and reasoning | Rule-based extraction and template reasoning, with an optional `--llm` flag | Deterministic and testable; the LLM is an optional paraphrase of evidence the rule-based pipeline already computed |
 | Dataset | Synthetic, generated by a seeded script, with hand-checked ground truth | Gives measurable retrieval accuracy without real personal data |
 | Module layout | Each CLI (`resume_rag.py`, `job_matcher.py`, `evaluate.py`) is a thin orchestrator over several single-concern modules | Keeps each file small and testable in isolation; see [PLAN.md](PLAN.md)'s deviation notes for the reasoning behind each split |
@@ -168,9 +174,9 @@ From `outputs/metrics.json` (`bge-small` / `section` chunking / hybrid retrieval
 
 | precision@5 | precision@10 | recall@10 | MRR | nDCG@10 | Hit@1 |
 |---|---|---|---|---|---|
-| 0.967 | 0.800 | 0.713 | 1.000 | 0.944 | 1.000 |
+| 0.967 | 0.767 | 0.694 | 1.000 | 0.918 | 1.000 |
 
-Hybrid retrieval's nDCG@10 (0.944) beats both semantic-only (0.941) and keyword-only (0.901) on this dataset; see [`notebooks/03_experiment_b_search_mode.ipynb`](notebooks/03_experiment_b_search_mode.ipynb) for the full sweep. These numbers are measurably higher than the pre-Step-10 ones (0.885/0.860), and hybrid no longer trails keyword-only as it previously appeared to: Step 10 (R1) fixed `--soft` still applying the hard Chroma prefilter, which had been silently zeroing out the semantic score of every soft-filtered candidate across every retrieval metric reported before this step.
+Semantic-only now edges out hybrid on macro nDCG@10 (0.941 vs. 0.918; keyword-only: 0.875) — see [`notebooks/03_experiment_b_search_mode.ipynb`](notebooks/03_experiment_b_search_mode.ipynb) for the full sweep. This reverses the pre-Step-11 reading (hybrid 0.944 beating both). Traced to one JD (`mlops_cross_role`): R20's fixed per-JD BM25 reference (replacing the old pool-relative max) changes how much weight real BM25 signal carries in the final score, and there it promotes two not-relevant candidates ahead of two true matches that semantic-only still ranked in the top 10 — a real property of this formula on this dataset, not a bug (traced candidate-by-candidate; see `ranking.py`). **TODO (tracked for a later step, not Step 11):** retune `config.SCORE_WEIGHTS`/`RRF_K`, or reconsider the BM25 reference choice, so hybrid earns back its edge over semantic-only. See [PLAN.md](PLAN.md)'s Step 11 notes for the full list of such deferred TODOs.
 
 **Extraction accuracy** (36 resumes, vs. `data/resume_specs.json`):
 
@@ -207,7 +213,8 @@ Ingest (36 resumes, warm disk cache): ~2.5s total, dominated by embedding (~1.9s
 - **Small dataset.** 36 resumes and 6 job descriptions are enough to compare design choices (chunking, search mode, embedding model) but not to make strong accuracy claims; see each notebook's own caveats in [`notebooks/07_calibration_and_analysis.ipynb`](notebooks/07_calibration_and_analysis.ipynb).
 - **Rule-based extraction is pattern-sensitive.** Name, date and education extraction rely on regexes and a fixed synonym list; resumes with unusual formatting (e.g. a name split across two lines, or a date style not in the three supported patterns) will extract incorrectly or fall back to a default.
 - **`experience_years` drifts over time.** "Present" resolves to `date.today()`, while the dataset's ground truth was computed against a fixed reference date (see [PLAN.md](PLAN.md)'s Step 3 deviation notes), so years-based accuracy will slowly diverge from the numbers above as real time moves further from that reference date.
-- **No reranking by default.** `--rerank`'s cross-encoder gives a small nDCG@10 *loss* (0.944 → 0.936) at roughly 3.5x the query latency on this dataset (see [`notebooks/06_experiment_e_rerank.ipynb`](notebooks/06_experiment_e_rerank.ipynb)); it's off by default both for the cost and because it doesn't help here.
+- **No reranking by default.** `--rerank`'s cross-encoder (Step 11: scores the whole filtered pool, not a top-20 subset) gives a small nDCG@10 *loss* (0.918 → 0.905) at roughly 4x the query latency on this dataset (see [`notebooks/06_experiment_e_rerank.ipynb`](notebooks/06_experiment_e_rerank.ipynb)); it's off by default both for the cost and because it doesn't help here. Its calibration bounds (`config.CROSS_ENCODER_CALIBRATION_LOW/HIGH`) are still placeholders, not yet tuned against this dataset — see [PLAN.md](PLAN.md)'s Step 11 TODOs.
+- **Hybrid no longer beats semantic-only.** See the Metrics section above and [PLAN.md](PLAN.md)'s Step 11 TODOs.
 
 ## For AI agents
 

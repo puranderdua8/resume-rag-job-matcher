@@ -13,7 +13,7 @@ from pathlib import Path
 import config
 from jd_parsing import parse_jd
 from job_matcher import match_jd
-from resume_storage import collection_name, get_chroma_client, ingest
+from resume_storage import collection_name, get_chroma_client, ingest, load_candidates
 
 RESUMES = {
     "jordan_lee": """Jordan Lee
@@ -105,7 +105,8 @@ def test_ingest_and_match_end_to_end(tmp_path, monkeypatch, fake_embedder):
     jd = parse_jd(JD_TEXT)
     # k is far larger than the candidate pool, so "only Jordan Lee makes it through"
     # has to come from the must-have filter, not from the top-K cut.
-    result = match_jd(jd, fake_embedder, collection, k=100)
+    candidates = load_candidates()
+    result = match_jd(jd, fake_embedder, collection, candidates, k=100)
 
     assert result["job_description"] == "Senior Python Engineer"
 
@@ -128,9 +129,11 @@ def test_ingest_and_match_end_to_end(tmp_path, monkeypatch, fake_embedder):
 
 
 def test_excerpts_survive_a_different_working_directory(tmp_path, monkeypatch, fake_embedder):
-    """R8: match_evidence reads resumes via M1's `search_in_file`, which resolves a
-    relative path against the process's current working directory. Excerpts must not
-    depend on job_matcher.py being run from the repo root."""
+    """Excerpts must not depend on job_matcher.py being run from the repo root. Originally
+    R8's fix for match_evidence's per-query `search_in_file` call (a relative path resolved
+    against cwd); Step 11's A3 replaced that call with a search over each candidate's
+    already-loaded chunk text, which never touches the filesystem at all, so this keeps
+    guarding the same observable behaviour against a different cause of regression."""
     monkeypatch.setattr(config, "ROOT_DIR", tmp_path)
     monkeypatch.setattr(config, "INDEX_DIR", tmp_path / "index")
     monkeypatch.setattr(config, "CHROMA_DIR", tmp_path / "index" / "chroma")
@@ -146,6 +149,7 @@ def test_excerpts_survive_a_different_working_directory(tmp_path, monkeypatch, f
     elsewhere.mkdir()
     monkeypatch.chdir(elsewhere)
 
-    result = match_jd(jd, fake_embedder, collection, k=100)
+    candidates = load_candidates()
+    result = match_jd(jd, fake_embedder, collection, candidates, k=100)
     jordan = next(m for m in result["top_matches"] if m["candidate_name"] == "Jordan Lee")
     assert jordan["relevant_excerpts"]

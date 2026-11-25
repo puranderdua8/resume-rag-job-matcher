@@ -24,14 +24,18 @@ def collection_name(model: str, chunking: str) -> str:
     return f"resumes__{model}__{chunking}"
 
 
-def collection_dir(model: str, chunking: str) -> Path:
-    return config.INDEX_DIR / collection_name(model, chunking)
+def collection_dir(model: str, chunking: str, index_dir: Path | None = None) -> Path:
+    # Resolved at call time, not def time, so tests that monkeypatch config.INDEX_DIR
+    # (or anything that reads it transitively) see the patched value.
+    return (index_dir if index_dir is not None else config.INDEX_DIR) / collection_name(
+        model, chunking
+    )
 
 
-def get_chroma_client() -> chromadb.ClientAPI:
+def get_chroma_client(chroma_dir: Path | None = None) -> chromadb.ClientAPI:
     # E2: anonymized_telemetry defaults to True, and this index stores PII.
     return chromadb.PersistentClient(
-        path=str(config.CHROMA_DIR),
+        path=str(chroma_dir if chroma_dir is not None else config.CHROMA_DIR),
         settings=chromadb.Settings(anonymized_telemetry=False),
     )
 
@@ -42,8 +46,15 @@ def ingest(
     embedder: Embedder | None = None,
     resumes_dir: Path = config.RESUMES_DIR,
     as_of: date | None = None,
+    index_dir: Path | None = None,
+    chroma_dir: Path | None = None,
 ) -> IngestStats:
-    """Load, chunk, embed and store every resume. Idempotent: recreates the collection."""
+    """Load, chunk, embed and store every resume. Idempotent: recreates the collection.
+
+    `index_dir`/`chroma_dir` default to the index job_matcher.py serves; evaluate.py
+    and the notebooks pass config.EVAL_INDEX_DIR/EVAL_CHROMA_DIR instead, so a
+    metrics run never re-ingests the one job_matcher.py reads from mid-run (A6).
+    """
     name = collection_name(model, chunking)
     stats = IngestStats(model=model, chunking=chunking, collection=name)
 
@@ -84,7 +95,7 @@ def ingest(
     t3 = time.perf_counter()
     stats.timings_s["embed"] = t3 - t2
 
-    client = get_chroma_client()
+    client = get_chroma_client(chroma_dir)
     try:
         client.delete_collection(name)
     except chromadb.errors.NotFoundError:
@@ -115,7 +126,7 @@ def ingest(
             ],
         )
 
-    out_dir = collection_dir(model, chunking)
+    out_dir = collection_dir(model, chunking, index_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "candidates.json").write_text(json.dumps([p.to_dict() for p in profiles], indent=2))
 
@@ -129,8 +140,10 @@ def ingest(
 
 
 def load_candidates(
-    model: str = config.DEFAULT_MODEL, chunking: str = config.DEFAULT_CHUNKING
+    model: str = config.DEFAULT_MODEL,
+    chunking: str = config.DEFAULT_CHUNKING,
+    index_dir: Path | None = None,
 ) -> list[CandidateProfile]:
-    candidates_path = collection_dir(model, chunking) / "candidates.json"
+    candidates_path = collection_dir(model, chunking, index_dir) / "candidates.json"
     data = json.loads(candidates_path.read_text())
     return [CandidateProfile.from_dict(d) for d in data]

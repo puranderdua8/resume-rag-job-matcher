@@ -1,14 +1,15 @@
 """Score formula: score = 100 * (0.50*semantic_cal + 0.20*bm25_norm + 0.25*req_cov + 0.05*pref_cov).
 
 `semantic_cal` maps cosine similarity through the model's fixed calibration
-bounds; `bm25_norm` divides by the pool's maximum BM25 score. The optional
-cross-encoder rerank (`--rerank`) replaces a candidate's raw similarity with
-a cross-encoder score before calibration, for the top-N candidates only.
+bounds; `bm25_norm` divides raw BM25 by `ranking.py`'s fixed per-JD reference
+score (R20). The optional cross-encoder rerank (`--rerank`, applied by
+`ranking.py` to every candidate in the filtered pool, not just a top-N) replaces
+a candidate's raw cosine similarity with a cross-encoder score, calibrated by
+the same `calibrate()` using `config.CROSS_ENCODER_CALIBRATION_LOW/HIGH` (R19).
 """
 
 from __future__ import annotations
 
-import math
 from dataclasses import dataclass, field
 
 import config
@@ -104,14 +105,15 @@ _cross_encoder = None
 def rerank_semantic(
     jd_text: str, hits: dict[str, SemanticHit], candidate_ids: list[str]
 ) -> dict[str, float]:
-    """Cross-encoder (JD, best chunk) score for `candidate_ids` (the caller picks the top-N
-    of the fused ranking, to keep the expensive cross-encoder call small).
+    """Cross-encoder (JD, best chunk) raw logit for every one of `candidate_ids`
+    (R19: the caller passes the whole filtered pool, not a top-N subset).
 
-    The cross-encoder's raw logit is squashed through a sigmoid to land in
-    [0, 1], the same range `calibrate()` expects for the semantic component.
-    The model is cached at module level: evaluate.py's latency sweep calls
-    this many times per run, and reloading the model each time would dwarf
-    the inference time it's trying to measure.
+    Returns the raw logit, uncalibrated: the caller maps it through `calibrate()`
+    with `config.CROSS_ENCODER_CALIBRATION_LOW/HIGH`, the same function and the
+    same [0, 1] target range cosine similarity uses, so semantic scores sit on one
+    scale whether or not `--rerank` is on. The model is cached at module level:
+    evaluate.py's latency sweep calls this many times per run, and reloading the
+    model each time would dwarf the inference time it's trying to measure.
     """
     global _cross_encoder
 
@@ -122,11 +124,13 @@ def rerank_semantic(
     if _cross_encoder is None:
         from sentence_transformers import CrossEncoder
 
-        _cross_encoder = CrossEncoder("cross-encoder/ms-marco-MiniLM-L6-v2")
+        _cross_encoder = CrossEncoder(
+            config.CROSS_ENCODER_MODEL, revision=config.CROSS_ENCODER_REVISION
+        )
     model = _cross_encoder
     pairs = [(jd_text, hits[cid].top_chunks[0][2]) for cid in candidates]
     raw_scores = model.predict(pairs)
     return {
-        candidate_id: 1.0 / (1.0 + math.exp(-float(raw_score)))
+        candidate_id: float(raw_score)
         for candidate_id, raw_score in zip(candidates, raw_scores, strict=True)
     }
